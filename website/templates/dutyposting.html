@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}duty posting{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 5%;">Duty Posting</h1>
+<div
+      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+      <form method="POST">
+            <div class="form-inline">
+                  <label for="date">Date:&nbsp;</label>
+                  <input type="date" class="form-control" id="date" name="date" style="margin-right: 10%;" />
+            </div>
+            <br>
+
+            {% for duty in dutyposting %}
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
+                  Employee Name:&nbsp;{{duty.name}}&nbsp;&nbsp;
+                  Shift:&nbsp;<input type="text" class="form-control" placeholder="{{duty.shift}}">&nbsp;&nbsp;
+                  Bay:&nbsp;<input type="text" class="form-control" placeholder="{{duty.bay}}">&nbsp;&nbsp;
+
+
+            </div>
+
+            {% endfor %}
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
+                  {% for employee in employees %}
+
+
+                  Employee Name:&nbsp;{{employee.name}}&nbsp;&nbsp;
+                  Shift:&nbsp;<input type="text" class="form-control" id="shift" name="shift"
+                        placeholder="{{shift[employee.emp_id-1]}}">&nbsp;&nbsp;
+                  Bay:&nbsp;<input type="text" class="form-control" id="bay" name="bay"
+                        placeholder="{{bay[employee.emp_id-1]}}">&nbsp;&nbsp;
+
+                  <br>
+                  {% endfor %}
+            </div>
+            <br>
+
+            <div align="center">
+                  <button type="submit" class="btn btn-primary">Add</button>
+
+            </div>
+      </form>
+</div>
+</div>
+{% endblock %}

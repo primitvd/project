@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Manager login{% endblock %}
+{% block content %}
+
+<form method="POST">
+  <div style="padding: 10%;">
+    <div
+      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey"
+      class="vw-25">
+      <h2 align="center">Manager Login</h2>
+      <div class="form-group">
+        <label for="pass1">Password</label>
+        <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Password" />
+      </div>
+      <br>
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% for user in login2 %}
+<li class="list-group-item">
+  {{ user.user_id }}:&nbsp;{{ user.password }}</br>
+</li>
+{% endfor %}
+
+{% endblock %}

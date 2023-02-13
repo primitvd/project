@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Certificates{% endblock %}
+{% block content %}
+
+<h1 align="center" style="margin-top: 5%;">Certificates</h1>
+<div
+      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+      {% for certificate in certificates %}
+
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            Name:&nbsp;{{certificate.name}}
+            <p align="right">
+                  Issue Date:&nbsp;{{certificate.issue_date}}&nbsp;&nbsp;
+                  Expiry Date:&nbsp;{{certificate.exp_date}}&nbsp;&nbsp;
+                  <a href="">{{certificate.name}}</a>
+            </p>
+
+      </div>
+      <br>
+      {% endfor %}
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            <form method="POST">
+
+                  <div class="form-inline">
+                        Name:&nbsp;<input type="text" class="form-control" id="name" name="name">&nbsp;&nbsp;
+                        Issue Date:&nbsp;<input type="date" class="form-control" id="issue_date"
+                              name="issue_date">&nbsp;&nbsp;
+                        Expiry Date:&nbsp;<input type="date" class="form-control" id="exp_date"
+                              name="exp_date">&nbsp;&nbsp;
+                  </div>
+                  <br>
+                  <div class="form-inline">
+                        <input type="file" class="form-control" id="file" name="file">
+                  </div>
+                  <br>
+                  <div align="center">
+                        <button type="submit" class="btn btn-primary">Add</button>
+
+                  </div>
+            </form>
+      </div>
+</div>
+{% endblock %}

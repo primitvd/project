@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Report{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 5%;">Report</h1>
+<div
+      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+
+
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%">
+            <a class="nav-item nav-link" id="certificates" href="/fuelregister">Fuel Register</a>
+            <a class="nav-item nav-link" id="certificates" href="/salesreport">Sales Report</a>
+            <a class="nav-item nav-link" id="certificates" href="/inventoryreport">Inventory Report</a>
+        
+      </div>
+      <br>
+
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            <form method="POST">
+
+                  <div class="form-inline">
+                        Name:&nbsp;<input type="text" class="form-control" id="name" name="name">&nbsp;&nbsp;
+                  </div>
+                  <br>
+                  <div class="form-inline">
+                        Stock:&nbsp;<input type="textarea" class="form-control" id="stock"
+                              name="stock">&nbsp;&nbsp;
+                  </div><br>
+                  <div class="form-inline">
+                        Price:&nbsp;<input type="text" class="form-control" id="price" name="price">&nbsp;&nbsp;
+                  </div>
+                  <br>
+                  <div align="center">
+                        <button type="submit" class="btn btn-primary">Add</button>
+
+                  </div>
+            </form>
+      </div>
+</div>
+{% endblock %}

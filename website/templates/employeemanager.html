@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}employee manager{% endblock %}
+{% block content %}
+
+<h1 align="center" style="margin-top: 5%;">Employee Manager</h1>
+<div
+      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+      {% for employee in employees  %}
+
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            Name:&nbsp;{{employee.name}}
+            Employee ID:&nbsp;{{employee.emp_id}}
+            Date of Birth:&nbsp;{{employee.dob}}&nbsp;&nbsp;
+            Address:&nbsp;{{employee.address}}&nbsp;&nbsp;
+            Phone Number:&nbsp;{{employee.phone}}&nbsp;&nbsp;
+            Advance:&nbsp;{{employee.advance}}&nbsp;&nbsp;
+            Excess/Short:&nbsp;{{employee.excess_short}}&nbsp;&nbsp;
+            
+      </div>
+      <br>
+      {% endfor %}
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            <form method="POST">
+            
+                  <div class="form-inline">
+            Name:&nbsp;<input type="text" class="form-control" id="name" name="name">&nbsp;&nbsp;
+            </div>
+            <br>
+            <div class="form-inline">
+            Address:&nbsp;<input type="textarea" class="form-control" id="address" name="address">&nbsp;&nbsp;
+      </div><br><div class="form-inline">
+            Phone:&nbsp;<input type="text" class="form-control" id="phone" name="phone">&nbsp;&nbsp;
+            
+            Date of Birth:&nbsp;<input type="date" class="form-control" id="dob" name="dob">&nbsp;&nbsp;
+      </div><br><div class="form-inline">
+            Advance:&nbsp;<input type="text" class="form-control" id="advance" name="advance">&nbsp;&nbsp;
+            </div>
+            <br>
+            <div align="center">
+            <button type="submit" class="btn btn-primary">Add</button>
+      
+            </div></form>
+      </div>
+</div>
+{% endblock %}

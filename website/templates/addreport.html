@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% block title %}Add Report{% endblock %}
+{% block content %}
+
+<head>
+      <style>
+            #tr,
+            th,
+            td {
+                  border: solid rgb(27, 26, 26) 2px;
+                  border-radius: 5px;
+                  padding: 2%;
+            }
+      </style>
+</head>
+<h1 align="center" style="margin-top: 5%;">Add Report</h1>
+<form method="POST">
+      <div
+            style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+                  <div class="form-group form-inline">
+                        <label for="date">Date:&nbsp;</label>
+                        <input type="date" class="form-control" id="date" name="date" style="margin-right: 10%;" />
+                        <label for="name">Employee:&nbsp;</label>
+                        <input type="text" class="form-control" id="name" name="name" style="margin-right: 10%;" />
+                  </div>
+                  <div class="form-group form-inline">
+                        <label for="bay">Bay:&nbsp;</label>
+                        <input type="text" class="form-control" id="bay" name="bay" style="margin-right: 10%;" />
+
+                        <label for="shift">Shift:&nbsp;</label>
+                        <input type="text" class="form-control" id="shift" name="shift" style="margin-right: 10%;" />
+                  </div>
+            </div>
+
+      </div>
+
+      <div
+            style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+            <h4>Sale</h4>
+
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+                  <table>
+                        <tr>
+                              <th>
+                                    Product
+                              </th>
+                              <th>
+                                    Opening
+                              </th>
+                              <th>
+                                    Closing
+                              </th>
+                              <th>
+                                    Sale
+                              </th>
+                              <th>
+                                    Rs.
+                              </th>
+                        </tr>
+                        <tr>
+                              <th class="w-auto">
+                                    MS &nbsp;
+                              </th>
+                              <td>
+                                    <input type="text" class="form-control" id="ms_opening" name="ms_opening"
+                                          style="margin-right: 10%;" size="3" />
+                              </td>
+                              <td>
+                                    <input type="text" class="form-control" id="ms_closing" name="ms_closing"
+                                          style="margin-right: 10%;" size="3" />
+                              </td>
+                              <td>
+                                    <input type="text" class="form-control" id="ms_sales" name="ms_sales"
+                                          style="margin-right: 10%;" size="3" />
+                              </td>
+                              <td>
+                                    <input type="text" class="form-control" id="ms_amount" name="ms_amount"
+                                          style="margin-right: 10%;" size="3" />
+                              </td>
+                        </tr>
+                        <tr>
+                              <th class="w-auto">
+                                    HSD &nbsp;
+                              </th>
+                              <td>
+                                    <input type="text" class="form-control" id="hsd_opening" name="hsd_opening"
+                                          style="margin-right: 10%;" size="3" />
+                              </td>
+
+                              <td>
+                                    <div class="col-xs-1">
+                                          <input type="text" class="form-control" id="hsd_closing" name="hsd_closing"
+                                                style="margin-right: 10%;" size="3" />
+                                    </div>
+                              </td>
+                              <td>
+                                    <input type="text" class="form-control" id="hsd_sale" name="hsd_sale"
+                                          style="margin-right: 10%;" />
+                              </td>
+                              <td>
+                                    <input type="text" class="form-control" id="hsd_amount" name="hsd_amount"
+                                          style="margin-right: 10%;" />
+                              </td>
+                        </tr>
+                        <tr>
+                              <th>
+                                    <select>
+                                          <option id="item" name="item">Item</a>
+
+                                    </select>
+                              </th>
+                              <td colspan="2">
+                                    <div class="form-group form-inline">
+                                          <label for="units_sold">Units Sold:&nbsp;</label>
+                                          <input type="text" class="form-control" id="units_sold" name="units_sold"
+                                                style="margin-right: 10%;" />
+
+                                    </div>
+                              </td>
+                              <td colspan="2">
+                                    <div class="form-group form-inline">
+                                          <label for="units_sale">Amount:&nbsp;</label>
+                                          <input type="text" class="form-control" id="units_sale" name="units_sale"
+                                                style="margin-right: 10%;" />
+                                    </div>
+                              </td>
+                        </tr>
+                        <!-- <tr>Dropdown here to have additional commodities</tr> -->
+                  </table>
+
+            </div>
+      </div>
+
+      <div
+            style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+            <h4>Denominations</h4>
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+
+                  <div class="form-group form-inline">
+                        <label for="two_thousand">2000:&nbsp;</label>
+                        <input type="text" class="form-control" id="two_thousand" name="two_thousand"
+                              style="margin-right: 10%;" />
+
+                        <label for="five_hundred">&nbsp;&nbsp;500:&nbsp;</label>
+                        <input type="text" class="form-control" id="five_hundred" name="five_hundred"
+                              style="margin-right: 10%;" />
+                  </div>
+                  <div class="form-group form-inline">
+                        <label for="two_hundred">&nbsp;&nbsp;200:&nbsp;</label>
+                        <input type="text" class="form-control" id="two_hundred" name="two_hundred"
+                              style="margin-right: 10%;" />
+
+                        <label for="one_hundred">&nbsp;&nbsp;100:&nbsp;</label>
+                        <input type="text" class="form-control" id="one_hundred" name="one_hundred"
+                              style="margin-right: 10%;" />
+                  </div>
+                  <div class="form-group form-inline">
+                        <label for="fifty">&nbsp;&nbsp;&nbsp;&nbsp;50:&nbsp;</label>
+                        <input type="text" class="form-control" id="fifty" name="fifty" style="margin-right: 10%;" />
+
+                        <label for="twenty">&nbsp;&nbsp;&nbsp;&nbsp;20:&nbsp;</label>
+                        <input type="text" class="form-control" id="twenty" name="twenty" style="margin-right: 10%;" />
+                  </div>
+                  <div class="form-group form-inline">
+                        <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;10:</label>
+                        <input type="text" class="form-control" id="ten" name="ten" style="margin-right: 10%;" />
+
+                        <label for="coins">Coins:&nbsp;</label>
+                        <input type="text" class="form-control" id="coins" name="coins" style="margin-right: 10%;" />
+                  </div>
+
+            </div>
+      </div>
+      <div
+            style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+
+            <h4>PoS Reciepts</h4>
+
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+                  <div style="border: solid rgb(177, 175, 175) 1px; border-radius: 5px; padding: 2%;">
+                        <p></p>
+                  </div>
+                  <br>
+                  <div class="form-group form-inline">
+                        <label for="sno">Serial no.:&nbsp;</label>
+                        <input type="text" class="form-control" id="sno" name="sno" style="margin-right: 10%;" />
+                        <label for="pos">Amount:&nbsp;</label>
+                        <input type="text" class="form-control" id="pos" name="pos" style="margin-right: 10%;" />
+                        <button id="add_pos" onclick="add_pos()"
+                              style="border: solid black 1px; border-radius: 5px; margin-top: 10px;">Add</button>
+
+                  </div>
+            </div>
+      </div>
+      <div
+            style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+
+            <h4>Excess/Short</h4>
+
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+                  <div class="form-group form-inline">
+                        <label for="stotal">Sale total:&nbsp;</label>
+                        <input type="text" class="form-control" id="stotal" name="stotal" style="margin-right: 10%;" />
+
+                        <label for="afterdeca_obs_tem">Collected:&nbsp;</label>
+                        <input type="text" class="form-control" id="afterdeca_obs_tem" name="afterdeca_obs_tem" />
+                  </div>
+                  <br>
+                  <div class="form-group form-inline">
+                        <label for="diff">Excess/Short:&nbsp;</label>
+                        <input type="text" class="form-control" id="diff" name="diff" />
+                  </div>
+            </div>
+            <br>
+            <div align="center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+      </div>
+      </div>
+</form>
+{% endblock %}
