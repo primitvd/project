@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, Response, make_response
 from .models import *
 from . import db
 import datetime
 from datetime import date
 from sqlalchemy.sql import func
+import pdfkit
+from fpdf import FPDF
 
 views = Blueprint('views', __name__)
 
@@ -150,9 +152,16 @@ def salesreport():
     edate = request.form.get("edate")
     print(sdate)
     print(edate)
+    salelist = []
+    pdf = FPDF()
+    pdf.add_page()
     if request.method == 'POST':
         if(sdate > edate):
           flash("Start date should be before end date",category="False")
+
+        if(sdate == '' or edate == ''):
+           flash("Please select both dates",category="False")
+        
         else:
             format_str = '%Y-%m-%d'
             sdate_obj = datetime.datetime.strptime(sdate, format_str)
@@ -160,5 +169,61 @@ def salesreport():
             edate_obj = datetime.datetime.strptime(edate, format_str)
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
             print(salelist)
+
+
+            result = login.query.all()
+
+            
+		
+            page_width = pdf.w - 2 * pdf.l_margin
+		
+            pdf.set_font('Times','B',14.0) 
+            pdf.cell(page_width, 0.0, 'Employee Data', align='C')
+            pdf.ln(10)
+            pdf.set_font('Courier', '', 12)
+            col_width = page_width/2
+		
+            pdf.ln(1)
+		
+            th = pdf.font_size
+		
+
+            for row in result:
+                pdf.cell(col_width, th, str(row.user_id), border=1)
+                pdf.cell(col_width, th, row.password, border=1)
+                pdf.ln(th)
+		    
+            pdf.ln(10)
+		
+            pdf.set_font('Times','',10.0) 
+            pdf.cell(page_width, 0.0, '- end of report -', align='C')
+
+            print(pdf)
+        
+    #     result = login.query.all()
+    #     out = render_template("salesreportdownload.html", result = result)
+    
+    # # PDF options   
+    #     options = {
+    #         "orientation": "landscape",
+    #         "page-size": "A4",
+    #         "margin-top": "1.0cm",
+    #         "margin-right": "1.0cm",
+    #         "margin-bottom": "1.0cm",
+    #         "margin-left": "1.0cm",
+    #         "encoding": "UTF-8",
+    #     }
+    
+    # # Build PDF from HTML 
+    #     pdf = pdfkit.from_string(out, options=options)
+
+
+        # response = make_response(pdf)
+        # response.headers["Content-Type"] = "application/pdf"
+        # response.headers["Content-Disposition"] = "inline; filename=output.pdf"
+
+
+
+
         print("check")
     return render_template("salesreport.html", salelist=salelist)
