@@ -59,6 +59,8 @@ class sales(db.Model):
     lube_amount = db.Column(db.Float)
     stotal = db.Column(db.Float)
     denom = db.relationship('denomination')
+    pos = db.relationship('pos')
+    excess_short = db.relationship('excess_short')
 
 class denomination(db.Model):
     id = db.Column(db.Integer, primary_key = True)

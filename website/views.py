@@ -23,8 +23,39 @@ def home():
 
 @views.route('/addreport', methods=['GET','POST'])
 def addreport():
+    date = request.form.get("date")
+    name = request.form.get("name")
+    bay = request.form.get("bay")
+    shift = request.form.get("shift")
+    ms_opening = request.form.get("ms_opening")
+    ms_closing = request.form.get("ms_closing")
+    ms_sales = request.form.get("ms_sales")
+    ms_amount = request.form.get("ms_amount")
+    hsd_opening = request.form.get("hsd_opening")
+    hsd_closing = request.form.get("hsd_closing")
+    hsd_sales = request.form.get("hsd_sales")
+    hsd_amount = request.form.get("hsd_amount")
+    item = request.form.get("item")
+    units_sold = request.form.get("units_sold")
+    amount = request.form.get("amount")
+    two_thousand = request.form.get("two_thousand")
+    five_hundred = request.form.get("five_hundred")
+    two_hundred = request.form.get("two_hundred")
+    one_hundred = request.form.get("one_hundred")
+    fifty = request.form.get("fifty")
+    twenty = request.form.get("twenty")
+    ten = request.form.get("ten")
+    coins = request.form.get("coins")
+    stotal = request.form.get("stotal")
+    ctotal = request.form.get("ctotal")
+    diff = request.form.get("diff")
     if request.method == 'POST':
+        format_str = '%Y-%m-%d'
+        date_obj = datetime.datetime.strptime(date, format_str)
         print("check")
+        sale = sales.query.filter_by(emp_id=emp_id).first()
+
+
     return render_template("addreport.html")
 
 @views.route('/baymanager', methods=['GET','POST'])

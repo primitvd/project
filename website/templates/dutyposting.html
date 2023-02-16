@@ -11,26 +11,30 @@
             </div>
             <br>
 
+            {% for employee in employees %}
             {% for duty in dutyposting %}
+
+            <!-- {% if employee.emp_id == duty.emp_id %} -->
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
-                  Employee Name:&nbsp;{{duty.name}}&nbsp;&nbsp;
+                  Employee Name:&nbsp;{{employee.name}}&nbsp;&nbsp;
                   Shift:&nbsp;<input type="text" class="form-control" placeholder="{{duty.shift}}">&nbsp;&nbsp;
                   Bay:&nbsp;<input type="text" class="form-control" placeholder="{{duty.bay}}">&nbsp;&nbsp;
-
-
+            
             </div>
-
+            <!-- {% endif %} -->
+            {% endfor %}
             {% endfor %}
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
-                  {% for employee in employees %}
+                  {% for employee1 in employees %}
 
-
-                  Employee Name:&nbsp;{{employee.name}}&nbsp;&nbsp;
+                  <div>
+                  Employee Name:&nbsp;{{employee1.name}}&nbsp;&nbsp;
                   Shift:&nbsp;<input type="text" class="form-control" id="shift" name="shift"
-                        placeholder="{{shift[employee.emp_id-1]}}">&nbsp;&nbsp;
+                        placeholder="{{shift[employee1.emp_id-1]}}">&nbsp;&nbsp;
                   Bay:&nbsp;<input type="text" class="form-control" id="bay" name="bay"
-                        placeholder="{{bay[employee.emp_id-1]}}">&nbsp;&nbsp;
+                        placeholder="{{bay[employee1.emp_id-1]}}">&nbsp;&nbsp;
 
+                  </div>
                   <br>
                   {% endfor %}
             </div>
