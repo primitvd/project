@@ -22,7 +22,12 @@
                         <label for="date">Date:&nbsp;</label>
                         <input type="date" class="form-control" id="date" name="date" style="margin-right: 10%;" />
                         <label for="name">Employee:&nbsp;</label>
-                        <input type="text" class="form-control" id="name" name="name" style="margin-right: 10%;" />
+                        <!-- <input type="text" class="form-control" id="name" name="name" style="margin-right: 10%;" /> -->
+                        <select id = "emp_id" name="emp_id">
+                              {% for employee in employees %}
+                                    <option value="{{employee.emp_id}}">{{employee.name}}</option>
+                              {% endfor %}
+                        </select>
                   </div>
                   <div class="form-group form-inline">
                         <label for="bay">Bay:&nbsp;</label>
@@ -89,10 +94,10 @@
                               </td>
 
                               <td>
-                                    
-                                          <input type="text" class="form-control" id="hsd_closing" name="hsd_closing"
-                                                style="margin-right: 10%;" size="3" />
-                                    
+
+                                    <input type="text" class="form-control" id="hsd_closing" name="hsd_closing"
+                                          style="margin-right: 10%;" size="3" />
+
                               </td>
                               <td>
                                     <input type="text" class="form-control" id="hsd_sale" name="hsd_sale"
@@ -103,17 +108,15 @@
                                           style="margin-right: 10%;" />
                               </td>
                         </tr>
+                        {% for item in items %}
                         <tr>
                               <th>
-                                    <select name="item">
-                                          <option id="item" value="item1">Item</a>
-
-                                    </select>
+                                    {{item.name}}
                               </th>
                               <td colspan="2">
                                     <div class="form-group form-inline">
                                           <label for="units_sold">Units Sold:&nbsp;</label>
-                                          <input type="text" class="form-control" id="units_sold" name="units_sold"
+                                          <input type="text" class="form-control" id="units_sold{{item.inv_id}}" name="units_sold{{item.inv_id}}"
                                                 style="margin-right: 10%;" />
 
                                     </div>
@@ -121,11 +124,12 @@
                               <td colspan="2">
                                     <div class="form-group form-inline">
                                           <label for="units_sale">Amount:&nbsp;</label>
-                                          <input type="text" class="form-control" id="units_sale" name="units_sale"
+                                          <input type="text" class="form-control" id="units_sale{{item.inv_id}}" name="units_sale{{item.inv_id}}"
                                                 style="margin-right: 10%;" />
                                     </div>
                               </td>
                         </tr>
+                        {% endfor %}
                         <!-- <tr>Dropdown here to have additional commodities</tr> -->
                   </table>
 
@@ -169,10 +173,10 @@
                         <label for="coins">Coins:&nbsp;</label>
                         <input type="text" class="form-control" id="coins" name="coins" style="margin-right: 10%;" />
                   </div>
-
+                  Point of Sale:&nbsp;<a href="/pos">PoS</a>
             </div>
       </div>
-      <div
+      <!-- <div
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 
             <h4>PoS Reciepts</h4>
@@ -192,7 +196,7 @@
 
                   </div>
             </div>
-      </div>
+      </div> -->
       <div
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 

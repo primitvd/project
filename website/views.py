@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, flash, Response, make_response
+from flask_login import current_user, login_required
 from .models import *
 from . import db
 import datetime
@@ -10,21 +11,18 @@ from fpdf import FPDF
 views = Blueprint('views', __name__)
 
 @views.route('/', methods=['GET','POST'])
+@login_required
 def home():
-    if login.query.all() == ():
-        manager = login(user_id="manager", password="admin")
-        admin = login(user_id="admin", password="admin")
-        db.session.add(manager)
-        db.session.add(admin)
-        db.session.commit()
     if request.method == 'POST':
         print("check")
-    return render_template("home.html")
+    return render_template("home.html", user=current_user)
 
 @views.route('/addreport', methods=['GET','POST'])
+@login_required
 def addreport():
+    items = inventory.query.all()
     date = request.form.get("date")
-    name = request.form.get("name")
+    emp_id = request.form.get("emp_id")
     bay = request.form.get("bay")
     shift = request.form.get("shift")
     ms_opening = request.form.get("ms_opening")
@@ -35,9 +33,10 @@ def addreport():
     hsd_closing = request.form.get("hsd_closing")
     hsd_sales = request.form.get("hsd_sales")
     hsd_amount = request.form.get("hsd_amount")
-    item = request.form.get("item")
-    units_sold = request.form.get("units_sold")
-    amount = request.form.get("amount")
+    for item in items:
+        item = request.form.get("item")
+        units_sold = request.form.get("units_sold")
+        amount = request.form.get("amount")
     two_thousand = request.form.get("two_thousand")
     five_hundred = request.form.get("five_hundred")
     two_hundred = request.form.get("two_hundred")
@@ -53,12 +52,39 @@ def addreport():
         format_str = '%Y-%m-%d'
         date_obj = datetime.datetime.strptime(date, format_str)
         print("check")
-        sale = sales.query.filter_by(emp_id=emp_id).first()
+        sale = sales.query.filter_by(date=date_obj).first()
+        # if sale:
+        #     if sale.emp_id==emp_id and sale.shift==shift:
+        #         print(sales)
+        # if sale:
+        #     sale.ms_opening = ms_opening
+        #     sale.ms_closing = ms_closing
+        #     sale.ms_sale = ms_sales
+        #     sale.ms_amount = ms_amount
+        #     sale.hsd_opening = hsd_opening
+        #     sale.hsd_closing = hsd_closing
+        #     sale.hsd_sale = hsd_sales
+        #     sale.hsd_amount = hsd_amount
+        # else:
+        sale1 = sales(emp_id=emp_id,bay=bay,date=date_obj,shift=shift ,ms_opening=ms_opening ,ms_closing=ms_closing,ms_sales=ms_sales,ms_amount=ms_amount,hsd_opening=hsd_opening,hsd_closing=hsd_closing,hsd_sales=hsd_sales,hsd_amount=hsd_amount)
+        db.session.add(sale1)
+        db.session.commit()
+    sales1=sales.query.all()
+    employees = employee.query.all()
+    print(sales1)
+    return render_template("addreport.html",user=current_user, employees=employees, items=items)
 
 
-    return render_template("addreport.html")
+@views.route('/pos', methods=['GET','POST'])
+@login_required
+def pos():
+    if request.method == 'POST':
+        print("check")
+    return render_template("pos.html", user=current_user)
+
 
 @views.route('/baymanager', methods=['GET','POST'])
+@login_required
 def baymanager():
     MS = request.form.get("MS")
     HSD = request.form.get("HSD")
@@ -69,9 +95,10 @@ def baymanager():
         data1 = bay_manager.query.all()
         print(MS,HSD)
     bays = bay_manager.query.all()
-    return render_template("baymanager.html", bays = bays)
+    return render_template("baymanager.html", bays = bays, user=current_user)
 
 @views.route('/certificates', methods=['GET','POST'])
+@login_required
 def certificates():
     name = request.form.get("name")
     issue_date = request.form.get("issue_date")
@@ -92,28 +119,44 @@ def certificates():
     # print(exp_date)
     # print(datetime_obj)
     certificates = certificate.query.all()
-    return render_template("certificates.html",certificates=certificates)
+    return render_template("certificates.html",certificates=certificates, user=current_user)
 
 @views.route('/dutyposting', methods=['GET','POST'])
+@login_required
 def dutyposting():
+    date = request.form.get("date")
     name = {}
-    shift = {}
-    bay = {}
+    shift1 = {}
+    bay1 = {}
+    
     for employee1 in employee.query.all():
-        name[employee1.emp_id] = employee.name
-        shift[employee1.emp_id] = request.form.get("shift")
-        bay[employee1.emp_id] = request.form.get("bay")
+        shift1[employee1.emp_id] = request.form.get("shift" + str(employee1.emp_id))
+        bay1[employee1.emp_id] = request.form.get("bay" + str(employee1.emp_id))
+    # for employee1 in employee.query.all():
+    #     for duty in duty_posting.query.all():
+    #         if duty.emp_id == employee1.emp_id:
+    #             name.update({employee1.emp_id : employee1.name})
+    #             shift1.update({employee1.emp_id : duty.shift})
+    #             bay1.update({employee1.emp_id : duty.bay})
     if request.method == 'POST':
+        if date:
+            format_str = '%Y-%m-%d'
+            date = datetime.datetime.strptime(date, format_str)
         for employee1 in employee.query.all():
-            duty = duty_posting(date=date.today(), shift=shift[employee1.emp_id], bay=bay[employee1.emp_id])
+            duty = duty_posting(date=date, emp_id=employee1.emp_id, shift=shift1[employee1.emp_id], bay=bay1[employee1.emp_id])
             db.session.add(duty)
             db.session.commit()
             print("check")
+    print(shift1)
+    print(bay1)
     employees = employee.query.all()
-    dutyposting = duty_posting.query.all()
-    return render_template("dutyposting.html", employees = employees, name = name, shift = shift, bay = bay, dutyposting=dutyposting)
+    print(employees)
+    dutyposting = duty_posting.query.filter_by(date=date).all()
+    print(dutyposting)
+    return render_template("dutyposting.html", user=current_user, employees = employees, name = name, shift = shift1, bay = bay1, dutyposting=dutyposting)
 
 @views.route('/employeemanager', methods=['GET','POST'])
+@login_required
 def employeemanager():
     name = request.form.get("name")
     dob = request.form.get("dob")
@@ -128,15 +171,17 @@ def employeemanager():
         db.session.commit()
         print("check")
     employees = employee.query.all()
-    return render_template("employeemanager.html", employees = employees)
+    return render_template("employeemanager.html", user=current_user, employees = employees)
 
 @views.route('/fueldetails', methods=['GET','POST'])
+@login_required
 def fueldetails():
     if request.method == 'POST':
         print("check")
-    return render_template("fueldetails.html")
+    return render_template("fueldetails.html", user=current_user)
 
 @views.route('/invmanager', methods=['GET','POST'])
+@login_required
 def invmanager():
     name = request.form.get("name")
     stock = request.form.get("stock")
@@ -148,16 +193,18 @@ def invmanager():
         db.session.commit()
         print("check")
     items = inventory.query.all()
-    return render_template("invmanager.html", items = items)
+    return render_template("invmanager.html", user=current_user, items = items)
     
 
 @views.route('/reports', methods=['GET','POST'])
+@login_required
 def reports():
     if request.method == 'POST':
         print("check")
-    return render_template("reports.html")
+    return render_template("reports.html", user=current_user)
     
 @views.route('/fuelregister', methods=['GET','POST'])
+@login_required
 def fuelregister():
     sdate = request.form.get("sdate")
     edate = request.form.get("edate")
@@ -169,15 +216,17 @@ def fuelregister():
         print(sdate)
         print(edate)
         print("check")
-    return render_template("fuelregister.html")
+    return render_template("fuelregister.html", user=current_user)
 
 @views.route('/inventoryreport', methods=['GET','POST'])
+@login_required
 def inventoryreport():
     if request.method == 'POST':
         print("check")
-    return render_template("inventoryreport.html")
+    return render_template("inventoryreport.html", user=current_user)
 
 @views.route('/salesreport', methods=['GET','POST'])
+@login_required
 def salesreport():
     sdate = request.form.get("sdate")
     edate = request.form.get("edate")
@@ -202,7 +251,7 @@ def salesreport():
             print(salelist)
 
 
-            result = login.query.all()
+            result = logins.query.all()
 
             
 		
@@ -232,7 +281,7 @@ def salesreport():
             print(pdf)
         
     #     result = login.query.all()
-    #     out = render_template("salesreportdownload.html", result = result)
+    #     out = render_template("salesreportdownload.html", user=current_user, result = result)
     
     # # PDF options   
     #     options = {
@@ -257,4 +306,6 @@ def salesreport():
 
 
         print("check")
-    return render_template("salesreport.html", salelist=salelist)
+    return render_template("salesreport.html", user=current_user, salelist=salelist)
+
+

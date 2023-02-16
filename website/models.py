@@ -2,9 +2,11 @@ from website import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
-class login(db.Model):
+class logins(db.Model, UserMixin):
     user_id = db.Column(db.String(150), primary_key = True)
     password = db.Column(db.String(150))
+    def get_id(self):
+           return (self.user_id)
 
 class inventory(db.Model):
     inv_id = db.Column(db.Integer, primary_key = True)
@@ -48,15 +50,12 @@ class sales(db.Model):
     shift = db.Column(db.Integer)
     ms_opening = db.Column(db.Float)
     ms_closing = db.Column(db.Float)
-    ms_sale = db.Column(db.Float)
+    ms_sales = db.Column(db.Float)
     ms_amount = db.Column(db.Float)
     hsd_opening = db.Column(db.Float)
     hsd_closing = db.Column(db.Float)
-    hsd_sale = db.Column(db.Float)
+    hsd_sales = db.Column(db.Float)
     hsd_amount = db.Column(db.Float)
-    lube = db.Column(db.Integer)
-    lube_sale = db.Column(db.Float)
-    lube_amount = db.Column(db.Float)
     stotal = db.Column(db.Float)
     denom = db.relationship('denomination')
     pos = db.relationship('pos')

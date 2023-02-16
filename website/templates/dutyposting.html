@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}duty posting{% endblock %}
+{% block title %}Duty Posting{% endblock %}
 {% block content %}
 <h1 align="center" style="margin-top: 5%;">Duty Posting</h1>
 <div
@@ -10,10 +10,11 @@
                   <input type="date" class="form-control" id="date" name="date" style="margin-right: 10%;" />
             </div>
             <br>
-
+<div>
             {% for employee in employees %}
-            {% for duty in dutyposting %}
-
+            awzesxdcfgvh
+            <!-- {% for duty in dutyposting %} -->
+            zesxdrctfvgbh
             <!-- {% if employee.emp_id == duty.emp_id %} -->
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
                   Employee Name:&nbsp;{{employee.name}}&nbsp;&nbsp;
@@ -22,22 +23,24 @@
             
             </div>
             <!-- {% endif %} -->
+            <!-- {% endfor %} -->
             {% endfor %}
-            {% endfor %}
+            </div>
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
                   {% for employee1 in employees %}
 
                   <div>
                   Employee Name:&nbsp;{{employee1.name}}&nbsp;&nbsp;
-                  Shift:&nbsp;<input type="text" class="form-control" id="shift" name="shift"
+                  Shift:&nbsp;<input type="text" class="form-control" id="shift{{employee1.emp_id}}" name="shift{{employee1.emp_id}}"
                         placeholder="{{shift[employee1.emp_id-1]}}">&nbsp;&nbsp;
-                  Bay:&nbsp;<input type="text" class="form-control" id="bay" name="bay"
+                  Bay:&nbsp;<input type="text" class="form-control" id="bay{{employee1.emp_id}}" name="bay{{employee1.emp_id}}"
                         placeholder="{{bay[employee1.emp_id-1]}}">&nbsp;&nbsp;
 
                   </div>
                   <br>
                   {% endfor %}
             </div>
+            
             <br>
 
             <div align="center">
