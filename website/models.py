@@ -74,7 +74,6 @@ class denomination(db.Model):
     coins = db.Column(db.Integer)
     upi = db.Column(db.Integer)
     card = db.Column(db.Integer)
-    lube = db.Column(db.Integer)
     dtotal = db.Column(db.Integer)
 
 class pos(db.Model):
