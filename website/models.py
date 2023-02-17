@@ -57,13 +57,10 @@ class sales(db.Model):
     hsd_sales = db.Column(db.Float)
     hsd_amount = db.Column(db.Float)
     stotal = db.Column(db.Float)
-    denom = db.relationship('denomination')
-    pos = db.relationship('pos')
-    excess_short = db.relationship('excess_short')
 
-class denomination(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
+# class denomination(db.Model):
+    # id = db.Column(db.Integer, primary_key = True)
+    # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
     two_thousand = db.Column(db.Integer)
     five_hundred = db.Column(db.Integer)
     two_hundred = db.Column(db.Integer)
@@ -72,20 +69,20 @@ class denomination(db.Model):
     twenty = db.Column(db.Integer)
     ten = db.Column(db.Integer)
     coins = db.Column(db.Integer)
-    upi = db.Column(db.Integer)
-    card = db.Column(db.Integer)
-    dtotal = db.Column(db.Integer)
+    upi = db.Column(db.Float)
+    card = db.Column(db.Float)
+    dtotal = db.Column(db.Float)
 
-class pos(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    amount = db.Column(db.Integer)
+# class pos(db.Model):
+    # id = db.Column(db.Integer, primary_key = True)
+    # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
+    amount = db.Column(db.Float)
 
-class excess_short(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    stotal = db.Column(db.Integer)
-    dtotal = db.Column(db.Integer)
+# class excess_short(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
+    stotal = db.Column(db.Float)
+    dtotal = db.Column(db.Float)
     diff = db.Column(db.Integer)
 
 class duty_posting(db.Model):

@@ -41,9 +41,8 @@ def addreport():
     twenty = request.form.get("twenty")
     ten = request.form.get("ten")
     coins = request.form.get("coins")
-    stotal = request.form.get("stotal")
-    ctotal = request.form.get("ctotal")
-    diff = request.form.get("diff")
+
+    
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
         date_obj = datetime.datetime.strptime(date, format_str)
@@ -71,24 +70,31 @@ def addreport():
             print(units_sold)
             print(amount)
 
-        salelast = int(db.session.query(func.max(sale.sid)).scalar())+1
-        # salelast = int(sale.query.last().sid) + 1
-        print(salelast)
-        denom = denomination(sid=salelast, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins)
-        db.session.add(denom)
-        db.session.commit()
+        # salelast = int(db.session.query(func.max(sale.sid)).scalar())+1
+        # # salelast = int(sale.query.last().sid) + 1
+        # print(salelast)
+        # denom = denomination(sid=salelast, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins)
+        # db.session.add(denom)
+        # db.session.commit()
 
 
 
-        sale1 = sales(emp_id=emp_id,bay=bay,date=date_obj,shift=shift ,ms_opening=ms_opening ,ms_closing=ms_closing,ms_sales=ms_sales,ms_amount=ms_amount,hsd_opening=hsd_opening,hsd_closing=hsd_closing,hsd_sales=hsd_sales,hsd_amount=hsd_amount)
+        sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins)
         db.session.add(sale1)
         db.session.commit()
 
-    sales1=sales.query.all()
+    sales1=sales.query.first()
+    print(sales.query.all())
     employees = employee.query.all()
-    den = denomination.query.all()
+    # for k in sales1:
+    #     print(k)
     print(sales1)
-    print(den)
+    print(sales1)
+    print(sales1.coins)
+    print(sales1.twenty)
+    print(sales1.hsd_amount)
+    print(sales1.ms_amount)
+
     
     return render_template("addreport.html",user=current_user, employees=employees, items=items)
 

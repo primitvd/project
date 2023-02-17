@@ -16,7 +16,7 @@ def manlogin():
         print(data1)
         flash(data, category='success')
     login1 = logins.query.all()
-    return render_template("managerlogin.html", login2=login1)
+    return render_template("managerlogin.html", login2=login1, user=current_user)
 
 @auth.route('/adminlogin', methods=['GET','POST'])
 def adlogin():
