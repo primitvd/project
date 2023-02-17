@@ -56,7 +56,7 @@ class sales(db.Model):
     hsd_closing = db.Column(db.Float)
     hsd_sales = db.Column(db.Float)
     hsd_amount = db.Column(db.Float)
-    stotal = db.Column(db.Float)
+    stotal = db.Column(db.Float)#
 
 # class denomination(db.Model):
     # id = db.Column(db.Integer, primary_key = True)
@@ -69,21 +69,19 @@ class sales(db.Model):
     twenty = db.Column(db.Integer)
     ten = db.Column(db.Integer)
     coins = db.Column(db.Integer)
-    upi = db.Column(db.Float)
-    card = db.Column(db.Float)
-    dtotal = db.Column(db.Float)
+    upi = db.Column(db.Float)#
+    card = db.Column(db.Float)#
+    dtotal = db.Column(db.Float)#
 
 # class pos(db.Model):
     # id = db.Column(db.Integer, primary_key = True)
     # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    amount = db.Column(db.Float)
+    amount = db.Column(db.Float)#
 
 # class excess_short(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
 #     sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    stotal = db.Column(db.Float)
-    dtotal = db.Column(db.Float)
-    diff = db.Column(db.Integer)
+    diff = db.Column(db.Integer)#
 
 class duty_posting(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -107,3 +105,7 @@ class daily_price(db.Model):
     date = db.Column(db.DateTime, default=func.now(), primary_key = True)
     ms_price = db.Column(db.Float)
     hsd_price = db.Column(db.Float)
+
+class payment_method(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    payment_method = db.Column(db.String(100))
