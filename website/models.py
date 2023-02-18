@@ -16,19 +16,19 @@ class inventory(db.Model):
 
 class fuel_reg(db.Model):
     date = db.Column(db.DateTime(timezone=True), default=func.now(), primary_key = True)
-    morning_density = db.Column(db.Integer)
-    morning_temp = db.Column(db.Integer)
-    density15 = db.Column(db.Integer)
+    morning_density = db.Column(db.Float)
+    morning_temp = db.Column(db.Float)
+    density15 = db.Column(db.Float)
     rec_invoice = db.Column(db.Integer)
-    rec_qty = db.Column(db.Integer)
-    rec_obs_desity = db.Column(db.Integer)
-    rec_obs_temp = db.Column(db.Integer)
-    rec_density15 = db.Column(db.Integer)
-    cash_density15 = db.Column(db.Integer)
-    diff = db.Column(db.Integer)
-    afterdeca_obs_density = db.Column(db.Integer)
-    afterdeca_obs_temp = db.Column(db.Integer)
-    afterdeca_obs_density15 = db.Column(db.Integer)
+    rec_qty = db.Column(db.Float)
+    rec_obs_desity = db.Column(db.Float)
+    rec_obs_temp = db.Column(db.Float)
+    rec_density15 = db.Column(db.Float)
+    cash_density15 = db.Column(db.Float)
+    diff = db.Column(db.Float)
+    afterdeca_obs_density = db.Column(db.Float)
+    afterdeca_obs_temp = db.Column(db.Float)
+    afterdeca_obs_density15 = db.Column(db.Float)
 
 class employee(db.Model):
     emp_id = db.Column(db.Integer, primary_key = True)
@@ -38,7 +38,7 @@ class employee(db.Model):
     phone = db.Column(db.String(150))
     emp_id_sales = db.relationship('sales')
     emp_id_duty = db.relationship('duty_posting')
-    excess_short = db.Column(db.Integer)
+    excess_short = db.Column(db.Float)
     advance = db.Column(db.Integer)
 
 
@@ -58,9 +58,6 @@ class sales(db.Model):
     hsd_amount = db.Column(db.Float)
     stotal = db.Column(db.Float)#
 
-# class denomination(db.Model):
-    # id = db.Column(db.Integer, primary_key = True)
-    # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
     two_thousand = db.Column(db.Integer)
     five_hundred = db.Column(db.Integer)
     two_hundred = db.Column(db.Integer)
@@ -81,7 +78,7 @@ class sales(db.Model):
 # class excess_short(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
 #     sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    diff = db.Column(db.Integer)#
+    diff = db.Column(db.Float)#
 
 class duty_posting(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -107,5 +104,5 @@ class daily_price(db.Model):
     hsd_price = db.Column(db.Float)
 
 class payment_method(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    payment_method = db.Column(db.String(100))
+    payment_method = db.Column(db.String(100), primary_key = True)
+  

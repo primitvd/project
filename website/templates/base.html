@@ -28,6 +28,7 @@
             <a class="nav-item nav-link" id="daily" href="/addreport">Daily Report</a>
             <a class="nav-item nav-link" id="dutyposting" href="/dutyposting">Duty Posting</a>
             <a class="nav-item nav-link" id="fueldetails" href="/fueldetails">Fuel Details</a>
+            <a class="nav-item nav-link" id="logout" href="/logout" style="float: right;">Logout</a>
        {% endif %}
        {% if user.user_id=="admin" %}
         <div class="nav-item dropdown">
@@ -49,8 +50,21 @@
           </div>
         </div>
         <a class="nav-item nav-link" id="certificates" href="/certificates">Certificates</a>
+        
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"></i>
+          </a>
+          
+          <div class="dropdown-menu dropdown-menu-dark">
+            <a class="dropdown-item" id="baymanager" href="/changepassword">Change Password</a>
+            <a class="dropdown-item" id="employeemanager" href="/addpaymentmethod">Payment methods</a>
+            <a class="dropdown-item" id="logout" href="/logout">Logout</a>
+            <!-- <a class="dropdown-item" id="invmanager" href="/invmanager">Inventory Manager</a> -->
+          </div>
+        </div>
+
         {% endif %}
-        <a class="nav-item nav-link" id="logout" href="/logout" style="float: right;">Logout</a>
+        
         
         {% else %}
         <a class="nav-item nav-link" id="manlogin" href="/login">Login</a>

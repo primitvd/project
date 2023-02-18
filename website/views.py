@@ -6,7 +6,7 @@ import datetime
 from datetime import date
 from sqlalchemy.sql import func
 import pdfkit
-from fpdf import FPDF
+# from fpdf import FPDF
 
 views = Blueprint('views', __name__)
 
@@ -257,8 +257,8 @@ def salesreport():
     print(sdate)
     print(edate)
     salelist = []
-    pdf = FPDF()
-    pdf.add_page()
+    # pdf = FPDF()
+    # pdf.add_page()
     if request.method == 'POST':
         if(sdate > edate):
           flash("Start date should be before end date",category="False")
@@ -279,30 +279,30 @@ def salesreport():
 
             
 		
-            page_width = pdf.w - 2 * pdf.l_margin
+            # page_width = pdf.w - 2 * pdf.l_margin
 		
-            pdf.set_font('Times','B',14.0) 
-            pdf.cell(page_width, 0.0, 'Employee Data', align='C')
-            pdf.ln(10)
-            pdf.set_font('Courier', '', 12)
-            col_width = page_width/2
+            # pdf.set_font('Times','B',14.0) 
+            # pdf.cell(page_width, 0.0, 'Employee Data', align='C')
+            # pdf.ln(10)
+            # pdf.set_font('Courier', '', 12)
+            # col_width = page_width/2
 		
-            pdf.ln(1)
+            # pdf.ln(1)
 		
-            th = pdf.font_size
+            # th = pdf.font_size
 		
 
-            for row in result:
-                pdf.cell(col_width, th, str(row.user_id), border=1)
-                pdf.cell(col_width, th, row.password, border=1)
-                pdf.ln(th)
+            # for row in result:
+            #     pdf.cell(col_width, th, str(row.user_id), border=1)
+            #     pdf.cell(col_width, th, row.password, border=1)
+            #     pdf.ln(th)
 		    
-            pdf.ln(10)
+            # pdf.ln(10)
 		
-            pdf.set_font('Times','',10.0) 
-            pdf.cell(page_width, 0.0, '- end of report -', align='C')
+            # pdf.set_font('Times','',10.0) 
+            # pdf.cell(page_width, 0.0, '- end of report -', align='C')
 
-            print(pdf)
+            # print(pdf)
         
     #     result = login.query.all()
     #     out = render_template("salesreportdownload.html", user=current_user, result = result)
@@ -332,4 +332,22 @@ def salesreport():
         print("check")
     return render_template("salesreport.html", user=current_user, salelist=salelist)
 
+@views.route('/addpaymentmethod', methods=['GET','POST'])
+@login_required
+def addpaymentmethod():
+    pay = request.form.get("payment_method")
+    
+    if request.method == 'POST':
+        payment = payment_method(payment_method=pay)
+        db.session.add(payment)
+        db.session.commit()
+        print("check")
+    pays = payment_method.query.all()
+    return render_template("addpaymentmethod.html", user=current_user, pays=pays)
 
+@views.route('/changepassword', methods=['GET','POST'])
+@login_required
+def changepassword():
+    if request.method == 'POST':
+        print("check")
+    return render_template("changepassword.html", user=current_user)
