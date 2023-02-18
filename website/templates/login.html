@@ -1,6 +1,10 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
 <form method="POST">
+  <div style="padding: 10%;">
+    <div
+    style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey" class="vw-25">
+    
   <h3 align="center">Login</h3>
   <div class="form-group">
     <label for="email">Username</label>
@@ -24,5 +28,6 @@
   </div>
   <br />
   <button type="submit" class="btn btn-primary">Login</button>
+    </div></div>
 </form>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Fuel Details{% endblock %}
+{% block title %}Density Register{% endblock %}
 {% block content %}
-<h1 align="center" style="margin-top: 5%;">Fuel Details</h1>
+<h1 align="center" style="margin-top: 5%;">Density Register</h1>
 <form method="POST">
       <div
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
@@ -17,10 +17,10 @@
                   <div class="form-group form-inline">
                         <label for="morning_density">Density:&nbsp;</label>
                         <input type="text" class="form-control" id="mornin_density" name="morning_density"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" onchange="cal()" value="0"/>
 
                         <label for="morning_temp">Temperature:&nbsp;</label>
-                        <input type="text" class="form-control" id="morning_temp" name="morning_temp" />
+                        <input type="text" class="form-control" id="morning_temp" name="morning_temp" onchange="cal()" value="0"/>
                   </div>
 
                   <br>
@@ -49,10 +49,10 @@
                   <div class="form-group form-inline">
                         <label for="rec_obs_density">Density&nbsp;</label>
                         <input type="text" class="form-control" id="rec_obs_density" name="rec_obs_density"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" onchange="cal()"/>
 
                         <label for="rec_obs_temp">Temperature&nbsp;</label>
-                        <input type="text" class="form-control" id="rec_obs_temp" name="rec_obs_temp" />
+                        <input type="text" class="form-control" id="rec_obs_temp" name="rec_obs_temp" onchange="cal()"/>
                   </div>
                   <br>
                   <div class="form-group form-inline">
@@ -70,11 +70,10 @@
                   <div class="form-group form-inline">
                         <label for="cash_density15">Density at 15<sup>o</sup>:&nbsp;</label>
                         <input type="text" class="form-control" id="cash_density15" name="cash_density15"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" onchange="cal()"/>
 
                         <label for="diff">Difference between 9 & 10:&nbsp;</label>
                         <input type="text" class="form-control" id="diff" name="diff" />
-
                   </div>
             </div>
       </div>
@@ -88,10 +87,10 @@
                   <div class="form-group form-inline">
                         <label for="afterdeca_obs_density">Density&nbsp;</label>
                         <input type="text" class="form-control" id="afterdeca_obs_density" name="afterdeca_obs_density"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" onchange="cal()"/>
 
                         <label for="afterdeca_obs_tem">Temperature&nbsp;</label>
-                        <input type="text" class="form-control" id="afterdeca_obs_tem" name="afterdeca_obs_tem" />
+                        <input type="text" class="form-control" id="afterdeca_obs_tem" name="afterdeca_obs_tem" onchange="cal()"/>
                   </div>
                   <br>
                   <div class="form-group form-inline">
@@ -107,4 +106,7 @@
       </div>
       </div>
 </form>
+<script>
+      
+</script>
 {% endblock %}

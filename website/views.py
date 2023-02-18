@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, Response, make_response
 from flask_login import current_user, login_required
+from sqlalchemy import and_
 from .models import *
 from . import db
 import datetime
@@ -13,13 +14,22 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET','POST'])
 @login_required
 def home():
-    if request.method == 'POST':
-        print("check")
-    return render_template("home.html", user=current_user)
 
-@views.route('/addreport', methods=['GET','POST'])
+    # sdate_obj = datetime.datetime.now()
+    # edate_obj = datetime.datetime.now()
+    # salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+    # print(salelist)
+
+
+    check = 0
+    a = 1
+    if not check:
+        a = 0
+    return render_template("home.html", user=current_user, a=a)
+
+@views.route('/dailysales', methods=['GET','POST'])
 @login_required
-def addreport():
+def dailysales():
     items = inventory.query.all()
     date = request.form.get("date")
     emp_id = request.form.get("emp_id")
@@ -33,6 +43,8 @@ def addreport():
     hsd_closing = request.form.get("hsd_closing")
     hsd_sales = request.form.get("hsd_sales")
     hsd_amount = request.form.get("hsd_amount")
+    s_total = request.form.get("stotal")
+
     two_thousand = request.form.get("two_thousand")
     five_hundred = request.form.get("five_hundred")
     two_hundred = request.form.get("two_hundred")
@@ -41,13 +53,22 @@ def addreport():
     twenty = request.form.get("twenty")
     ten = request.form.get("ten")
     coins = request.form.get("coins")
+    
 
+    pos = request.form.get("pos")
+    ufill = request.form.get("ufill")
+    upi = request.form.get("upi")
+    smartfleet = request.form.get("smartfleet")
+    smartdrive = request.form.get("smartdrive")
+    pinelabs = request.form.get("pinelabs")
+    dtotal = request.form.get("dtotal")
+    diff = request.form.get("diff")
     
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
         date_obj = datetime.datetime.strptime(date, format_str)
         print("check")
-        sale = sales.query.filter_by(date=date_obj).first()
+        sale = sales.query.filter(date=date_obj).first()
         # if sale:
         #     if sale.emp_id==emp_id and sale.shift==shift:
         #         print(sales)
@@ -65,10 +86,10 @@ def addreport():
         for item in items:
             units_sold = int(request.form.get("units_sold"+str(item.inv_id)))
             amount = request.form.get("units_sale"+str(item.inv_id))
-            item1 = inventory.query.filter_by(inv_id=item.inv_id).first()
+            item1 = inventory.query.filter(inv_id=item.inv_id).first()
             item1.stock -= units_sold
-            print(units_sold)
-            print(amount)
+            # print(units_sold)
+            # print(amount)
 
         # salelast = int(db.session.query(func.max(sale.sid)).scalar())+1
         # # salelast = int(sale.query.last().sid) + 1
@@ -79,32 +100,28 @@ def addreport():
 
 
 
-        sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins)
+        sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins, pos=pos, ufill=ufill, upi=upi, smartfleet=smartfleet, smartdrive= smartdrive, pinelabs=pinelabs)
         db.session.add(sale1)
         db.session.commit()
 
-    sales1=sales.query.first()
-    print(sales.query.all())
+    # print(sales.query.all())
     employees = employee.query.all()
+    salelist=[]
+    #salelist = db.session.query(sales).filter(sales.emp_id == "2").all()
+    print(salelist)
     # for k in sales1:
     #     print(k)
-    print(sales1)
-    print(sales1)
-    print(sales1.coins)
-    print(sales1.twenty)
-    print(sales1.hsd_amount)
-    print(sales1.ms_amount)
 
-    
-    return render_template("addreport.html",user=current_user, employees=employees, items=items)
+    # print(sales1)
+    # print(sales1.coins)
+    # print(sales1.twenty)
+    # print(sales1.hsd_amount)
+    # print(sales1.ms_amount)
 
+    pays = payment_method.query.all()
+    # print(pays)
+    return render_template("dailysales.html",user=current_user, employees=employees, items=items,pays=pays)
 
-@views.route('/pos', methods=['GET','POST'])
-@login_required
-def pos():
-    if request.method == 'POST':
-        print("check")
-    return render_template("pos.html", user=current_user)
 
 
 @views.route('/baymanager', methods=['GET','POST'])
@@ -175,7 +192,7 @@ def dutyposting():
     print(bay1)
     employees = employee.query.all()
     print(employees)
-    dutyposting = duty_posting.query.filter_by(date=date).all()
+    dutyposting = duty_posting.query.filter(date=date).all()
     print(dutyposting)
     return render_template("dutyposting.html", user=current_user, employees = employees, name = name, shift = shift1, bay = bay1, dutyposting=dutyposting)
 
@@ -200,6 +217,7 @@ def employeemanager():
 @views.route('/fueldetails', methods=['GET','POST'])
 @login_required
 def fueldetails():
+
     if request.method == 'POST':
         print("check")
     return render_template("fueldetails.html", user=current_user)
@@ -269,7 +287,6 @@ def salesreport():
         else:
             format_str = '%Y-%m-%d'
             sdate_obj = datetime.datetime.strptime(sdate, format_str)
-            format_str = '%Y-%m-%d'
             edate_obj = datetime.datetime.strptime(edate, format_str)
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
             print(salelist)
@@ -336,18 +353,75 @@ def salesreport():
 @login_required
 def addpaymentmethod():
     pay = request.form.get("payment_method")
-    
+    pays = []
     if request.method == 'POST':
-        payment = payment_method(payment_method=pay)
-        db.session.add(payment)
-        db.session.commit()
+        if not pays:
+            payment = payment_method(payment_method=pay)
+            db.session.add(payment)
+            db.session.commit()
+        else:
+            flash('Payment method already exists', category='error')
         print("check")
     pays = payment_method.query.all()
     return render_template("addpaymentmethod.html", user=current_user, pays=pays)
 
-@views.route('/changepassword', methods=['GET','POST'])
+
+@views.route('/employeereport', methods=['GET','POST'])
 @login_required
-def changepassword():
+def employeereport():
+    sdate = request.form.get("sdate")
+    edate = request.form.get("edate")
+    emp_id = request.form.get("emp_id")
+    print(sdate)
+    print(edate)
+    salelist=[]
     if request.method == 'POST':
+        format_str = '%Y-%m-%d'
+        sdate_obj = datetime.datetime.strptime(sdate, format_str)
+        edate_obj = datetime.datetime.strptime(edate, format_str)
+        print(sdate)
+        print(edate)
+        print(emp_id)
         print("check")
-    return render_template("changepassword.html", user=current_user)
+        #salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+
+
+        salelist = db.session.query(sales).filter(
+        sales.date.between(sdate_obj, edate_obj),
+        sales.emp_id == emp_id).all()
+
+        print(salelist)
+    employees=employee.query.all()
+    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
+
+@views.route('/dailyprice', methods=['GET','POST'])
+@login_required
+def dailyprice():
+    date1 = request.form.get("date")
+    ms = request.form.get("ms_price")
+    hsd = request.form.get("hsd_price")
+    
+    if request.method == 'POST':
+        # print(date)
+        # print(ms)
+        # print(hsd)
+        if date1:
+            format_str = '%Y-%m-%d'
+            date_obj = datetime.date.strptime(date1, format_str)
+            print(date_obj)
+            daily = db.session.query(daily_price).filter(date == date_obj).first()
+            if daily:
+                daily.ms_price = ms
+                daily.hsd_price = hsd
+                print("1")
+            else:
+                daily = daily_price(date=date_obj,ms_price=ms,hsd_price=hsd)
+                db.session.add(daily)
+                print("2")
+            #db.session.commit() 
+        else:
+            flash("Enter date", category=False)  
+        
+        print("check")
+        
+    return render_template("dailyprice.html", user=current_user)

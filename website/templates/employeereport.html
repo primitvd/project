@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Report{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 5%;"> Report</h1>
+<div
+    style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+
+    <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+        <form method="POST">
+
+            <div class="form-inline">
+                <div style="margin-right: 10%;">
+                    Start Date:&nbsp;<input type="date" class="form-control" id="sdate" name="sdate">&nbsp;&nbsp;
+                </div>
+                <div style="margin-right: 10%;">
+                    End Date:&nbsp;<input type="date" class="form-control" id="edate" name="edate">&nbsp;&nbsp;
+                </div><br>
+
+
+
+            </div>
+            <div class="form-inline">
+                <div style="margin-right: 10%;">
+                    Employee:&nbsp;
+                    <select id="emp_id" name="emp_id">
+                        {% for employee in employees %}
+                        <option value="{{employee.emp_id}}">{{employee.emp_id}}:&nbsp;{{employee.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+
+        </form>
+    </div>
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Bay
+                </th>
+                <th>
+                    Shift                 
+                </th>
+                <th>
+                    MS Sales
+                </th>
+                <th>
+                    MS Amount
+                </th>
+                <th>
+                    HSD Sales
+                </th>
+                <th>
+                    HSD Amount                    
+                </th>
+                <th>
+                    Sale total
+                </th>
+                <th>
+                    Collected Amount
+                </th>
+                <th>
+                    Excess/Short
+                </th>
+            </tr>
+            {% for sale in salelist %}
+            <tr>
+                <td>
+                    {{sale.date}}
+                </td>
+                <td>
+                    {{sale.bay}}
+                </td>
+                <td>
+                    {{sale.shift}}                 
+                </td>
+                <td>
+                    {{sale.ms_sales}}
+                </td>
+                <td>
+                    {{sale.ms_amount}}
+                </td>
+                <td>
+                    {{sale.hsd_sales}}
+                </td>
+                <td>
+                    {{sale.hsd_amount}}        
+                </td>
+                <td>
+                    {{sale.stotal}}
+                </td>
+                <td>
+                    {{sale.dtotal}}
+                </td>
+                <td>
+                    {{sale.diff}}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

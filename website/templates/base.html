@@ -25,16 +25,19 @@
 
        <a class="nav-item nav-link" id="home" href="/">Home</a>
        {% if user.user_id=="manager" %}
-            <a class="nav-item nav-link" id="daily" href="/addreport">Daily Report</a>
+            <a class="nav-item nav-link" id="dailyprice" href="/dailyprice">Daily Price</a>
+            <a class="nav-item nav-link" id="dailysales" href="/dailysales">Daily Sales</a>
             <a class="nav-item nav-link" id="dutyposting" href="/dutyposting">Duty Posting</a>
             <a class="nav-item nav-link" id="fueldetails" href="/fueldetails">Fuel Details</a>
+            <a class="nav-item nav-link" id="reports" href="/reports">Reports</a>
             <a class="nav-item nav-link" id="logout" href="/logout" style="float: right;">Logout</a>
        {% endif %}
        {% if user.user_id=="admin" %}
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">Daily</a>
           <div class="dropdown-menu dropdown-menu-dark">
-            <a class="dropdown-item" id="daily" href="/addreport">Daily Report</a>
+            <a class="dropdown-item" id="dailyprice" href="/dailyprice">Daily Price</a>
+            <a class="dropdown-item" id="dailysales" href="/dailysales">Daily Sales</a>
             <a class="dropdown-item" id="dutyposting" href="/dutyposting">Duty Posting</a>
             <a class="dropdown-item" id="fueldetails" href="/fueldetails">Fuel Details</a>
           </div>

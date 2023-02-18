@@ -13,7 +13,7 @@
             }
       </style>
 </head>
-<h1 align="center" style="margin-top: 5%;">Add Report</h1>
+<h1 align="center" style="margin-top: 5%;">Daily Sales</h1>
 <form method="POST">
       <div
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
@@ -69,19 +69,19 @@
                               </th>
                               <td>
                                     <input type="text" class="form-control" id="ms_opening" name="ms_opening"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3" onchange="calc()"/>
                               </td>
                               <td>
                                     <input type="text" class="form-control" id="ms_closing" name="ms_closing"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3" onchange="calc()"/>
                               </td>
                               <td>
                                     <input type="text" class="form-control" id="ms_sales" name="ms_sales"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3"/>
                               </td>
                               <td>
                                     <input type="text" class="form-control" id="ms_amount" name="ms_amount"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3"/>
                               </td>
                         </tr>
                         <tr>
@@ -90,22 +90,22 @@
                               </th>
                               <td>
                                     <input type="text" class="form-control" id="hsd_opening" name="hsd_opening"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3" onchange="calc()"/>
                               </td>
 
                               <td>
 
                                     <input type="text" class="form-control" id="hsd_closing" name="hsd_closing"
-                                          style="margin-right: 10%;" size="3" />
+                                          style="margin-right: 10%;" size="3" onchange="calc()"/>
 
                               </td>
                               <td>
-                                    <input type="text" class="form-control" id="hsd_sale" name="hsd_sale"
-                                          style="margin-right: 10%;" />
+                                    <input type="text" class="form-control" id="hsd_sales" name="hsd_sales"
+                                          style="margin-right: 10%;"/>
                               </td>
                               <td>
                                     <input type="text" class="form-control" id="hsd_amount" name="hsd_amount"
-                                          style="margin-right: 10%;" />
+                                          style="margin-right: 10%;"/>
                               </td>
                         </tr>
                         {% for item in items %}
@@ -117,7 +117,7 @@
                                     <div class="form-group form-inline">
                                           <label for="units_sold">Units Sold:&nbsp;</label>
                                           <input type="text" class="form-control" id="units_sold{{item.inv_id}}" name="units_sold{{item.inv_id}}"
-                                                style="margin-right: 10%;" />
+                                                style="margin-right: 10%;"/>
 
                                     </div>
                               </td>
@@ -140,43 +140,70 @@
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
             <h4>Payment Method</h4>
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-
+                  <h6><u>Cash</u></h6>
                   <div class="form-group form-inline">
                         <label for="two_thousand">2000:&nbsp;</label>
                         <input type="text" class="form-control" id="two_thousand" name="two_thousand"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" value="0"/>
 
                         <label for="five_hundred">&nbsp;&nbsp;500:&nbsp;</label>
                         <input type="text" class="form-control" id="five_hundred" name="five_hundred"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" value="0"/>
                   </div>
                   <div class="form-group form-inline">
                         <label for="two_hundred">&nbsp;&nbsp;200:&nbsp;</label>
                         <input type="text" class="form-control" id="two_hundred" name="two_hundred"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" value="0"/>
 
                         <label for="one_hundred">&nbsp;&nbsp;100:&nbsp;</label>
                         <input type="text" class="form-control" id="one_hundred" name="one_hundred"
-                              style="margin-right: 10%;" />
+                              style="margin-right: 10%;" value="0"/>
                   </div>
                   <div class="form-group form-inline">
                         <label for="fifty">&nbsp;&nbsp;&nbsp;&nbsp;50:&nbsp;</label>
-                        <input type="text" class="form-control" id="fifty" name="fifty" style="margin-right: 10%;" />
+                        <input type="text" class="form-control" id="fifty" name="fifty" style="margin-right: 10%;" value="0"/>
 
                         <label for="twenty">&nbsp;&nbsp;&nbsp;&nbsp;20:&nbsp;</label>
-                        <input type="text" class="form-control" id="twenty" name="twenty" style="margin-right: 10%;" />
+                        <input type="text" class="form-control" id="twenty" name="twenty" style="margin-right: 10%;" value="0"/>
                   </div>
                   <div class="form-group form-inline">
-                        <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;10:</label>
-                        <input type="text" class="form-control" id="ten" name="ten" style="margin-right: 10%;" />
+                        <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;10:&nbsp;</label>
+                        <input type="text" class="form-control" id="ten" name="ten" style="margin-right: 10%;" value="0"/>
 
-                        <label for="coins">Coins:&nbsp;</label>
-                        <input type="text" class="form-control" id="coins" name="coins" style="margin-right: 10%;" />
+                        <label for="coins">Coins:</label>
+                        <input type="text" class="form-control" id="coins" name="coins" style="margin-right: 10%;" value="0"/>
                   </div>
-                  Point of Sale:&nbsp;<a href="/pos">PoS</a>
-                  <div align="center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                  <!-- Point of Sale:&nbsp;<a href="/pos">PoS</a> -->
+                  <h6><u>Other payment methods</u></h6>
+                  <div>
+                        <div class="form-group form-inline">
+                        <label for="pos">PoS:</label>
+                        <input type="text" class="form-control" id="pos" name="pos" style="margin-right: 10%;" />
+                        <!-- </div><div class="form-group form-inline"> -->
+                        <label for="ufill">uFill:</label>
+                        <input type="text" class="form-control" id="ufill" name="ufill" style="margin-right: 10%;" />
+                        </div><div class="form-group form-inline">
+                        <label for="upi">UPI:</label>
+                        <input type="text" class="form-control" id="upi" name="upi" style="margin-right: 10%;" />
+                        <!-- </div><div class="form-group form-inline"> -->
+                        <label for="smartfleet">SmartFleet:</label>
+                        <input type="text" class="form-control" id="smartfleet" name="smartfleet" style="margin-right: 10%;" />
+                        </div><div class="form-group form-inline">
+                        <label for="smartdrive">SmartDrive:</label>
+                        <input type="text" class="form-control" id="smartdrive" name="smartdrive" style="margin-right: 10%;" />
+                        <!-- </div><div class="form-group form-inline"> -->
+                        <label for="pinelabs">Pine Labs UPI:</label>
+                        <input type="text" class="form-control" id="pinelabs" name="pinelabs" style="margin-right: 10%;" />
+                        </div>
+
+                  {% for pay in pays %}
+                  <div class="form-group form-inline">
+                        <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;{{pay.payment_method}}:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="text" class="form-control" id="pay.payment_method" name="pay.payment_method" style="margin-right: 10%;" />
                   </div>
+                  {% endfor %}
+                  </div>
+                  
             </div>
             
       </div>
@@ -201,7 +228,7 @@
                   </div>
             </div>
       </div> -->
-      <!-- <div
+      <div
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 
             <h4>Excess/Short</h4>
@@ -211,8 +238,8 @@
                         <label for="stotal">Sale total:&nbsp;</label>
                         <input type="text" class="form-control" id="stotal" name="stotal" style="margin-right: 10%;" />
 
-                        <label for="ctotal">Collected:&nbsp;</label>
-                        <input type="text" class="form-control" id="ctotal" name="ctotal" />
+                        <label for="dtotal">Collected:&nbsp;</label>
+                        <input type="text" class="form-control" id="dtotal" name="dtotal" />
                   </div>
                   <br>
                   <div class="form-group form-inline">
@@ -221,9 +248,19 @@
                   </div>
             </div>
             <br>
-            
-      </div> -->
+      <div align="center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      </div> 
       </div>
 </form>
+<script>
+      function calc()
+      {    
+      document.getElementById("ms_sales").value=document.getElementById("ms_opening").value-document.getElementById("ms_closing").value;
+      document.getElementById("hsd_sales").value=document.getElementById("hsd_opening").value-document.getElementById("hsd_closing").value;
+
+      }
+</script>
 
 {% endblock %}

@@ -70,3 +70,26 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@auth.route('/changepassword', methods=['GET','POST'])
+@login_required
+def changepassword():
+    if request.method == 'POST':
+        userid = request.form.get('user_id')
+        password = request.form.get('password')
+        password1 = request.form.get('password1')
+        user = logins.query.filter_by(user_id=userid).first()
+
+        if user:
+            if(password == password1):
+                user.password = password
+                flash('Password changed successfully!', category='success')
+                login_user(user, remember=True)
+                db.session.commit()
+            else:
+                flash('Passwords do not match, try again.', category='error')
+        else:
+            flash('User does not exist.', category='error')
+
+
+    return render_template("changepassword.html", user=current_user)

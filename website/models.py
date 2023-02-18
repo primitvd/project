@@ -15,7 +15,7 @@ class inventory(db.Model):
     price = db.Column(db.Integer)
 
 class fuel_reg(db.Model):
-    date = db.Column(db.DateTime(timezone=True), default=func.now(), primary_key = True)
+    date = db.Column(db.Date, default=func.now(), primary_key = True)
     morning_density = db.Column(db.Float)
     morning_temp = db.Column(db.Float)
     density15 = db.Column(db.Float)
@@ -46,7 +46,7 @@ class sales(db.Model):
     sid = db.Column(db.Integer, primary_key = True)
     emp_id = db.Column(db.Integer, db.ForeignKey('employee.emp_id'))
     bay = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.Date)
     shift = db.Column(db.Integer)
     ms_opening = db.Column(db.Float)
     ms_closing = db.Column(db.Float)
@@ -66,14 +66,19 @@ class sales(db.Model):
     twenty = db.Column(db.Integer)
     ten = db.Column(db.Integer)
     coins = db.Column(db.Integer)
+
+    pos = db.Column(db.Float)#
+    ufill = db.Column(db.Float)##
     upi = db.Column(db.Float)#
-    card = db.Column(db.Float)#
+    smartfleet = db.Column(db.Float)##
+    smartdrive = db.Column(db.Float)##
+    pinelabs = db.Column(db.Float)##
     dtotal = db.Column(db.Float)#
 
 # class pos(db.Model):
     # id = db.Column(db.Integer, primary_key = True)
     # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    amount = db.Column(db.Float)#
+    
 
 # class excess_short(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
@@ -96,10 +101,10 @@ class certificate(db.Model):
     name = db.Column(db.String(200), primary_key = True)
     exp_date = db.Column(db.Date)
     issue_date = db.Column(db.Date)
-    # file = db.Column(db.VARBINARY(max))
+    file = db.Column(db.BLOB)
 
 class daily_price(db.Model):
-    date = db.Column(db.DateTime, default=func.now(), primary_key = True)
+    date = db.Column(db.Date, default=func.now(), primary_key = True)
     ms_price = db.Column(db.Float)
     hsd_price = db.Column(db.Float)
 

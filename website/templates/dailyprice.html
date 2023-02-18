@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Daily Price{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 5%;">Daily Price</h1>
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            <form method="POST">
+
+                  <div class="form-inline">
+                        Date:&nbsp;<input type="date" class="form-control" id="date" name="date">&nbsp;&nbsp;
+                  </div>
+                  <br>
+                  <div class="form-inline">
+                        MS:&nbsp;<input type="textarea" class="form-control" id="ms_price"
+                              name="ms_price" value="0">&nbsp;&nbsp;
+                  </div><br>
+                  <div class="form-inline">
+                        HSD:&nbsp;<input type="text" class="form-control" id="hsd_price" name="hsd_price" value="0">&nbsp;&nbsp;
+                  </div>
+                  <br>
+                  <div align="center">
+                        <button type="submit" class="btn btn-primary">Add</button>
+
+                  </div>
+            </form>
+      </div>
+</div>
+{% endblock %}
