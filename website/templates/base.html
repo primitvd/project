@@ -30,7 +30,7 @@
             <a class="nav-item nav-link" id="dutyposting" href="/dutyposting">Duty Posting</a>
             <a class="nav-item nav-link" id="fueldetails" href="/fueldetails">Fuel Details</a>
             <a class="nav-item nav-link" id="reports" href="/reports">Reports</a>
-            <a class="nav-item nav-link" id="logout" href="/logout" style="float: right;">Logout</a>
+            <a class="nav-item nav-link ml-auto" id="logout" href="/logout" style="float: right;">Logout</a>
        {% endif %}
        {% if user.user_id=="admin" %}
         <div class="nav-item dropdown">
@@ -55,8 +55,7 @@
         <a class="nav-item nav-link" id="certificates" href="/certificates">Certificates</a>
         
         <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"></i>
-          </a>
+          <a class="nav-link dropdown-toggle ml-auto" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">Settings</a>
           
           <div class="dropdown-menu dropdown-menu-dark">
             <a class="dropdown-item" id="baymanager" href="/changepassword">Change Password</a>

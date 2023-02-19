@@ -53,7 +53,7 @@ def login():
         user = logins.query.filter_by(user_id=userid).first()
         
         if user:
-            if(user.password == password):
+            if(check_password_hash(user.password, password)):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
@@ -82,7 +82,7 @@ def changepassword():
 
         if user:
             if(password == password1):
-                user.password = password
+                user.password = generate_password_hash(password, method='sha256')
                 flash('Password changed successfully!', category='success')
                 login_user(user, remember=True)
                 db.session.commit()

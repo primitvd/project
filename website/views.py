@@ -1,7 +1,8 @@
-from io import BytesIO
-from flask import Blueprint, render_template, request, flash, Response, make_response, send_file
+from io import BytesIO, StringIO
+from flask import Blueprint, redirect, render_template, request, flash, Response, make_response, send_file, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import and_
+# from weasyprint import HTML
 from .models import *
 from . import db
 import datetime
@@ -9,6 +10,7 @@ from datetime import date, timedelta
 from sqlalchemy.sql import func
 import pdfkit
 # from fpdf import FPDF
+# from xhtml2pdf import pisa
 
 views = Blueprint('views', __name__)
 
@@ -70,11 +72,13 @@ def dailysales():
     dtotal = request.form.get("dtotal")
     diff = request.form.get("diff")
     format_str = '%Y-%m-%d'
-    date1 = datetime.datetime.now().strftime(format_str)
-    print(date1)
+    daily = db.session.query(daily_price).filter(daily_price.date == datetime.datetime.now().strftime('%Y-%m-%d')).first()
+            
+    # date1 = datetime.datetime.now().strftime(format_str)
+    # print(date1)
     
-    daily = db.session.query(duty_posting).filter(duty_posting.date == date1).all()
-    print(daily)
+    # daily = db.session.query(duty_posting).filter(duty_posting.date == date1).all()
+    # print(daily)
     
     if request.method == 'POST':
         
@@ -116,12 +120,14 @@ def dailysales():
 
 
 
-        sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins, pos=pos, ufill=ufill, upi=upi, smartfleet=smartfleet, smartdrive= smartdrive, pinelabs=pinelabs)
+        sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins, pos=pos, ufill=ufill, upi=upi, smartfleet=smartfleet, smartdrive= smartdrive, pinelabs=pinelabs, stotal=s_total, dtotal=dtotal, diff=diff)
         db.session.add(sale1)
         db.session.commit()
+        flash("Data added!", category=True)
 
     # print(sales.query.all())
     employees = employee.query.all()
+    bays = bay_manager.query.all()
     salelist=[]
     #salelist = db.session.query(sales).filter(sales.emp_id == "2").all()
     #print(salelist)
@@ -136,7 +142,7 @@ def dailysales():
 
     pays = payment_method.query.all()
     # print(pays)
-    return render_template("dailysales.html",user=current_user, employees=employees, items=items,pays=pays)
+    return render_template("dailysales.html",user=current_user, employees=employees, items=items, bays=bays, pays=pays, daily=daily)
 
 
 
@@ -149,6 +155,7 @@ def baymanager():
         bay = bay_manager(hsd=HSD,ms=MS)
         db.session.add(bay)
         db.session.commit()
+        flash("Data added!", category=True)
         data1 = bay_manager.query.all()
         print(MS,HSD)
     bays = bay_manager.query.all()
@@ -171,6 +178,7 @@ def certificates():
         new_certificate = certificate(name=name, file_name = file.filename, exp_date=exp_date_obj, issue_date=issue_date_obj, file=file.read())
         db.session.add(new_certificate)
         db.session.commit()
+        flash("Data added!", category=True)
         print("check")
     # format_str = '%Y-%m-%d' # The format
     # exp_date_obj = datetime.datetime.strptime(exp_date, '%Y-%m-%d')
@@ -189,13 +197,20 @@ def download(name):
 @login_required
 def dutyposting():
     date = request.form.get("date")
-    name = {}
-    shift1 = {}
-    bay1 = {}
+    format_str = '%Y-%m-%d'
+    if not date:
+        date = datetime.datetime.now() 
+    else:
+        date = datetime.datetime.strptime(date, format_str)
+    date1 = date.strftime(format_str)
+    dutyposting = duty_posting.query.filter_by(date=date1).all() 
+    # name = {}
+    # shift1 = {}
+    # bay1 = {}
     
-    for employee1 in employee.query.all():
-        shift1[employee1.emp_id] = request.form.get("shift" + str(employee1.emp_id))
-        bay1[employee1.emp_id] = request.form.get("bay" + str(employee1.emp_id))
+    # for employee1 in employee.query.all():
+    #     shift1[employee1.emp_id] = request.form.get("shift" + str(employee1.emp_id))
+    #     bay1[employee1.emp_id] = request.form.get("bay" + str(employee1.emp_id))
     # for employee1 in employee.query.all():
     #     for duty in duty_posting.query.all():
     #         if duty.emp_id == employee1.emp_id:
@@ -203,21 +218,32 @@ def dutyposting():
     #             shift1.update({employee1.emp_id : duty.shift})
     #             bay1.update({employee1.emp_id : duty.bay})
     if request.method == 'POST':
-        if date:
-            format_str = '%Y-%m-%d'
-            date = datetime.datetime.strptime(date, format_str)
-        for employee1 in employee.query.all():
-            duty = duty_posting(date=date, emp_id=employee1.emp_id, shift=shift1[employee1.emp_id], bay=bay1[employee1.emp_id])
+        for employees in employee.query.all():
+            check = 1
+            shift = request.form.get("shift" + str(employees.emp_id))
+            print(shift)
+            bay = request.form.get("bay" + str(employees.emp_id))
+            print(bay)
+            for duty in dutyposting:
+                if duty.emp_id == employees.emp_id:
+                    if shift and bay:
+                        check = 0
+                        duty.shift = shift
+                        duty.bay = bay
+                        print(check)
+            if shift and bay and check:
+                duty = duty_posting(date=date, emp_id=employees.emp_id, shift=shift, bay=bay, name=employees.name)
+                print(check)
             db.session.add(duty)
             db.session.commit()
+            # flash("Data added!", category=True)
             print("check")
-    print(shift1)
-    print(bay1)
+    # print(shift)
+    # print(bay)
     employees = employee.query.all()
     print(employees)
-    dutyposting = duty_posting.query.filter_by(date=date).all()
     print(dutyposting)
-    return render_template("dutyposting.html", user=current_user, employees = employees, name = name, shift = shift1, bay = bay1, dutyposting=dutyposting)
+    return render_template("dutyposting.html", user=current_user, employees = employees, dutyposting=dutyposting, date=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @views.route('/employeemanager', methods=['GET','POST'])
 @login_required
@@ -240,6 +266,7 @@ def employeemanager():
 @views.route('/fueldetails', methods=['GET','POST'])
 @login_required
 def fueldetails():
+    type = request.form.get("type")
     date = request.form.get("date")
     morning_density = request.form.get("morning_density")
     morning_temp = request.form.get("morning_temp")
@@ -255,23 +282,48 @@ def fueldetails():
     afterdeca_obs_temp = request.form.get("afterdeca_obs_temp")
     afterdeca_obs_density15 = request.form.get("afterdeca_obs_density15")
 
+    check=[]
+    # format_str = '%Y-%m-%d'
+    # if date:
+    #     date_obj = datetime.datetime.strptime(date, format_str)
+    #     date2_obj = date_obj.strftime(format_str)
+    #     print("3")
+    #     print(date2_obj)
+    # else:
+    #     date_obj = datetime.datetime.now()
+    #     date2_obj = date_obj.strftime(format_str)
+    #     print(date2_obj)
+    #     print("4")
+
+    
+    # check = db.session.query(fuel_reg).filter(date == date2_obj).first()
+    # print(db.session.query(fuel_reg).first().date)
+
+    # print(check)
+    
 
     format_str = '%Y-%m-%d'
-    if not date:    
-        date_obj = datetime.datetime.now().strftime(format_str)
-        print(date_obj)
-    else:
+    if date:
         date_obj = datetime.datetime.strptime(date, format_str)
-    
-    check = db.session.query(fuel_reg).filter(date == date_obj).first()
-    print(check)
-    
+        date2_obj = date_obj.strftime(format_str)
+        print("3")
+        print(date2_obj)
+    else:
+        date_obj = datetime.datetime.now()
+        date2_obj = date_obj.strftime(format_str)
+        print(date2_obj)
+        print("4")
+
+
+    check = db.session.query(fuel_reg).filter(fuel_reg.date==date2_obj,fuel_reg.type==type).first()
+    # print(db.session.query(fuel_reg).first().date)
+
 
     if request.method == 'POST':
-        if not check:
-            newfuel = fuel_reg(date=date_obj, morning_density=morning_density, morning_temp=morning_temp, density15=density15, rec_invoice=rec_invoice, rec_qty=rec_qty, rec_obs_density=rec_obs_density, rec_obs_temp=rec_obs_temp, rec_density15=rec_density15, cash_density15=cash_density15, diff=diff, afterdeca_obs_density=afterdeca_obs_density, afterdeca_obs_temp=afterdeca_obs_temp, afterdeca_obs_density15=afterdeca_obs_density15)
-            db.session.add(newfuel)
-        else:
+
+        print(check)
+        if check:
+            check.type=type
             check.date=date_obj
             check.morning_density=morning_density
             check.morning_temp=morning_temp
@@ -286,7 +338,16 @@ def fueldetails():
             check.afterdeca_obs_density=afterdeca_obs_density
             check.afterdeca_obs_temp=afterdeca_obs_temp
             check.afterdeca_obs_density15=afterdeca_obs_density15
-        db.session.commit()
+            print("2")
+            db.session.commit()
+            flash("Data added!", category=True)
+
+        else:
+            newfuel = fuel_reg(type=type, date=date_obj, morning_density=morning_density, morning_temp=morning_temp, density15=density15, rec_invoice=rec_invoice, rec_qty=rec_qty, rec_obs_density=rec_obs_density, rec_obs_temp=rec_obs_temp, rec_density15=rec_density15, cash_density15=cash_density15, diff=diff, afterdeca_obs_density=afterdeca_obs_density, afterdeca_obs_temp=afterdeca_obs_temp, afterdeca_obs_density15=afterdeca_obs_density15)
+            db.session.add(newfuel)
+            print("1")
+            db.session.commit()
+            flash("Data added!", category=True)
         print("check")
     return render_template("fueldetails.html", user=current_user, check=check)
 
@@ -301,6 +362,7 @@ def invmanager():
         inv = inventory(name=name, stock=stock, price=price)
         db.session.add(inv)
         db.session.commit()
+        flash("Data added!", category=True)
         print("check")
     items = inventory.query.all()
     return render_template("invmanager.html", user=current_user, items = items)
@@ -317,16 +379,31 @@ def reports():
 @login_required
 def fuelregister():
     sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
     edate = request.form.get("edate")
-    print(sdate)
-    print(edate)
+    if not edate:
+        edate="3000-01-01"
+    salelist=[]
     if request.method == 'POST':
-        sdate = request.form.get("sdate")
-        edate = request.form.get("edate")
-        print(sdate)
-        print(edate)
-        print("check")
-    return render_template("fuelregister.html", user=current_user)
+        format_str = '%Y-%m-%d'
+        sdate_obj = datetime.datetime.strptime(sdate, format_str)
+        edate_obj = datetime.datetime.strptime(edate, format_str)
+        sdate_obj = sdate_obj - timedelta(days=1)
+
+        if(sdate > edate):
+          flash("Start date should be before end date",category="False")
+
+        # print(sdate)
+        # print(edate)
+        # print(emp_id)
+        # print("check")
+
+        else:
+            salelist = db.session.query(fuel_reg).filter(fuel_reg.date.between(sdate_obj, edate_obj)).all()
+
+        print(salelist)
+    return render_template("fuelregister.html", user=current_user, salelist=salelist)
 
 @views.route('/inventoryreport', methods=['GET','POST'])
 @login_required
@@ -427,6 +504,7 @@ def addpaymentmethod():
             payment = payment_method(payment_method=pay)
             db.session.add(payment)
             db.session.commit()
+            flash("Data added!", category=True)
         else:
             flash('Payment method already exists', category='error')
         print("check")
@@ -453,11 +531,6 @@ def employeereport():
 
         if(sdate > edate):
           flash("Start date should be before end date",category="False")
-
-        # print(sdate)
-        # print(edate)
-        # print(emp_id)
-        # print("check")
 
         else:
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
@@ -490,14 +563,116 @@ def dailyprice():
                 db.session.add(daily)
                 print("2")
             db.session.commit() 
+            flash("Data added!", category=True)
         else:
             flash("Enter date", category=False)  
         
         print("check")
         
     return render_template("dailyprice.html", user=current_user)
+
+
+
+@views.route('/delete_employee/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_employee(id):
+    employees = employee.query.get(id)
+    db.session.delete(employees)
+    db.session.commit()
+    flash('Employee details have been deleted!', 'success')
+    return redirect(url_for('views.employeemanager'))
     
 
+@views.route('/delete_bay/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_bay(id):
+    bay = bay_manager.query.get(id)
+    db.session.delete(bay)
+    db.session.commit()
+    flash('Bay details have been deleted!', 'success')
+    return redirect(url_for('views.baymanager'))
+
+@views.route('/delete_inventory/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_inventory(id):
+    item = inventory.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+    flash('Item details have been deleted!', 'success')
+    return redirect(url_for('views.invmanager'))
+
+@views.route('/delete_payment/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_payment(id):
+    pay = payment_method.query.get(id)
+    db.session.delete(pay)
+    db.session.commit()
+    flash('Item details have been deleted!', 'success')
+    return redirect(url_for('views.addpaymentmethod'))
+
+
+# @views.route('/employeereport/pdf')
+# # def pdf():
+
+# def index():
+
+#     sdate = request.form.get("sdate")
+#     if not sdate:
+#         sdate="2000-01-01"
+#     edate = request.form.get("edate")
+#     if not edate:
+#         edate="3000-01-01"
+#     emp_id = request.form.get("emp_id")
+#     salelist=[]
+#     if request.method == 'POST':
+#         format_str = '%Y-%m-%d'
+#         sdate_obj = datetime.datetime.strptime(sdate, format_str)
+#         edate_obj = datetime.datetime.strptime(edate, format_str)
+#         sdate_obj = sdate_obj - timedelta(days=1)
+
+#         if(sdate > edate):
+#           flash("Start date should be before end date",category="False")
+
+#         else:
+#             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
+
+#         print(salelist)
+#     employees=employee.query.all()
+#     # Generate some HTML code
+#     html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
+
+#     # Convert HTML to PDF
+#     options = {
+#         'page-size': 'A4',
+#         'margin-top': '0.75in',
+#         'margin-right': '0.75in',
+#         'margin-bottom': '0.75in',
+#         'margin-left': '0.75in',
+#     }
+#     pdf = pdfkit.from_string(html, False, options=options)
+
+#     # Return the PDF as a response
+#     response = make_response(pdf)
+#     response.headers['Content-Type'] = 'application/pdf'
+#     response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+#     return response
+
+
+
+    # html = render_template('template.html')
+    # pdf = HTML(string=html).write_pdf()
+    # response = make_response(pdf)
+    # response.headers['Content-Type'] = 'application/pdf'
+    # response.headers['Content-Disposition'] = 'attachment; filename=file.pdf'
+    # return response
+
+# def pdf_output(html):
+#     result = StringIO()
+#     pdf = pisa.CreatePDF(StringIO(html), result)
+#     if not pdf.err:
+#         return result.getvalue()
+#     else:
+#         return 'Error: {}'.format(pdf.err)
 
 
 
@@ -524,11 +699,3 @@ def dailyprice():
 
 
 
-
-
-
-
-
-
-
-1111111111111111111111111111111111111111111111

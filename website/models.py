@@ -15,7 +15,9 @@ class inventory(db.Model):
     price = db.Column(db.Integer)
 
 class fuel_reg(db.Model):
-    date = db.Column(db.Date, default=func.now(), primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
+    type = db.Column(db.String(10))
+    date = db.Column(db.Date, default=func.now())
     morning_density = db.Column(db.Float)
     morning_temp = db.Column(db.Float)
     density15 = db.Column(db.Float)
@@ -87,8 +89,9 @@ class sales(db.Model):
 
 class duty_posting(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    date = db.Column(db.Date) 
     emp_id = db.Column(db.Integer, db.ForeignKey('employee.emp_id'))
+    name = db.Column(db.String(150))
+    date = db.Column(db.Date) 
     shift = db.Column(db.Integer)
     bay = db.Column(db.Integer)
 
@@ -110,5 +113,6 @@ class daily_price(db.Model):
     hsd_price = db.Column(db.Float)
 
 class payment_method(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
     payment_method = db.Column(db.String(150), primary_key = True)
   

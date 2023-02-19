@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
 {% block title %}Daily Price{% endblock %}
 {% block content %}
-<h1 align="center" style="margin-top: 5%;">Daily Price</h1>
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+<h1 style="text-align: center; margin-top: 5%;">Daily Price</h1>
+<div style="margin: 5%; margin-top: 2%; border: 2px solid black; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey;">
+      <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%;">
             <form method="POST">
-
                   <div class="form-inline">
-                        Date:&nbsp;<input type="date" class="form-control" id="date" name="date">&nbsp;&nbsp;
+                        <label for="date" style="margin-right: 1em;">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date">
                   </div>
                   <br>
                   <div class="form-inline">
-                        MS:&nbsp;<input type="textarea" class="form-control" id="ms_price"
-                              name="ms_price" value="0">&nbsp;&nbsp;
-                  </div><br>
-                  <div class="form-inline">
-                        HSD:&nbsp;<input type="text" class="form-control" id="hsd_price" name="hsd_price" value="0">&nbsp;&nbsp;
+                        <label for="ms_price" style="margin-right: 1em;">MS:</label>
+                        <input type="textarea" class="form-control" id="ms_price" name="ms_price" value="0" required>
                   </div>
                   <br>
-                  <div align="center">
+                  <div class="form-inline">
+                        <label for="hsd_price" style="margin-right: 1em;">HSD:</label>
+                        <input type="text" class="form-control" id="hsd_price" name="hsd_price" value="0" required>
+                  </div>
+                  <br>
+                  <div style="text-align: center;">
                         <button type="submit" class="btn btn-primary">Add</button>
-
                   </div>
             </form>
       </div>
 </div>
+
+
+
+
+
 {% endblock %}

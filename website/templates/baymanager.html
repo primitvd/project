@@ -3,27 +3,28 @@
 {% block content %}
 
 <h1 align="center" style="margin-top: 5%;">Bay Manager</h1>
-<div
-      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+<div style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey;">
       {% for bay in bays %}
-
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-            Bay&nbsp;{{bay.bay_no}}
-            <p align="right">
-                  HSD:&nbsp;{{bay.hsd}}&nbsp;&nbsp;
-                  Ms:&nbsp;{{bay.ms}}&nbsp;&nbsp;
-            </p>
-
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 18px;">
+                  <div>
+                        Bay {{bay.bay_no}} &nbsp;&nbsp; HSD: {{bay.hsd}} &nbsp;&nbsp; MS: {{bay.ms}}
+                  </div>
+                  <form action="{{ url_for('views.delete_bay', id=bay.bay_no) }}" method="post" style="float: right;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+            </div>
       </div>
-      <br>
       {% endfor %}
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; margin-top: 20px;">
             <form class="form-inline" method="POST">
-
-                  MS:&nbsp;<input type="text" class="form-control" id="MS" name="MS">&nbsp;&nbsp;
-                  HSD:&nbsp;<input type="text" class="form-control" id="HSD" name="HSD">&nbsp;&nbsp;
-                  <button type="submit" class="btn btn-primary">Add Bay</button>
+                  <label for="MS" style="margin-right: 20px;">MS:</label>
+                  <input type="text" class="form-control" id="MS" name="MS" required>
+                  <label for="HSD" style="margin-left: 20px; margin-right: 20px;">HSD:</label>
+                  <input type="text" class="form-control" id="HSD" name="HSD" required>
+                  <button type="submit" class="btn btn-primary" style="margin-left: 20px; float: right;">Add Bay</button>
             </form>
       </div>
 </div>
+
 {% endblock %}

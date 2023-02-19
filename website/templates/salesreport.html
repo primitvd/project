@@ -24,109 +24,68 @@
             <form method="POST">
 
                   <div class="form-inline">
-                    <div style="margin-right: 10%;">
-                        Start Date:&nbsp;<input type="date" class="form-control" id="sdate" name="sdate">&nbsp;&nbsp;
-                    </div>
-                <div style="margin-right: 10%;">
-                        End Date:&nbsp;<input type="date" class="form-control" id="edate"
-                              name="edate">&nbsp;&nbsp;
-                            </div><br>
-                  
+                        <div style="margin-right: 10%;">
+                              Start Date:&nbsp;<input type="date" class="form-control" id="sdate"
+                                    name="sdate">&nbsp;&nbsp;
+                        </div>
+                        <div style="margin-right: 10%;">
+                              End Date:&nbsp;<input type="date" class="form-control" id="edate"
+                                    name="edate">&nbsp;&nbsp;
+                        </div><br>
+
                         <button type="submit" class="btn btn-primary">Search</button>
 
                   </div>
             </form><br>
-            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 0%;">
-                  <table style="width: 100%;">
-                        <tr>
-                              <th>
-                                    Sale ID
-                              </th>
-                              <th>
-                                    Date
-                              </th>
-                              <th>
-                                    Employee
-                              </th>
-                              <th>
-                                    Date
-                              </th>
-                              <th>
-                                    Shift
-                              </th>
-                              <th>
-                                    MS Sales
-                              </th>
-                              <th>
-                                    MS Amount
-                              </th>
-                              <th>
-                                    HSD Sales                                    
-                              </th>
-                              <th>
-                                    HSD Amount
-                              </th>
-                              <th>
-                                    Sale Total                                    
-                              </th>
-                              <th>
-                                    Collected Amount
-                              </th>
-                              <th>
-                                   Difference 
-                              </th>
-                        </tr>
-
-                        {% for sale in salelist %}
-
-                        <tr>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}                                 
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}                                  
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                              <td>
-                                    {{sale.sid}}
-                              </td>
-                        </tr> 
-                        {% endfor %}
-                  </table>
-
-            
-            </div>
-            <br>
-            <!-- <p>Get detailed report:
-            <a href=Report>Download</a></p> -->
-            
-
+            <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 0%;"> -->
+                  <div class="mt-3">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sale ID</th>
+                                    <th>Employee ID</th>
+                                    <th>Bay</th>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                    <th>MS Sales</th>
+                                    <th>MS Amount</th>
+                                    <th>HSD Sales</th>
+                                    <th>HSD Amount</th>
+                                    <th>Sale Total</th>
+                                    <th>Collected Total</th>
+                                    <th>Difference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% set ms_sales = 0 %}
+                              {% set ms_amount = 0 %}
+                              {% set hsd_sales = 0 %}
+                              {% set hsd_amount = 0 %}
+                                {% for sale in salelist %}
+                                <tr>
+                                    <td>{{sale.sid}}</td>
+                                    <td>{{sale.emp_id}}</td>
+                                    <td>{{sale.bay}}</td>
+                                    <td>{{sale.date}}</td>
+                                    <td>{{sale.shift}}</td>
+                                    <td>{{sale.ms_sales}}{% set ms_sales = ms_sales + 1 %}</td>
+                                    <td>{{sale.ms_amount}}{% set ms_amount = ms_amount + 1 %}</td>
+                                    <td>{{sale.hsd_sales}}{% set hsd_sales = hsd_sales + 1 %}</td>
+                                    <td>{{sale.hsd_amount}}{% set hsd_amount = hsd_amount + 1 %}</td>
+                                    <td>{{sale.stotal}}</td>
+                                    <td>{{sale.dtotal}}</td>
+                                    <td>{{sale.diff}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
       </div>
+      <br>
+      <!-- <p>Get detailed report:
+            <a href=Report>Download</a></p> -->
+
+
+</div>
 </div>
 {% endblock %}

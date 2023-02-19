@@ -2,42 +2,49 @@
 {% block title %}Certificates{% endblock %}
 {% block content %}
 
-<h1 align="center" style="margin-top: 5%;">Certificates</h1>
-<div
-      style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
-      {% for certificate in certificates %}
+<h1 style="text-align: center; margin-top: 5%;">Certificates</h1>
+<div style="margin: 5%; margin-top: 2%; border: 2px solid black; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey;">
 
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-            Name:&nbsp;{{certificate.name}}
-            <p align="right">
-                  Issue Date:&nbsp;{{certificate.issue_date}}&nbsp;&nbsp;
-                  Expiry Date:&nbsp;{{certificate.exp_date}}&nbsp;&nbsp;
-                  <a href="/certificates/{{certificate.name}}">{{certificate.name}}</a>
-            </p>
+  {% for certificate in certificates %}
 
+  <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%;">
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
+      <div style="font-weight: bold;">{{certificate.name}}</div>
+      <div>
+        Issue Date: {{certificate.issue_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Expiry Date: {{certificate.exp_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/certificates/{{certificate.name}}" target="_blank">View</a>
       </div>
-      <br>
-      {% endfor %}
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-            <form method="POST" enctype="multipart/form-data">
+    </div>
+  </div>
+  <br>
 
-                  <div class="form-inline">
-                        Name:&nbsp;<input type="text" class="form-control" id="name" name="name">&nbsp;&nbsp;
-                        Issue Date:&nbsp;<input type="date" class="form-control" id="issue_date"
-                              name="issue_date">&nbsp;&nbsp;
-                        Expiry Date:&nbsp;<input type="date" class="form-control" id="exp_date"
-                              name="exp_date">&nbsp;&nbsp;
-                  </div>
-                  <br>
-                  <div class="form-inline">
-                        <input type="file" class="form-control" id="file" name="file">
-                  </div>
-                  <br>
-                  <div align="center">
-                        <button type="submit" class="btn btn-primary">Add</button>
+  {% endfor %}
 
-                  </div>
-            </form>
+  <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%; margin-top: 20px;">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name" style="font-weight: bold;">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
       </div>
+      <div class="form-group">
+        <label for="issue_date" style="font-weight: bold;">Issue Date:</label>
+        <input type="date" class="form-control" id="issue_date" name="issue_date" required>
+      </div>
+      <div class="form-group">
+        <label for="exp_date" style="font-weight: bold;">Expiry Date:</label>
+        <input type="date" class="form-control" id="exp_date" name="exp_date" required>
+      </div>
+      <div class="form-group">
+        <label for="file" style="font-weight: bold;">Upload Certificate:</label>
+        <input type="file" class="form-control" id="file" name="file" accept="application/pdf" required>
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary">Add Certificate</button>
+      </div>
+    </form>
+  </div>
+
 </div>
+
 {% endblock %}

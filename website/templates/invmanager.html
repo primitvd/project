@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}inventory manager{% endblock %}
 {% block content %}
-<h1 align="center" style="margin-top: 5%;">Employee Manager</h1>
+<h1 align="center" style="margin-top: 5%;">Inventory Manager</h1>
 <div
       style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
       {% for item in items %}
 
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%">
-            Item ID:&nbsp;{{item.inv_id}}
-            Name:&nbsp;{{item.name}}
-            Stock:&nbsp;{{item.stock}}&nbsp;&nbsp;
-            Price:&nbsp;{{item.price}}&nbsp;&nbsp;
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div>
+            Item ID:&nbsp;{{item.inv_id}}&nbsp;&nbsp;&nbsp;&nbsp;
+            Name:&nbsp;{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;
+            Stock:&nbsp;{{item.stock}}&nbsp;&nbsp;&nbsp;&nbsp;
+            Price:&nbsp;{{item.price}}&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+            <form action="{{ url_for('views.delete_inventory', id=item.inv_id) }}" method="post" style="float: right;">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            </div>
       </div>
       <br>
       {% endfor %}
@@ -23,10 +30,10 @@
                   <br>
                   <div class="form-inline">
                         Stock:&nbsp;<input type="textarea" class="form-control" id="stock"
-                              name="stock">&nbsp;&nbsp;
+                              name="stock" value="0">&nbsp;&nbsp;
                   </div><br>
                   <div class="form-inline">
-                        Price:&nbsp;<input type="text" class="form-control" id="price" name="price">&nbsp;&nbsp;
+                        Price:&nbsp;<input type="text" class="form-control" id="price" name="price" value="0">&nbsp;&nbsp;
                   </div>
                   <br>
                   <div align="center">

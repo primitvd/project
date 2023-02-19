@@ -7,8 +7,14 @@
             style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 
             <div class="form-group form-inline">
-                  <label for="date">Date:</label>
-                  <input type="date" class="form-control" id="date" name="date" value="{{check.date}}"/>
+                  <label for="date">Date:&nbsp;</label>
+                  <input type="date" class="form-control" id="date" name="date" value="{{check.date}}" style="margin-right: 10%;"/>
+                  <label for="type">Fuel:</label>
+                  <select id="type" name="type" style="margin-right: 5%; margin-top: 5%; margin-bottom: 5%;">
+                              <option value="MS">MS</option>
+                              <option value="HSD">HSD</option>
+                  </select>
+
             </div>
             <br>
             <h4>Morning Density Observed</h4>
@@ -17,16 +23,16 @@
                   <div class="form-group form-inline">
                         <label for="morning_density">Density:&nbsp;</label>
                         <input type="text" class="form-control" id="morning_density" name="morning_density"
-                              style="margin-right: 10%;" onchange="cal()" value="{{check.date}}"/>
+                              style="margin-right: 10%;" onchange="cal()" value="{{check.morning_density}}"/>
 
                         <label for="morning_temp">Temperature:&nbsp;</label>
-                        <input type="text" class="form-control" id="morning_temp" name="morning_temp" onchange="cal()" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="morning_temp" name="morning_temp" onchange="cal()" value="{{check.morning_temp}}"/>
                   </div>
 
                   <br>
                   <div class="form-group form-inline">
                         <label for="density15">Density converted to 15<sup>o</sup>:&nbsp;</label>
-                        <input type="text" class="form-control" id="density15" name="density15" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="density15" name="density15" value="{{check.density15}}"/>
                   </div>
             </div>
       </div>
@@ -38,10 +44,10 @@
                   <div class="form-group form-inline">
                         <label for="rec_invoice">Invoice Number:&nbsp;</label>
                         <input type="text" class="form-control" id="rec_invoice" name="rec_invoice"
-                              style="margin-right: 10%;" value="{{check.date}}"/>
+                              style="margin-right: 10%;" value="{{check.rec_invoice}}"/>
 
                         <label for="rec_qty">Quantity&nbsp;</label>
-                        <input type="text" class="form-control" id="rec_qty" name="rec_qty" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="rec_qty" name="rec_qty" value="{{check.rec_qty}}"/>
                   </div>
 
                   <br>
@@ -49,15 +55,15 @@
                   <div class="form-group form-inline">
                         <label for="rec_obs_density">Density&nbsp;</label>
                         <input type="text" class="form-control" id="rec_obs_density" name="rec_obs_density"
-                              style="margin-right: 10%;" onchange="cal()" value="{{check.date}}"/>
+                              style="margin-right: 10%;" onchange="cal()" value="{{check.rec_obs_density}}"/>
 
                         <label for="rec_obs_temp">Temperature&nbsp;</label>
-                        <input type="text" class="form-control" id="rec_obs_temp" name="rec_obs_temp" onchange="cal()" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="rec_obs_temp" name="rec_obs_temp" onchange="cal()" value="{{check.rec_obs_temp}}"/>
                   </div>
                   <br>
                   <div class="form-group form-inline">
                         <label for="rec_density15">Density converted to 15<sup>o</sup>:&nbsp;</label>
-                        <input type="text" class="form-control" id="rec_density15" name="rec_density15" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="rec_density15" name="rec_density15" value="{{check.rec_density15}}"/>
                   </div>
             </div>
       </div>
@@ -70,10 +76,10 @@
                   <div class="form-group form-inline">
                         <label for="cash_density15">Density at 15<sup>o</sup>:&nbsp;</label>
                         <input type="text" class="form-control" id="cash_density15" name="cash_density15"
-                              style="margin-right: 10%;" onchange="cal()" value="{{check.date}}"/>
+                              style="margin-right: 10%;" onchange="cal()" value="{{check.cash_density15}}"/>
 
                         <label for="diff">Difference between 9 & 10:&nbsp;</label>
-                        <input type="text" class="form-control" id="diff" name="diff" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="diff" name="diff" value="{{check.diff}}"/>
                   </div>
             </div>
       </div>
@@ -87,16 +93,16 @@
                   <div class="form-group form-inline">
                         <label for="afterdeca_obs_density">Density&nbsp;</label>
                         <input type="text" class="form-control" id="afterdeca_obs_density" name="afterdeca_obs_density"
-                              style="margin-right: 10%;" onchange="cal()" value="{{check.date}}"/>
+                              style="margin-right: 10%;" onchange="cal()" value="{{check.afterdeca_obs_density}}"/>
 
                         <label for="afterdeca_obs_tem">Temperature&nbsp;</label>
-                        <input type="text" class="form-control" id="afterdeca_obs_temp" name="afterdeca_obs_temp" onchange="cal()" value="{{check.date}}"/>
+                        <input type="text" class="form-control" id="afterdeca_obs_temp" name="afterdeca_obs_temp" onchange="cal()" value="{{check.afterdeca_obs_temp}}"/>
                   </div>
                   <br>
                   <div class="form-group form-inline">
                         <label for="afterdeca_obs_density15">Density converted to 15<sup>o</sup>:&nbsp;</label>
                         <input type="text" class="form-control" id="afterdeca_obs_density15"
-                              name="afterdeca_obs_density15" value="{{check.date}}"/>
+                              name="afterdeca_obs_density15" value="{{check.afterdeca_obs_density15}}"/>
                   </div>
             </div>
             <br>
