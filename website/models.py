@@ -21,7 +21,7 @@ class fuel_reg(db.Model):
     density15 = db.Column(db.Float)
     rec_invoice = db.Column(db.Integer)
     rec_qty = db.Column(db.Float)
-    rec_obs_desity = db.Column(db.Float)
+    rec_obs_density = db.Column(db.Float)
     rec_obs_temp = db.Column(db.Float)
     rec_density15 = db.Column(db.Float)
     cash_density15 = db.Column(db.Float)
@@ -34,7 +34,7 @@ class employee(db.Model):
     emp_id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150))
     dob = db.Column(db.Date)
-    address = db.Column(db.String(300))
+    address = db.Column(db.String(150))
     phone = db.Column(db.String(150))
     emp_id_sales = db.relationship('sales')
     emp_id_duty = db.relationship('duty_posting')
@@ -98,10 +98,11 @@ class bay_manager(db.Model):
     ms = db.Column(db.Integer)
 
 class certificate(db.Model):
-    name = db.Column(db.String(200), primary_key = True)
+    name = db.Column(db.String(150), primary_key = True)
+    file_name = db.Column(db.String(150))
     exp_date = db.Column(db.Date)
     issue_date = db.Column(db.Date)
-    file = db.Column(db.BLOB)
+    file = db.Column(db.LargeBinary)
 
 class daily_price(db.Model):
     date = db.Column(db.Date, default=func.now(), primary_key = True)
@@ -109,5 +110,5 @@ class daily_price(db.Model):
     hsd_price = db.Column(db.Float)
 
 class payment_method(db.Model):
-    payment_method = db.Column(db.String(100), primary_key = True)
+    payment_method = db.Column(db.String(150), primary_key = True)
   

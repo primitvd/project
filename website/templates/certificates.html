@@ -12,14 +12,14 @@
             <p align="right">
                   Issue Date:&nbsp;{{certificate.issue_date}}&nbsp;&nbsp;
                   Expiry Date:&nbsp;{{certificate.exp_date}}&nbsp;&nbsp;
-                  <a href="">{{certificate.name}}</a>
+                  <a href="/certificates/{{certificate.name}}">{{certificate.name}}</a>
             </p>
 
       </div>
       <br>
       {% endfor %}
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
 
                   <div class="form-inline">
                         Name:&nbsp;<input type="text" class="form-control" id="name" name="name">&nbsp;&nbsp;

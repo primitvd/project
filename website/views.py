@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request, flash, Response, make_response
+from io import BytesIO
+from flask import Blueprint, render_template, request, flash, Response, make_response, send_file
 from flask_login import current_user, login_required
 from sqlalchemy import and_
 from .models import *
 from . import db
 import datetime
-from datetime import date
+from datetime import date, timedelta
 from sqlalchemy.sql import func
 import pdfkit
 # from fpdf import FPDF
@@ -14,6 +15,12 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET','POST'])
 @login_required
 def home():
+    format_str = '%Y-%m-%d'
+    date = datetime.datetime.now().strftime(format_str)
+    print(date)
+    
+    check = db.session.query(daily_price).filter(daily_price.date == date).all()
+    print(check)
 
     # sdate_obj = datetime.datetime.now()
     # edate_obj = datetime.datetime.now()
@@ -21,7 +28,6 @@ def home():
     # print(salelist)
 
 
-    check = 0
     a = 1
     if not check:
         a = 0
@@ -63,12 +69,18 @@ def dailysales():
     pinelabs = request.form.get("pinelabs")
     dtotal = request.form.get("dtotal")
     diff = request.form.get("diff")
+    format_str = '%Y-%m-%d'
+    date1 = datetime.datetime.now().strftime(format_str)
+    print(date1)
+    
+    daily = db.session.query(duty_posting).filter(duty_posting.date == date1).all()
+    print(daily)
     
     if request.method == 'POST':
-        format_str = '%Y-%m-%d'
+        
         date_obj = datetime.datetime.strptime(date, format_str)
         print("check")
-        sale = sales.query.filter(date=date_obj).first()
+        sale = sales.query.filter_by(date = date_obj).first()
         # if sale:
         #     if sale.emp_id==emp_id and sale.shift==shift:
         #         print(sales)
@@ -86,8 +98,12 @@ def dailysales():
         for item in items:
             units_sold = int(request.form.get("units_sold"+str(item.inv_id)))
             amount = request.form.get("units_sale"+str(item.inv_id))
-            item1 = inventory.query.filter(inv_id=item.inv_id).first()
+            item1 = inventory.query.filter_by(inv_id = item.inv_id).first()
             item1.stock -= units_sold
+
+
+
+
             # print(units_sold)
             # print(amount)
 
@@ -108,7 +124,7 @@ def dailysales():
     employees = employee.query.all()
     salelist=[]
     #salelist = db.session.query(sales).filter(sales.emp_id == "2").all()
-    print(salelist)
+    #print(salelist)
     # for k in sales1:
     #     print(k)
 
@@ -144,13 +160,15 @@ def certificates():
     name = request.form.get("name")
     issue_date = request.form.get("issue_date")
     exp_date = request.form.get("exp_date")
-    file = request.form.get("file")
+    
     print(func.now)
     if request.method == 'POST':
+        file = request.files["file"]
+
         format_str = '%Y-%m-%d'
         issue_date_obj = datetime.datetime.strptime(issue_date, format_str)
         exp_date_obj = datetime.datetime.strptime(exp_date, format_str)
-        new_certificate = certificate(name=name, exp_date=exp_date_obj, issue_date=issue_date_obj)
+        new_certificate = certificate(name=name, file_name = file.filename, exp_date=exp_date_obj, issue_date=issue_date_obj, file=file.read())
         db.session.add(new_certificate)
         db.session.commit()
         print("check")
@@ -161,6 +179,11 @@ def certificates():
     # print(datetime_obj)
     certificates = certificate.query.all()
     return render_template("certificates.html",certificates=certificates, user=current_user)
+
+@views.route('/certificates/<name>')
+def download(name):
+    upload = certificate.query.filter_by(name=name).first()
+    return send_file(BytesIO(upload.file),download_name=upload.file_name)
 
 @views.route('/dutyposting', methods=['GET','POST'])
 @login_required
@@ -192,7 +215,7 @@ def dutyposting():
     print(bay1)
     employees = employee.query.all()
     print(employees)
-    dutyposting = duty_posting.query.filter(date=date).all()
+    dutyposting = duty_posting.query.filter_by(date=date).all()
     print(dutyposting)
     return render_template("dutyposting.html", user=current_user, employees = employees, name = name, shift = shift1, bay = bay1, dutyposting=dutyposting)
 
@@ -217,10 +240,55 @@ def employeemanager():
 @views.route('/fueldetails', methods=['GET','POST'])
 @login_required
 def fueldetails():
+    date = request.form.get("date")
+    morning_density = request.form.get("morning_density")
+    morning_temp = request.form.get("morning_temp")
+    density15 = request.form.get("density15")
+    rec_invoice = request.form.get("rec_invoice")
+    rec_qty = request.form.get("rec_qty")
+    rec_obs_density = request.form.get("rec_obs_density")
+    rec_obs_temp = request.form.get("rec_obs_temp")
+    rec_density15 = request.form.get("rec_density15")
+    cash_density15 = request.form.get("cash_density15")
+    diff = request.form.get("diff")
+    afterdeca_obs_density = request.form.get("afterdeca_obs_density")
+    afterdeca_obs_temp = request.form.get("afterdeca_obs_temp")
+    afterdeca_obs_density15 = request.form.get("afterdeca_obs_density15")
+
+
+    format_str = '%Y-%m-%d'
+    if not date:    
+        date_obj = datetime.datetime.now().strftime(format_str)
+        print(date_obj)
+    else:
+        date_obj = datetime.datetime.strptime(date, format_str)
+    
+    check = db.session.query(fuel_reg).filter(date == date_obj).first()
+    print(check)
+    
 
     if request.method == 'POST':
+        if not check:
+            newfuel = fuel_reg(date=date_obj, morning_density=morning_density, morning_temp=morning_temp, density15=density15, rec_invoice=rec_invoice, rec_qty=rec_qty, rec_obs_density=rec_obs_density, rec_obs_temp=rec_obs_temp, rec_density15=rec_density15, cash_density15=cash_density15, diff=diff, afterdeca_obs_density=afterdeca_obs_density, afterdeca_obs_temp=afterdeca_obs_temp, afterdeca_obs_density15=afterdeca_obs_density15)
+            db.session.add(newfuel)
+        else:
+            check.date=date_obj
+            check.morning_density=morning_density
+            check.morning_temp=morning_temp
+            check.density15=density15
+            check.rec_invoice=rec_invoice
+            check.rec_qty=rec_qty
+            check.rec_obs_density=rec_obs_density
+            check.rec_obs_temp=rec_obs_temp
+            check.rec_density15=rec_density15
+            check.cash_density15=cash_density15
+            check.diff=diff
+            check.afterdeca_obs_density=afterdeca_obs_density
+            check.afterdeca_obs_temp=afterdeca_obs_temp
+            check.afterdeca_obs_density15=afterdeca_obs_density15
+        db.session.commit()
         print("check")
-    return render_template("fueldetails.html", user=current_user)
+    return render_template("fueldetails.html", user=current_user, check=check)
 
 @views.route('/invmanager', methods=['GET','POST'])
 @login_required
@@ -271,28 +339,28 @@ def inventoryreport():
 @login_required
 def salesreport():
     sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
     edate = request.form.get("edate")
-    print(sdate)
-    print(edate)
+    if not edate:
+        edate="3000-01-01"
     salelist = []
     # pdf = FPDF()
     # pdf.add_page()
     if request.method == 'POST':
         if(sdate > edate):
           flash("Start date should be before end date",category="False")
-
-        if(sdate == '' or edate == ''):
-           flash("Please select both dates",category="False")
         
         else:
             format_str = '%Y-%m-%d'
             sdate_obj = datetime.datetime.strptime(sdate, format_str)
             edate_obj = datetime.datetime.strptime(edate, format_str)
+            sdate_obj = sdate_obj - timedelta(days=1)
+
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
             print(salelist)
 
 
-            result = logins.query.all()
 
             
 		
@@ -370,25 +438,29 @@ def addpaymentmethod():
 @login_required
 def employeereport():
     sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
     edate = request.form.get("edate")
+    if not edate:
+        edate="3000-01-01"
     emp_id = request.form.get("emp_id")
-    print(sdate)
-    print(edate)
     salelist=[]
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
         sdate_obj = datetime.datetime.strptime(sdate, format_str)
         edate_obj = datetime.datetime.strptime(edate, format_str)
-        print(sdate)
-        print(edate)
-        print(emp_id)
-        print("check")
-        #salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+        sdate_obj = sdate_obj - timedelta(days=1)
 
+        if(sdate > edate):
+          flash("Start date should be before end date",category="False")
 
-        salelist = db.session.query(sales).filter(
-        sales.date.between(sdate_obj, edate_obj),
-        sales.emp_id == emp_id).all()
+        # print(sdate)
+        # print(edate)
+        # print(emp_id)
+        # print("check")
+
+        else:
+            salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
 
         print(salelist)
     employees=employee.query.all()
@@ -402,26 +474,61 @@ def dailyprice():
     hsd = request.form.get("hsd_price")
     
     if request.method == 'POST':
-        # print(date)
-        # print(ms)
-        # print(hsd)
         if date1:
             format_str = '%Y-%m-%d'
-            date_obj = datetime.date.strptime(date1, format_str)
+            date1_obj = datetime.datetime.strptime(date1, format_str)
+            date_obj = datetime.datetime.strptime(date1, format_str).strftime(format_str)
             print(date_obj)
-            daily = db.session.query(daily_price).filter(date == date_obj).first()
+            daily = db.session.query(daily_price).filter(daily_price.date == date_obj).first()
+            print(daily)
             if daily:
                 daily.ms_price = ms
                 daily.hsd_price = hsd
                 print("1")
             else:
-                daily = daily_price(date=date_obj,ms_price=ms,hsd_price=hsd)
+                daily = daily_price(date=date1_obj,ms_price=ms,hsd_price=hsd)
                 db.session.add(daily)
                 print("2")
-            #db.session.commit() 
+            db.session.commit() 
         else:
             flash("Enter date", category=False)  
         
         print("check")
         
     return render_template("dailyprice.html", user=current_user)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1111111111111111111111111111111111111111111111
