@@ -48,8 +48,10 @@
 
                 </form>
             </div>
-            <div class="mt-3">
-                <table class="table table-bordered table-hover">
+            {% if salelist: %}
+            <div class="mt-3" style="overflow-x: auto;">
+                
+                <table class="table table-bordered table-hover" >
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -79,10 +81,23 @@
                             <td>{{sale.diff}}</td>
                         </tr>
                         {% endfor %}
+                        <tr>
+                            <th colspan="2">Total</th>
+                            <td>{{salelist | length}}</td>
+                            <td>{{ salelist | sum(attribute='ms_sales') }}</td>
+                            <td>{{ salelist | sum(attribute='ms_amount') }}</td>
+                            <td>{{ salelist | sum(attribute='hsd_sales') }}</td>
+                            <td>{{ salelist | sum(attribute='hsd_amount') }}</td>
+                            <td>{{ salelist | sum(attribute='stotal') }}</td>
+                            <td>{{ salelist | sum(attribute='dtotal') }}</td>
+                            <td>{{ salelist | sum(attribute='diff') }}</td>
+                        </tr>
                     </tbody>
                 </table>
+                
             </div>
-            <!-- <a href="/employeereport/pdf">download</a> -->
+            {% endif %}
+            <a href={{response}} download="output.pdf">download</a>
         </div>
     </div>
 {% endblock %}

@@ -9,13 +9,19 @@
 
   <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%;">
     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
-      <div style="font-weight: bold;">{{certificate.name}}</div>
-      <div>
+      <div style="font-weight: bold; margin-right: 10%;">{{certificate.name}}</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
+        <div>
         Issue Date: {{certificate.issue_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Expiry Date: {{certificate.exp_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/certificates/{{certificate.name}}" target="_blank">View</a>
+        <a href="/certificates/{{certificate.name}}" >View</a>
       </div>
+      <form action="{{ url_for('views.delete_employee', id=certificate.name) }}" method="post" style="margin-left: 10px;">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
     </div>
+    </div>
+
   </div>
   <br>
 
@@ -37,7 +43,7 @@
       </div>
       <div class="form-group">
         <label for="file" style="font-weight: bold;">Upload Certificate:</label>
-        <input type="file" class="form-control" id="file" name="file" accept="application/pdf" required>
+        <input type="file" class="form-control" id="file" name="file" accept="application" required>
       </div>
       <div style="text-align: center;">
         <button type="submit" class="btn btn-primary">Add Certificate</button>

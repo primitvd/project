@@ -15,12 +15,13 @@
 </head>
 
 
-<h1 align="center" style="margin-top: 5%;">Sales Report</h1>
-<div
-      style="margin: 0%; margin-top: 2%; border: black 2px; padding: 2%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+<div class="container-fluid">
+      <h1 align="center" style="margin-top: 5%;"> Report</h1>
+      <div
+          style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 1%;">
-            <form method="POST">
+          <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+              <form method="POST">
 
                   <div class="form-inline">
                         <div style="margin-right: 10%;">
@@ -30,15 +31,23 @@
                         <div style="margin-right: 10%;">
                               End Date:&nbsp;<input type="date" class="form-control" id="edate"
                                     name="edate">&nbsp;&nbsp;
-                        </div><br>
+                        </div>
+                        <label for="type">Fuel:</label>
+                  <select id="type" name="type" style="margin-right: 5%;">
+                              <option value="MS">MS</option>
+                              <option value="HSD">HSD</option>
+                  </select>
+                        <br>
+                        
 
                         <button type="submit" class="btn btn-primary">Search</button>
 
                   </div>
             </form><br>
             <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 0%;"> -->
-                  <div class="mt-3">
-                        <table class="table table-bordered table-hover">
+                  {% if salelist: %}
+                  <div class="mt-3" style="overflow-x: auto;">
+                        <table class="table table-bordered table-hover" >
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -83,6 +92,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {% endif %}
       </div>
       <br>
       <!-- <p>Get detailed report:

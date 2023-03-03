@@ -112,7 +112,7 @@ class daily_price(db.Model):
     ms_price = db.Column(db.Float)
     hsd_price = db.Column(db.Float)
 
-class payment_method(db.Model):
+class payment_methods(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    payment_method = db.Column(db.String(150), primary_key = True)
+    payment_method = db.Column(db.String(150))
   

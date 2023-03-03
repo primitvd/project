@@ -140,7 +140,7 @@ def dailysales():
     # print(sales1.hsd_amount)
     # print(sales1.ms_amount)
 
-    pays = payment_method.query.all()
+    pays = payment_methods.query.all()
     # print(pays)
     return render_template("dailysales.html",user=current_user, employees=employees, items=items, bays=bays, pays=pays, daily=daily)
 
@@ -384,6 +384,7 @@ def fuelregister():
     edate = request.form.get("edate")
     if not edate:
         edate="3000-01-01"
+    type = request.form.get("type")
     salelist=[]
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
@@ -400,7 +401,7 @@ def fuelregister():
         # print("check")
 
         else:
-            salelist = db.session.query(fuel_reg).filter(fuel_reg.date.between(sdate_obj, edate_obj)).all()
+            salelist = db.session.query(fuel_reg).filter(fuel_reg.date.between(sdate_obj, edate_obj),fuel_reg.type == type).all()
 
         print(salelist)
     return render_template("fuelregister.html", user=current_user, salelist=salelist)
@@ -494,27 +495,25 @@ def salesreport():
         print("check")
     return render_template("salesreport.html", user=current_user, salelist=salelist)
 
-@views.route('/addpaymentmethod', methods=['GET','POST'])
+
+@views.route('/addpaymentmethod', methods=['GET', 'POST'])
 @login_required
 def addpaymentmethod():
     pay = request.form.get("payment_method")
-    pays = []
+    pays = payment_methods.query.all()
     if request.method == 'POST':
-        if not pays:
-            payment = payment_method(payment_method=pay)
-            db.session.add(payment)
-            db.session.commit()
-            flash("Data added!", category=True)
-        else:
-            flash('Payment method already exists', category='error')
-        print("check")
-    pays = payment_method.query.all()
+        payment = payment_methods(payment_method=pay)
+        db.session.add(payment)
+        db.session.commit()
+        flash("Data added!", category=True)
+    print("check")
     return render_template("addpaymentmethod.html", user=current_user, pays=pays)
 
 
 @views.route('/employeereport', methods=['GET','POST'])
 @login_required
 def employeereport():
+    employees=employee.query.all()
     sdate = request.form.get("sdate")
     if not sdate:
         sdate="2000-01-01"
@@ -523,6 +522,7 @@ def employeereport():
         edate="3000-01-01"
     emp_id = request.form.get("emp_id")
     salelist=[]
+    response = make_response()
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
         sdate_obj = datetime.datetime.strptime(sdate, format_str)
@@ -536,8 +536,24 @@ def employeereport():
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
 
         print(salelist)
-    employees=employee.query.all()
-    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
+        html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
+
+    # Convert HTML to PDF
+        options = {
+            'page-size': 'A4',
+            'margin-top': '0.75in',
+            'margin-right': '0.75in',
+            'margin-bottom': '0.75in',
+            'margin-left': '0.75in',
+            }
+        pdf = pdfkit.from_string(html, False, options=options)
+
+    # Return the PDF as a response
+        response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+    
+    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, response = response)
 
 @views.route('/dailyprice', methods=['GET','POST'])
 @login_required
@@ -604,58 +620,55 @@ def delete_inventory(id):
 @views.route('/delete_payment/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_payment(id):
-    pay = payment_method.query.get(id)
+    pay = payment_methods.query.get(id)
     db.session.delete(pay)
     db.session.commit()
     flash('Item details have been deleted!', 'success')
     return redirect(url_for('views.addpaymentmethod'))
 
 
-# @views.route('/employeereport/pdf')
-# # def pdf():
+@views.route('/employeereport/pdf')
+def pdf():
+    sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
+    edate = request.form.get("edate")
+    if not edate:
+        edate="3000-01-01"
+    emp_id = request.form.get("emp_id")
+    salelist=[]
+    if request.method == 'POST':
+        format_str = '%Y-%m-%d'
+        sdate_obj = datetime.datetime.strptime(sdate, format_str)
+        edate_obj = datetime.datetime.strptime(edate, format_str)
+        sdate_obj = sdate_obj - timedelta(days=1)
 
-# def index():
+        if(sdate > edate):
+          flash("Start date should be before end date",category="False")
 
-#     sdate = request.form.get("sdate")
-#     if not sdate:
-#         sdate="2000-01-01"
-#     edate = request.form.get("edate")
-#     if not edate:
-#         edate="3000-01-01"
-#     emp_id = request.form.get("emp_id")
-#     salelist=[]
-#     if request.method == 'POST':
-#         format_str = '%Y-%m-%d'
-#         sdate_obj = datetime.datetime.strptime(sdate, format_str)
-#         edate_obj = datetime.datetime.strptime(edate, format_str)
-#         sdate_obj = sdate_obj - timedelta(days=1)
+        else:
+            salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
 
-#         if(sdate > edate):
-#           flash("Start date should be before end date",category="False")
+        print(salelist)
+    employees=employee.query.all()
+    # Generate some HTML code
+    html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
 
-#         else:
-#             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
+    # Convert HTML to PDF
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
 
-#         print(salelist)
-#     employees=employee.query.all()
-#     # Generate some HTML code
-#     html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
-
-#     # Convert HTML to PDF
-#     options = {
-#         'page-size': 'A4',
-#         'margin-top': '0.75in',
-#         'margin-right': '0.75in',
-#         'margin-bottom': '0.75in',
-#         'margin-left': '0.75in',
-#     }
-#     pdf = pdfkit.from_string(html, False, options=options)
-
-#     # Return the PDF as a response
-#     response = make_response(pdf)
-#     response.headers['Content-Type'] = 'application/pdf'
-#     response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
-#     return response
+    # Return the PDF as a response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+    return response
 
 
 

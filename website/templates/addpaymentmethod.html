@@ -3,15 +3,16 @@
 {% block content %}
 
 <h1 align="center" style="margin-top: 5%;">Payment Methods</h1>
-<div style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+<div
+    style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
     <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
         {% for pay in pays %}
         <div>{{ pay.payment_method }}
 
             <form action="{{ url_for('views.delete_payment', id=pay.id) }}" method="post">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
         </div>
         <hr>
         {% endfor %}
@@ -27,5 +28,5 @@
         </form>
     </div>
 </div>
- 
+
 {% endblock %}
