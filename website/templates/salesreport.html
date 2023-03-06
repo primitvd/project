@@ -36,7 +36,14 @@
                         <button type="submit" class="btn btn-primary">Search</button>
 
                   </div>
-            </form><br>
+            </form>
+            <div>
+                  {% if salelist: %}
+                  <a href="{{ url_for('views.salespdf', sdate=sdate, edate=edate) }}" style="float: right;">
+                        <button class="btn btn-info">PDF</button>
+                    </a>
+                  {% endif %}
+            </div><br>
             <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 0%;"> -->
                   
                   {% if salelist: %}
@@ -89,7 +96,10 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+                        <!-- <br>
+                        <a href="{{ url_for('views.salespdf', sdate=sdate, edate=edate) }}" style="float: right;">
+                              <button type="submit" class="btn btn-info">PDF</button>
+                          </a><br> -->
                     </div>
                     {% endif %}
       </div>
@@ -97,7 +107,8 @@
       <!-- <p>Get detailed report:
             <a href=Report>Download</a></p> -->
 
-
+            <!-- <a href={{response}} download="output.pdf">download</a> -->
+            
 </div>
 </div>
 {% endblock %}

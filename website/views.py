@@ -416,7 +416,7 @@ def fuelregister():
             salelist = db.session.query(fuel_reg).filter(fuel_reg.date.between(sdate_obj, edate_obj),fuel_reg.type == type).all()
 
         print(salelist)
-    return render_template("fuelregister.html", user=current_user, salelist=salelist)
+    return render_template("fuelregister.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, type=type)
 
 @views.route('/inventoryreport', methods=['GET','POST'])
 @login_required
@@ -505,7 +505,7 @@ def salesreport():
 
 
         print("check")
-    return render_template("salesreport.html", user=current_user, salelist=salelist)
+    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate)
 
 
 @views.route('/addpaymentmethod', methods=['GET', 'POST'])
@@ -547,23 +547,22 @@ def employeereport():
         else:
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
 
-        print(salelist)
-        html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
+    #     html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
 
-    # Convert HTML to PDF
-        options = {
-            'page-size': 'A4',
-            'margin-top': '0.75in',
-            'margin-right': '0.75in',
-            'margin-bottom': '0.75in',
-            'margin-left': '0.75in',
-            }
-        pdf = pdfkit.from_string(html, False, options=options)
+    # # Convert HTML to PDF
+    #     options = {
+    #         'page-size': 'A4',
+    #         'margin-top': '0.75in',
+    #         'margin-right': '0.75in',
+    #         'margin-bottom': '0.75in',
+    #         'margin-left': '0.75in',
+    #         }
+    #     pdf = pdfkit.from_string(html, False, options=options)
 
     # Return the PDF as a response
-        response = make_response(pdf)
-        response.headers['Content-Type'] = 'application/pdf'
-        response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+        # response = make_response(pdf)
+        # response.headers['Content-Type'] = 'application/pdf'
+        # response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
     print(salelist)
     
     return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, sdate=sdate, edate=edate, emp_id=emp_id )
@@ -662,31 +661,18 @@ def employeepdf():
     sdate = request.args.get('sdate',None)
     edate = request.args.get('edate',None)
     id = request.args.get('id',None)
-    # sdate = request.form.get("sdate")
-    # if not sdate:
-    #     sdate="2000-01-01"
-    # edate = request.form.get("edate")
-    # if not edate:
-    #     edate="3000-01-01"
-    # emp_id = request.form.get("emp_id")
-    # salelist=[]
-    # if request.method == 'POST':
+
+
     format_str = '%Y-%m-%d'
     sdate_obj = datetime.datetime.strptime(sdate, format_str)
     edate_obj = datetime.datetime.strptime(edate, format_str)
     sdate_obj = sdate_obj - timedelta(days=1)
 
-        # if(sdate > edate):
-        #   flash("Start date should be before end date",category="False")
-
-        # else:
     salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == id).all()
     # salelist = request.args.get('salelist',None)
     print(salelist)
     
-        # print(salelist)
-    # employees=employee.query.all()
-    # # Generate some HTML code
+
     html = render_template("employeepdf.html", salelist=salelist)
 
     # Convert HTML to PDF
@@ -703,25 +689,85 @@ def employeepdf():
     # Return the PDF as a response
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attachment; filename=output'+id+'-'+sdate+'.pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=employee '+id+'.pdf'
+    return response
+
+
+@views.route('/salespdf')
+def salespdf():
+    sdate = request.args.get('sdate',None)
+    edate = request.args.get('edate',None)
+
+
+    format_str = '%Y-%m-%d'
+    sdate_obj = datetime.datetime.strptime(sdate, format_str)
+    edate_obj = datetime.datetime.strptime(edate, format_str)
+    sdate_obj = sdate_obj - timedelta(days=1)
+
+    
+    salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+    # salelist = request.args.get('salelist',None)
+    print(salelist)
+    
+
+    html = render_template("salespdf.html", salelist=salelist)
+
+    # Convert HTML to PDF
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
+    print(id)
+    print(sdate)
+    # Return the PDF as a response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=sales '+edate+' - '+sdate+'.pdf'
     return response
 
 
 
-    # html = render_template('template.html')
-    # pdf = HTML(string=html).write_pdf()
-    # response = make_response(pdf)
-    # response.headers['Content-Type'] = 'application/pdf'
-    # response.headers['Content-Disposition'] = 'attachment; filename=file.pdf'
-    # return response
+@views.route('/fuelpdf')
+def fuelpdf():
+    sdate = request.args.get('sdate',None)
+    edate = request.args.get('edate',None)
+    type = request.args.get('type',None)
 
-# def pdf_output(html):
-#     result = StringIO()
-#     pdf = pisa.CreatePDF(StringIO(html), result)
-#     if not pdf.err:
-#         return result.getvalue()
-#     else:
-#         return 'Error: {}'.format(pdf.err)
+
+    format_str = '%Y-%m-%d'
+    sdate_obj = datetime.datetime.strptime(sdate, format_str)
+    edate_obj = datetime.datetime.strptime(edate, format_str)
+    sdate_obj = sdate_obj - timedelta(days=1)
+    
+    salelist = db.session.query(fuel_reg).filter(fuel_reg.date.between(sdate_obj, edate_obj),fuel_reg.type == type).all()
+    # salelist = request.args.get('salelist',None)
+    print(salelist)
+    
+
+    html = render_template("fuelpdf.html", salelist=salelist)
+
+    # Convert HTML to PDF
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'orientation': 'landscape',
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
+
+    print(sdate)
+    # Return the PDF as a response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=fuel '+sdate+' - '+edate+'.pdf'
+    return response
+
 
 
 

@@ -1,0 +1,60 @@
+<style>
+    #tr,
+    th,
+    td {
+          border: solid rgb(106, 104, 104) 1px;
+          border-radius: 15px;
+          padding: 0%;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous" />
+
+<div class="mt-3">
+    <table class="table table-bordered table-hover" >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fuel Type</th>
+                <th>Date</th>
+                <th>Morning Density</th>
+                <th>Morning Temperature</th>
+                <th>Density at 15<sup>o</sup></th>
+                <th>Recieved Invoice</th>
+                <th>Recieved Quantity</th>
+                <th>Recieved Observed Density</th>
+                <th>Recieved Observed Temperature</th>
+                <th>Recieved Density at 15<sup>o</sup></th>
+                <th>Cash Density at 15<sup>o</sup></th>
+                <th>Difference</th>
+                <th>After Decantation Density</th>
+                <th>After Decantation Temperature</th>
+                <th>After Decantation Density at 15<sup>o</sup></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in salelist %}
+            <tr>
+                <td>{{sale.id}}</td>
+                <td>{{sale.type}}</td>
+                <td>{{sale.date}}</td>
+                <td>{{sale.morning_density}}</td>
+                <td>{{sale.morning_temp}}</td>
+                <td>{{sale.density15}}</td>
+                <td>{{sale.rec_invoice}}</td>
+                <td>{{sale.rec_qty}}</td>
+                <td>{{sale.rec_obs_density}}</td>
+                <td>{{sale.rec_obs_temp}}</td>
+                <td>{{sale.rec_density15}}</td>
+                <td>{{sale.cash_density15}}</td>
+                <td>{{sale.diff}}</td>
+                <td>{{sale.afterdeca_obs_density}}</td>
+                <td>{{sale.afterdeca_obs_temp}}</td>
+                <td>{{sale.afterdeca_obs_density15}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
