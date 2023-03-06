@@ -98,6 +98,9 @@
             </div>
             {% endif %}
             <a href={{response}} download="output.pdf">download</a>
+            <a href="{{ url_for('views.employeepdf', sdate=sdate, edate=edate, id=emp_id) }}" style="float: right;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </a>
         </div>
     </div>
 {% endblock %}

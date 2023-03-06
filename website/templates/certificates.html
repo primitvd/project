@@ -14,9 +14,11 @@
         <div>
         Issue Date: {{certificate.issue_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Expiry Date: {{certificate.exp_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/certificates/{{certificate.name}}" >View</a>
+        <a href="/certificates/{{certificate.name}}" >
+          <button class="btn btn-info">View</button>
+        </a>
       </div>
-      <form action="{{ url_for('views.delete_employee', id=certificate.name) }}" method="post" style="margin-left: 10px;">
+      <form action="{{ url_for('views.delete_certificate', id=certificate.name) }}" method="post" style="margin-left: 10px;">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
     </div>

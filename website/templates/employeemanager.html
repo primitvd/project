@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}employee manager{% endblock %}
 {% block content %}
+{% if check %}
+<script>
+  function scrollToBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+  history.scrollRestoration = "manual";
+  window.onload = scrollToBottom;
+</script>
+{% endif %}
 <h1 align="center" style="margin-top: 5%;">Employee Manager</h1>
-<div style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+<div
+  style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
   {% for employee in employees %}
   <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
     <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -15,6 +25,11 @@
         <div>Advance: {{ employee.advance }}</div>
         <div>Excess/Short: {{ employee.excess_short }}</div>
       </div>
+      <form action="{{ url_for('views.edit_employee', id=employee.emp_id) }}" method="post">
+        <a href="#form">
+          <button type="submit" class="btn btn-info" style="margin-right: 10px;">Edit</button>
+        </a>
+      </form>
       <form action="{{ url_for('views.delete_employee', id=employee.emp_id) }}" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
@@ -23,27 +38,40 @@
   <br>
   {% endfor %}
   <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
-    <form method="POST">
+    <form action="{{ url_for('views.employeemanager') }}" method="POST" id="form">
+      {% if check%}
+      <div class="form-inline">
+        <label for="address">Employee ID:&nbsp;</label>
+        <input type="text" class="form-control" id="emp_id" name="emp_id" value="{{check.emp_id}}">
+      </div>
+      {% endif %}
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" name="name">
+        <input type="text" class="form-control" id="name" name="name" value="{{check.name}}">
       </div>
       <div class="form-group">
         <label for="address">Address:</label>
-        <textarea class="form-control" id="address" name="address"></textarea>
+        <textarea class="form-control" id="address" name="address" value="{{check.address}}"></textarea>
       </div>
       <div class="form-group">
         <label for="phone">Phone:</label>
-        <input type="text" class="form-control" id="phone" name="phone">
+        <input type="text" class="form-control" id="phone" name="phone" value="{{check.phone}}">
       </div>
       <div class="form-group">
         <label for="dob">Date of Birth:</label>
-        <input type="date" class="form-control" id="dob" name="dob">
+        <input type="date" class="form-control" id="dob" name="dob" value="{{check.dob}}">
       </div>
-      <div class="form-group">
-        <label for="advance">Advance:</label>
-        <input type="text" class="form-control" id="advance" name="advance">
+      <div class="form-inline">
+        <label for="advance">Advance:&nbsp;</label>
+        <input type="text" class="form-control" id="advance" name="advance" value="{{check.advance}}">
       </div>
+      <br>
+      {% if check%}
+      <div class="form-inline">
+        <label for="address">Excess/Short:&nbsp;</label>
+        <input type="text" class="form-control" id="excess_short" name="excess_short" value="{{check.excess_short}}">
+      </div>
+      {% endif %}
       <div align="center">
         <button type="submit" class="btn btn-primary">Add</button>
       </div>
