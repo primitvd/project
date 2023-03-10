@@ -98,8 +98,9 @@
 </head>
 
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div style="display: flex; justify-content: space-between; align-items: center;" style="height: 100%;">
+    
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="width: 100%;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -140,11 +141,26 @@
         </div>
         <a class="nav-item nav-link" id="certificates" href="/certificates">Certificates</a>
 
-        <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle ml-auto" id="navbarDropdown" data-toggle="dropdown"
-            aria-expanded="false">Settings</a>
+        {% endif %}
 
-          <div class="dropdown-menu dropdown-menu-dark">
+
+        {% else %}
+        <a class="nav-item nav-link" id="manlogin" href="/login">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 100%;">
+    <div class="navbar-collapse" id="navbar1" style="height: 100%;">
+      <div class="navbar-nav">
+        {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+
+        <div class="nav-item dropdown-right">
+          <a class="nav-link dropdown-toggle ml-auto" id="navbarDropdown" data-toggle="dropdown"
+            aria-expanded="false" style="height: 100%;">Settings</a>
+
+          <div class="dropdown-menu dropdown-menu-dark dropdown-menu-right">
             <a class="dropdown-item" id="baymanager" href="/changepassword">Change Password</a>
             <a class="dropdown-item" id="employeemanager" href="/addpaymentmethod">Payment methods</a>
             <a class="dropdown-item" id="logout" href="/logout">Logout</a>
@@ -159,7 +175,9 @@
         <a class="nav-item nav-link" id="manlogin" href="/login">Login</a>
         {% endif %}
       </div>
+    </div>
   </nav>
+  </div>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -179,12 +197,12 @@
       // setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
       // swal("Here's a message!", " Have a nice day!")  
       swal.fire({
-      position: 'top',
-      icon: "success",
-      title: 'Your work has been saved',
-      showConfirmButton: false,
-      timer: 1500
-    })
+        position: 'top',
+        icon: "success",
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
     }
 
