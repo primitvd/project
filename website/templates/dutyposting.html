@@ -2,16 +2,16 @@
 {% block title %}Duty Posting{% endblock %}
 {% block content %}
 <h1 align="center" style="margin-top: 5%;">Duty Posting</h1>
-<div
+<div class="outer" 
       style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; width: 100%; display: block;" class="form-inline">
             
       <form method="POST">
             
-            <div class="form-group row">
-                  <label for="date" class="col-sm-2 col-form-label">Date:</label>
+            <div class="form-group form-inline">
+                  <label for="date">Date:</label>
                   <div class="col-sm-10">
-                        <input type="date" class="form-control col-sm-10" id="date" name="date" value="{{date}}">
+                        <input type="date" style="margin-top: 20px;" class="form-control col-sm-10" id="date" name="date" value="{{date}}">
                   </div>
             </div>
             <br>
@@ -25,14 +25,14 @@
             <!-- </div> -->
             {% endfor %}
             </div>
-            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline">
+            <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; width: 100%;">
                   {% for employee in employees %}
 
                   <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-group row"> -->
             <div>
-                  Employee Name:&nbsp;{{employee.name}}&nbsp;&nbsp;
-                  Shift:&nbsp;<input type="text" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}">&nbsp;&nbsp;
-                  Bay:&nbsp;<input type="text" class="form-control" id="bay{{employee.emp_id}}" name="bay{{employee.emp_id}}">&nbsp;&nbsp;
+                  Employee Name:&nbsp;{{employee.name}}<br>
+                  Shift:&nbsp;<input type="number" style="margin-top: 20px;" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}"><br>
+                  Bay:&nbsp;<input type="number"style="margin-top: 20px;"  class="form-control" id="bay{{employee.emp_id}}" name="bay{{employee.emp_id}}"><br>
                   </div>
                   <br><br>
                   {% endfor %}

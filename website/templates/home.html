@@ -1,12 +1,38 @@
 {% extends 'base.html' %}
 {% block title %}change{% endblock %}
 {% block content %}
-      <h1>Home Page</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12 col-md-6 col-12">
+                <div class="content">
+                    <h5><span class="line"></span>WELCOME TO MFUEL</h5>
+                    <h2>YOUR</h2>
+                    <h2>FUEL</h2>
+                    <h2>MATE</h2>
+                </div>
+            </div>
+            <div class="col col-sm-12 col-md-6 col-12">
+                <div class="content-image">
+                    <img src="static/images/intro.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
       {% if a==0 %}
-      <script>
+      <!-- <script>
               if (confirm("Daily price not set. Set daily price now?")) {
                   window.location.assign("/dailyprice");
               }
-      </script>
+      </script> -->
+      <div id="snackbar" class="set">Daily price not set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="location.href='/dailyprice'">Go</button></div>
+      <!-- <script>
+        function func1(){
+            var x = document.getElementById("snackbar");
+  
+	x.className = "show";
+  
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+      </script> -->
       {% endif %}
 {% endblock %}

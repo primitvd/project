@@ -85,6 +85,8 @@ def dailysales():
         date_obj = datetime.datetime.strptime(date, format_str)
         print("check")
         sale = sales.query.filter_by(date = date_obj).first()
+        check = db.session.query(employee).filter(employee.emp_id==emp_id).first()
+        check.excess_short = check.excess_short + float(diff)
         # if sale:
         #     if sale.emp_id==emp_id and sale.shift==shift:
         #         print(sales)
@@ -123,7 +125,9 @@ def dailysales():
         sale1 = sales(emp_id=emp_id, bay=bay, date=date_obj, shift=shift, ms_opening=ms_opening, ms_closing=ms_closing, ms_sales=ms_sales, ms_amount=ms_amount, hsd_opening=hsd_opening, hsd_closing=hsd_closing, hsd_sales=hsd_sales, hsd_amount=hsd_amount, two_thousand=two_thousand, five_hundred=five_hundred, two_hundred=two_hundred, one_hundred=one_hundred, fifty=fifty, twenty=twenty, ten=ten, coins=coins, pos=pos, ufill=ufill, upi=upi, smartfleet=smartfleet, smartdrive= smartdrive, pinelabs=pinelabs, stotal=s_total, dtotal=dtotal, diff=diff)
         db.session.add(sale1)
         db.session.commit()
-        flash("Data added!", category=True)
+        str1="Sale total ="+s_total+"*Collected = "+dtotal+"*Difference = "+diff
+        flash(str1, category=True)
+
 
     # print(sales.query.all())
     employees = employee.query.all()
@@ -142,7 +146,7 @@ def dailysales():
 
     pays = payment_methods.query.all()
     # print(pays)
-    return render_template("dailysales.html",user=current_user, employees=employees, items=items, bays=bays, pays=pays, daily=daily)
+    return render_template("dailysales.html",user=current_user, employees=employees, items=items, bays=bays, pays=pays, daily=daily, date=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 
 
@@ -361,7 +365,7 @@ def fueldetails():
             db.session.commit()
             flash("Data added!", category=True)
         print("check")
-    return render_template("fueldetails.html", user=current_user, check=check)
+    return render_template("fueldetails.html", user=current_user, check=check, date=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @views.route('/invmanager', methods=['GET','POST'])
 @login_required
@@ -597,7 +601,7 @@ def dailyprice():
         
         print("check")
         
-    return render_template("dailyprice.html", user=current_user)
+    return render_template("dailyprice.html", user=current_user, date=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 
 

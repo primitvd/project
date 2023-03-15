@@ -3,13 +3,13 @@
 {% block content %}
 
 <h1 style="text-align: center; margin-top: 5%;">Certificates</h1>
-<div style="margin: 5%; margin-top: 2%; border: 2px solid black; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey;">
+<div class="outer" style="margin: 5%; margin-top: 2%; border: 2px solid black; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey;">
 
   {% for certificate in certificates %}
 
   <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%;">
     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
-      <div style="font-weight: bold; margin-right: 10%;">{{certificate.name}}</div>
+      <div margin-right: 10%;>{{certificate.name}}</div>
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
         <div>
         Issue Date: {{certificate.issue_date}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,19 +32,19 @@
   <div style="border: 1px solid rgb(27, 26, 26); border-radius: 5px; padding: 2%; margin-top: 20px;">
     <form method="POST" enctype="multipart/form-data">
       <div class="form-group">
-        <label for="name" style="font-weight: bold;">Name:</label>
+        <label for="name" >Name:</label>
         <input type="text" class="form-control" id="name" name="name" required>
       </div>
       <div class="form-group">
-        <label for="issue_date" style="font-weight: bold;">Issue Date:</label>
+        <label for="issue_date" >Issue Date:</label>
         <input type="date" class="form-control" id="issue_date" name="issue_date" required>
       </div>
       <div class="form-group">
-        <label for="exp_date" style="font-weight: bold;">Expiry Date:</label>
+        <label for="exp_date" >Expiry Date:</label>
         <input type="date" class="form-control" id="exp_date" name="exp_date" required>
       </div>
       <div class="form-group">
-        <label for="file" style="font-weight: bold;">Upload Certificate:</label>
+        <label for="file" >Upload Certificate:</label>
         <input type="file" class="form-control" id="file" name="file" accept="application" required>
       </div>
       <div style="text-align: center;">

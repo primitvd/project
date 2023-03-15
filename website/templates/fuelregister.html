@@ -17,7 +17,7 @@
 
 <div class="container-fluid">
       <h1 align="center" style="margin-top: 5%;"> Report</h1>
-      <div
+      <div class="outer" 
           style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
 
           <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
@@ -25,11 +25,11 @@
 
                   <div class="form-inline">
                         <div style="margin-right: 10%;">
-                              Start Date:&nbsp;<input type="date" class="form-control" id="sdate"
+                              Start Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="sdate"
                                     name="sdate">&nbsp;&nbsp;
                         </div>
                         <div style="margin-right: 10%;">
-                              End Date:&nbsp;<input type="date" class="form-control" id="edate"
+                              End Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="edate"
                                     name="edate">&nbsp;&nbsp;
                         </div>
                         <label for="type">Fuel:</label>
@@ -100,9 +100,9 @@
                         </table>
                     </div>
                     <br>
-                    <a href="{{ url_for('views.fuelpdf', sdate=sdate, edate=edate, type=type) }}" style="float: right;">
+                    <!-- <a href="{{ url_for('views.fuelpdf', sdate=sdate, edate=edate, type=type) }}" style="float: right;">
                         <button type="submit" class="btn btn-info">PDF</button>
-                    </a>
+                    </a> -->
                     {% endif %}
       </div>
       <br>

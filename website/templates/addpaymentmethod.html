@@ -3,11 +3,13 @@
 {% block content %}
 
 <h1 align="center" style="margin-top: 5%;">Payment Methods</h1>
-<div
+<div class="outer"
     style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
+    {% if pays %}
     <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
         {% for pay in pays %}
-        <div>{{ pay.payment_method }}
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px;">
+            {{ pay.payment_method }}
 
             <form action="{{ url_for('views.delete_payment', id=pay.id) }}" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -17,12 +19,13 @@
         <hr>
         {% endfor %}
     </div>
+    {% endif %}
 
     <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; margin-top: 10px;">
         <form class="form-inline" method="POST">
             <div class="form-group">
                 <label for="payment_method" style="margin-right: 10px;">Payment Method:</label>
-                <input type="text" class="form-control" id="payment_method" name="payment_method" required>
+                <input style="margin-top: 20px;" type="text" class="form-control" id="payment_method" name="payment_method" required>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Add</button>
         </form>

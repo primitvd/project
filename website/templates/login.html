@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
 %}
-<form method="POST">
+<!-- <form method="POST">
   <div style="padding: 10%;">
     <div
     style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey" class="vw-25">
@@ -29,5 +29,29 @@
   <br />
   <button type="submit" class="btn btn-primary">Login</button>
     </div></div>
-</form>
+</form> -->
+
+
+
+<div class="container">
+  <div class="row">
+      <div class="col col-sm-12 col-md-6 col-12">
+          <div class="content">
+              <h5><span class="line"></span>WELCOME TO MFUEL</h5>
+              <h2>YOUR</h2>
+              <h2>FUEL</h2>
+              <h2>MATE</h2>
+              <ul>
+                  <li><a href="/adminlogin" class="button2">Admin login</a></li>
+                  <li><a href="/managerlogin" class="button2">Manager login</a></li>
+              </ul>
+          </div>
+      </div>
+      <div class="col col-sm-12 col-md-6 col-12">
+          <div class="content-image">
+              <img src="static/images/intro.png" alt="">
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock %}
