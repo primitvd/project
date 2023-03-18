@@ -8,12 +8,19 @@
 
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%">
             <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <div>
-            Item ID:&nbsp;{{item.inv_id}}&nbsp;&nbsp;&nbsp;&nbsp;
-            Name:&nbsp;{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;
+                  <div style="flex: 1;">
+            Name:&nbsp;<b>{{item.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;
             Stock:&nbsp;{{item.stock}}&nbsp;&nbsp;&nbsp;&nbsp;
             Price:&nbsp;{{item.price}}&nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
+                  <button class="btn btn-info" onclick="edit{{item.inv_id}}()" style="margin-right: 10px;">Edit</button>
+        <script>
+          function edit{{item.inv_id}}(){
+            document.getElementById("name").value = {{ item.name | tojson }};
+            document.getElementById("stock").value = {{ item.stock | tojson }};
+            document.getElementById("price").value = {{ item.price | tojson }};
+          }
+        </script>
             <form action="{{ url_for('views.delete_inventory', id=item.inv_id) }}" method="post" style="float: right;">
                   <button type="submit" class="btn btn-danger">Delete</button>
             </form>

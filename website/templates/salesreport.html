@@ -40,7 +40,7 @@
             <div>
                   {% if salelist: %}
                   <a href="{{ url_for('views.salespdf', sdate=sdate, edate=edate) }}" style="float: right;">
-                        <button class="btn btn-info">PDF</button>
+                        <button class="btn btn-info">PRINT</button>
                     </a>
                   {% endif %}
             </div><br>
@@ -86,13 +86,13 @@
 
                                 <tr>
                                     <th colspan="5">Total</th>
-                                    <td>{{ salelist | sum(attribute='ms_sales') }}</td>
-                                    <td>{{ salelist | sum(attribute='ms_amount') }}</td>
-                                    <td>{{ salelist | sum(attribute='hsd_sales') }}</td>
-                                    <td>{{ salelist | sum(attribute='hsd_amount') }}</td>
-                                    <td>{{ salelist | sum(attribute='stotal') }}</td>
-                                    <td>{{ salelist | sum(attribute='dtotal') }}</td>
-                                    <td>{{ salelist | sum(attribute='diff') }}</td>
+                                    <td>{{ salelist | sum(attribute='ms_sales') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='ms_amount') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='hsd_sales') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='hsd_amount') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='stotal') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='dtotal') | round(2) }}</td>
+                                    <td>{{ salelist | sum(attribute='diff') | round(2) }}</td>
                                 </tr>
                             </tbody>
                         </table>

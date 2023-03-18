@@ -77,14 +77,7 @@ class sales(db.Model):
     pinelabs = db.Column(db.Float)##
     dtotal = db.Column(db.Float)#
 
-# class pos(db.Model):
-    # id = db.Column(db.Integer, primary_key = True)
-    # sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
-    
 
-# class excess_short(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
-#     sid = db.Column(db.Integer, db.ForeignKey('sales.sid'))
     diff = db.Column(db.Float)#
 
 class duty_posting(db.Model):

@@ -78,19 +78,21 @@
                               </th>
                               <td>
                                     <input type="number" class="form-control" id="ms_opening" name="ms_opening"
-                                          style="margin-right: 10%;" size="3" onchange="calc()" value="0" required/>
+                                          style="margin-right: 10%;" size="3" value="0" step="any" onchange="calc({{daily.ms_price}},{{daily.hsd_price}})" required/>
                               </td>
                               <td>
                                     <input type="number" class="form-control" id="ms_closing" name="ms_closing"
-                                          style="margin-right: 10%;" size="3" onchange="calc()" value="0" required/>
+                                          style="margin-right: 10%;" size="3" step="any" onchange="calc({{daily.ms_price}},{{daily.hsd_price}})" value="0" required/>
                               </td>
                               <td>
                                     <input type="number" class="form-control" id="ms_sales" name="ms_sales"
-                                          style="margin-right: 10%;" size="3" value="0" required/>
+                                          style="margin-right: 10%;" size="3" value="0" step="any" required/>
                               </td>
                               <td>
                                     <input type="number" class="form-control" id="ms_amount" name="ms_amount"
-                                          style="margin-right: 10%;" size="3" value="0" required/>
+                                          style="margin-right: 10%;" size="3" value="0" step="any" required/>
+                                    <input type="hidden" class="form-control" id="ms_amount_hidden" name="ms_amount_hidden" step="any"    
+                                          style="margin-right: 10%;" value="0" required/>
                               </td>
                         </tr>
                         <tr>
@@ -98,22 +100,24 @@
                                     HSD &nbsp;
                               </th>
                               <td>
-                                    <input type="number" class="form-control" id="hsd_opening" name="hsd_opening"
-                                          style="margin-right: 10%;" size="3" onchange="calc()" value="0" required/>
+                                    <input type="number" class="form-control" id="hsd_opening" name="hsd_opening" step="any"
+                                          style="margin-right: 10%;" size="3" onchange="calc({{daily.ms_price}},{{daily.hsd_price}})" value="0" required/>
                               </td>
 
                               <td>
 
-                                    <input type="number" class="form-control" id="hsd_closing" name="hsd_closing"
-                                          style="margin-right: 10%;" size="3" onchange="calc()" value="0" required/>
+                                    <input type="number" class="form-control" id="hsd_closing" name="hsd_closing" step="any"
+                                          style="margin-right: 10%;" size="3" onchange="calc({{daily.ms_price}},{{daily.hsd_price}})" value="0" required/>
 
                               </td>
                               <td>
-                                    <input type="number" class="form-control" id="hsd_sales" name="hsd_sales"
+                                    <input type="number" class="form-control" id="hsd_sales" name="hsd_sales" step="any"
                                           style="margin-right: 10%;" value="0" required/>
                               </td>
                               <td>
-                                    <input type="number" class="form-control" id="hsd_amount" name="hsd_amount"
+                                    <input type="number" class="form-control" id="hsd_amount" name="hsd_amount" step="any"
+                                          style="margin-right: 10%;" value="0" required/>
+                                    <input type="hidden" class="form-control" id="hsd_amount_hidden" name="hsd_amount_hidden" step="any"
                                           style="margin-right: 10%;" value="0" required/>
                               </td>
                         </tr>
@@ -125,7 +129,7 @@
                               <td colspan="2">
                                     <div class="form-group form-inline">
                                           <label for="units_sold">Units Sold:&nbsp;</label>
-                                          <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="units_sold{{item.inv_id}}" name="units_sold{{item.inv_id}}"
+                                          <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="units_sold{{item.inv_id}}" name="units_sold{{item.inv_id}}"
                                                 style="margin-right: 10%;" value="0" onchange="calc1({{item.inv_id}},{{item.price}})" required/>
 
                                     </div>
@@ -133,7 +137,9 @@
                               <td colspan="2">
                                     <div class="form-group form-inline">
                                           <label for="units_sale" id="unit_price{{item.inv_id}}" value="item.price">Amount:&nbsp;</label>
-                                          <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="units_sale{{item.inv_id}}" name="units_sale{{item.inv_id}}"
+                                          <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="units_sale{{item.inv_id}}" name="units_sale{{item.inv_id}}"
+                                                style="margin-right: 10%;" value="0" required/>
+                                          <input style="margin-top: 27px; margin-right:10%;" type="hidden" class="form-control" id="units_sale_hidden{{item.inv_id}}" name="units_sale_hidden{{item.inv_id}}"
                                                 style="margin-right: 10%;" value="0" required/>
                                     </div>
                               </td>
@@ -151,63 +157,63 @@
                   <h6><u>Cash</u></h6>
                   <div class="form-group form-inline">
                         <label for="two_thousand">2000:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="two_thousand" name="two_thousand"
+                        <input style="margin-top: 27px; margin-right:10%;" step="1" type="number"  class="form-control" id="two_thousand" name="two_thousand"
                               style="margin-right: 10%;" value="0" required onchange="calc3()"/>
 
                         <label for="five_hundred">&nbsp;&nbsp;500:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="five_hundred" name="five_hundred"
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="five_hundred" name="five_hundred"
                               style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                   </div>
                   <div class="form-group form-inline">
                         <label for="two_hundred">&nbsp;&nbsp;200:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="two_hundred" name="two_hundred"
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="two_hundred" name="two_hundred"
                               style="margin-right: 10%;" value="0" required onchange="calc3()"/>
 
                         <label for="one_hundred">&nbsp;&nbsp;100:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="one_hundred" name="one_hundred"
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="one_hundred" name="one_hundred"
                               style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                   </div>
                   <div class="form-group form-inline">
                         <label for="fifty">&nbsp;&nbsp;&nbsp;&nbsp;50:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="fifty" name="fifty" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="fifty" name="fifty" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
 
                         <label for="twenty">&nbsp;&nbsp;&nbsp;&nbsp;20:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="twenty" name="twenty" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="twenty" name="twenty" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                   </div>
                   <div class="form-group form-inline">
                         <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;10:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="ten" name="ten" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="ten" name="ten" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
 
                         <label for="coins">Coins:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="coins" name="coins" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="coins" name="coins" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                   </div>
                   <!-- Point of Sale:&nbsp;<a href="/pos">PoS</a> -->
                   <h6><u>Other payment methods</u></h6>
                   <div>
                         <div class="form-group form-inline">
-                        <label for="pos">PoS:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="pos" name="pos" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="pos">PoS:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="pos" name="pos" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="smartdrive">SmartDrive:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="smartdrive" name="smartdrive" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         <!-- </div><div class="form-group form-inline"> -->
-                        <label for="ufill">uFill:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="ufill" name="ufill" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         </div><div class="form-group form-inline">
-                        <label for="upi">UPI:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="upi" name="upi" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="upi">&nbsp;UPI:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="upi" name="upi" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         <!-- </div><div class="form-group form-inline"> -->
-                        <label for="smartfleet">SmartFleet:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="smartfleet" name="smartfleet" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="smartfleet">SmartFleet:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="smartfleet" name="smartfleet" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         </div><div class="form-group form-inline">
-                        <label for="smartdrive">SmartDrive:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="smartdrive" name="smartdrive" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="ufill">uFill:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="ufill" name="ufill" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         <!-- </div><div class="form-group form-inline"> -->
-                        <label for="pinelabs">Pine Labs UPI:</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="pinelabs" name="pinelabs" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
+                        <label for="pinelabs">Pine Labs UPI:&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="pinelabs" name="pinelabs" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                         </div>
 
                   {% for pay in pays %}
                   <div class="form-group form-inline">
-                        <label for="ten">&nbsp;&nbsp;&nbsp;&nbsp;{{pay.payment_method}}:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="pay.payment_method" name="pay.payment_method" style="margin-right: 10%;"  value="0" required/>
+                        <label >{{pay.payment_method}}:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="{{pay.payment_method}}" name="{{pay.payment_method}}" style="margin-right: 10%;"  value="0" required/>
                   </div>
                   {% endfor %}
                   </div>
@@ -223,15 +229,15 @@
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
                   <div class="form-group form-inline">
                         <label for="stotal">Sale total:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="stotal" name="stotal" style="margin-right: 10%;" value="0" required/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="stotal" name="stotal" step="0.01" value="0" required/>
 
                         <label for="dtotal">Collected:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="dtotal" name="dtotal" value="0" required/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="dtotal" name="dtotal" value="0" step="0.01" required/>
                   </div>
                   <br>
                   <div class="form-group form-inline">
                         <label for="diff">Excess/Short:&nbsp;</label>
-                        <input style="margin-top: 20px; margin-right:10%;" type="number" class="form-control" id="diff" name="diff" value="0" required/>
+                        <input style="margin-top: 27px; margin-right:10%;" type="number" class="form-control" id="diff" name="diff" value="0" step="0.01" required/>
                   </div>
             </div>
             <br>
@@ -239,26 +245,28 @@
             <button type="submit" class="btn btn-primary">Submit</button>
       </div>
       </div> 
-      </div>
 </form>
+
 <script>
-      function calc()
-      {    
-      document.getElementById("ms_sales").value=document.getElementById("ms_opening").value-document.getElementById("ms_closing").value;
-      document.getElementById("hsd_sales").value=document.getElementById("hsd_opening").value-document.getElementById("hsd_closing").value;
+      function calc(ms_price,hsd_price)
+      {
+      document.getElementById("ms_sales").value=document.getElementById("ms_closing").value-document.getElementById("ms_opening").value;
+      document.getElementById("hsd_sales").value=document.getElementById("hsd_closing").value-document.getElementById("hsd_opening").value;
 
-      document.getElementById("ms_amount").value=document.getElementById("ms_sales").value*{{daily.ms_price}};
-      document.getElementById("hsd_amount").value=document.getElementById("hsd_sales").value*{{daily.hsd_price}};
+      document.getElementById("ms_amount").value=(document.getElementById("ms_sales").value*ms_price).toFixed(2);
+      document.getElementById("hsd_amount").value=(document.getElementById("hsd_sales").value*hsd_price).toFixed(2);
 
-      document.getElementById("stotal").value = parseInt(document.getElementById("stotal").value) + parseInt(document.getElementById("hsd_amount").value) + parseInt(document.getElementById("ms_amount").value);
-      document.getElementById("diff").value = parseInt(document.getElementById("dtotal").value) - parseInt(document.getElementById("stotal").value)
+      document.getElementById("stotal").value = (parseFloat(document.getElementById("stotal").value) - (parseFloat(document.getElementById("hsd_amount_hidden").value) + parseFloat(document.getElementById("ms_amount_hidden").value)) + parseFloat(document.getElementById("hsd_amount").value) + parseFloat(document.getElementById("ms_amount").value)).toFixed(2);
+      document.getElementById("diff").value = (parseFloat(document.getElementById("dtotal").value) - parseFloat(document.getElementById("stotal").value)).toFixed(2);
+      document.getElementById("hsd_amount_hidden").value = document.getElementById("hsd_amount").value
+      document.getElementById("ms_amount_hidden").value = document.getElementById("ms_amount").value
       }
 
      function calc1(id, price)
      {
-      document.getElementById("units_sale"+id).value=price*document.getElementById("units_sold"+id).value;
-      document.getElementById("stotal").value = parseInt(document.getElementById("stotal").value) + parseInt(document.getElementById("units_sale"+id).value)
-      document.getElementById("diff").value = parseInt(document.getElementById("dtotal").value) - parseInt(document.getElementById("stotal").value)
+      document.getElementById("units_sale"+id).value=(price*document.getElementById("units_sold"+id).value).toFixed(2);
+      document.getElementById("stotal").value = (parseFloat(document.getElementById("stotal").value) - parseFloat(document.getElementById("units_sale_hidden"+id).value) + parseFloat(document.getElementById("units_sale"+id).value)).toFixed(2);
+      document.getElementById("diff").value = (parseFloat(document.getElementById("dtotal").value) - parseFloat(document.getElementById("stotal").value)).toFixed(2);
       }
 
      function calc3()
@@ -278,8 +286,8 @@
       var smartdrive = document.getElementById("smartdrive").value;
       var pinelabs = document.getElementById("pinelabs").value;
 
-      document.getElementById("dtotal").value = Number(parseInt(two_thousand)+ parseInt(five_hundred)+ parseInt(two_hundred)+ parseInt(one_hundred)+ parseInt(fifty)+ parseInt(twenty)+ parseInt(ten)+ parseInt(coins)+ parseInt(pos)+ parseInt(ufill)+ parseInt(upi)+ parseInt(smartfleet)+ parseInt(smartdrive)+ parseInt(pinelabs)).valueOf();
-      document.getElementById("diff").value = parseInt(document.getElementById("dtotal").value) - parseInt(document.getElementById("stotal").value)
+      document.getElementById("dtotal").value = (parseFloat(two_thousand)+ parseFloat(five_hundred)+ parseFloat(two_hundred)+ parseFloat(one_hundred)+ parseFloat(fifty)+ parseFloat(twenty)+ parseFloat(ten)+ parseFloat(coins)+ parseFloat(pos)+ parseFloat(ufill)+ parseFloat(upi)+ parseFloat(smartfleet)+ parseFloat(smartdrive)+ parseFloat(pinelabs)).toFixed(2);;
+      document.getElementById("diff").value = (parseFloat(document.getElementById("dtotal").value) - parseFloat(document.getElementById("stotal").value)).toFixed(2);
       }
 </script>
 

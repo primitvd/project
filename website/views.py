@@ -2,15 +2,12 @@ from io import BytesIO, StringIO
 from flask import Blueprint, redirect, render_template, request, flash, Response, make_response, send_file, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import and_
-# from weasyprint import HTML
 from .models import *
 from . import db
 import datetime
 from datetime import date, timedelta
 from sqlalchemy.sql import func
 import pdfkit
-# from fpdf import FPDF
-# from xhtml2pdf import pisa
 
 views = Blueprint('views', __name__)
 
@@ -251,7 +248,7 @@ def dutyposting():
 
 @views.route('/employeemanager', methods=['GET','POST'])
 @login_required
-def employeemanager():
+def employeemanager(id=0):
     emp_id = request.form.get("emp_id")
     name = request.form.get("name")
     dob = request.form.get("dob")
@@ -259,20 +256,21 @@ def employeemanager():
     phone = request.form.get("phone")
     advance = request.form.get("advance")
     excess_short = request.form.get("excess_short")
-    check = db.session.query(employee).filter(employee.emp_id==emp_id).first()
+    check = db.session.query(employee).filter(employee.emp_id==id).first()
+    print(check)
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
-        dob_obj = datetime.datetime.strptime(dob, format_str)
+        # dob_obj = datetime.datetime.strptime(dob, format_str)
         if check:
             check.name = name
-            check.dob = dob_obj
+            # check.dob = dob_obj
             check.address = address
             check.phone = phone
             check.advance = advance
             check.excess_short = excess_short
             db.session.commit()
         else:
-            emp = employee(name=name, dob=dob_obj, address=address, phone=phone, advance=advance, excess_short=0)
+            emp = employee(name=name, address=address, phone=phone, advance=advance, excess_short=0)
             db.session.add(emp)
             db.session.commit()
         print("check")
@@ -373,10 +371,17 @@ def invmanager():
     name = request.form.get("name")
     stock = request.form.get("stock")
     price = request.form.get("price")
-    
-    if request.method == 'POST':
-        inv = inventory(name=name, stock=stock, price=price)
-        db.session.add(inv)
+    check = db.session.query(inventory).filter(inventory.name==name).first()
+
+    if request.method == 'POST' and name:
+        print(name)
+        if check:
+            check.name = name
+            check.stock = stock
+            check.price = price
+        else:
+            inv = inventory(name=name, stock=stock, price=price)
+            db.session.add(inv)
         db.session.commit()
         flash("Data added!", category=True)
         print("check")
@@ -614,13 +619,13 @@ def delete_employee(id):
     flash('Employee details have been deleted!', 'success')
     return redirect(url_for('views.employeemanager'))
 
-@views.route('/edit_employee/<int:id>', methods=['GET', 'POST'])
+@views.route('/clear_employee/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_employee(id):
-    check = db.session.query(employee).filter(employee.emp_id==id).first()
-    print(check)
-    employees = employee.query.all()
-    return render_template("employeemanager.html", user=current_user, employees = employees, check = check)
+def clear_employee(id):
+    employees = employee.query.get(id)
+    employees.excess_short = 0 
+    db.session.commit()
+    return redirect(url_for('views.employeemanager'))
     
 
 @views.route('/delete_bay/<int:id>', methods=['GET', 'POST'])
