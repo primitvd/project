@@ -24,21 +24,22 @@
             <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
                 <form method="POST">
 
-                    <div class="form-inline">
-                        <div style="margin-right: 10%;">
+                    <div class="form-inline" style="display: flex; justify-content: space-around">
+                        <div>
                               Start Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="sdate"
                                     name="sdate">&nbsp;&nbsp;
                         </div>
-                        <div style="margin-right: 10%;">
+                        <div>
                               End Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="edate"
                                     name="edate">&nbsp;&nbsp;
-                        </div>
-                        <label for="type">Employee:</label>
-                  <select id="emp_id" name="emp_id" style="margin-right: 5%;">
+                        </div><div style="display: flex;">
+                    <label for="type">Employee:&nbsp;</label>
+                  <select id="emp_id" name="emp_id">
                     {% for employee in employees %}
                     <option value="{{employee.emp_id}}">{{employee.emp_id}}:&nbsp;{{employee.name}}</option>
                     {% endfor %}
                   </select>
+                  </div>
                         <br>
                         
 

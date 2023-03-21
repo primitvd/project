@@ -261,11 +261,11 @@ p {
 
 /* home intro */
 .home-intro {
-    background: url(../images/bg-intro.png), #f8f5ff;
+    background: url(../images/bg-intro-1.png), url(../images/bg-intro.png) #f8f5ff;
     background-repeat: no-repeat;
     padding: 130px 0 150px !important;
     background-size: 58%;
-    background-position: top right;
+    background-position: top right, bottom left;
 }
 
 .home-intro .content-image {

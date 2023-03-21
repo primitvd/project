@@ -23,26 +23,27 @@
           <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
               <form method="POST">
 
-                  <div class="form-inline">
-                        <div style="margin-right: 10%;">
+                  <div class="form-inline" style="display: flex; justify-content: space-around;">
+                        <div>
                               Start Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="sdate"
                                     name="sdate">&nbsp;&nbsp;
                         </div>
-                        <div style="margin-right: 10%;">
+                        <div>
                               End Date:&nbsp;<input type="date" style="margin-top: 20px;" class="form-control" id="edate"
                                     name="edate">&nbsp;&nbsp;
-                        </div>
-                        <label for="type">Fuel:</label>
-                  <select id="type" name="type" style="margin-right: 5%;">
+                        </div><div style="display: flex;">
+                        <label for="type">Fuel:&nbsp;</label>
+                  <select id="type" name="type">
                               <option value="MS">MS</option>
                               <option value="HSD">HSD</option>
-                  </select>
+                  </select></div>
                         <br>
                         
 
                         <button type="submit" class="btn btn-primary">Search</button>
 
                   </div>
+                  <br>
             </form>
             <div>
                   {% if salelist: %}

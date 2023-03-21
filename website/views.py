@@ -235,16 +235,17 @@ def dutyposting():
             if shift and bay and check:
                 duty = duty_posting(date=date, emp_id=employees.emp_id, shift=shift, bay=bay, name=employees.name)
                 print(check)
-            db.session.add(duty)
+                db.session.add(duty)
             db.session.commit()
             # flash("Data added!", category=True)
             print("check")
     # print(shift)
     # print(bay)
     employees = employee.query.all()
+    bays = bay_manager.query.all()
     print(employees)
     print(dutyposting)
-    return render_template("dutyposting.html", user=current_user, employees = employees, dutyposting=dutyposting, date=datetime.datetime.now().strftime('%Y-%m-%d'))
+    return render_template("dutyposting.html", user=current_user, employees = employees, dutyposting=dutyposting, bays=bays, date=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @views.route('/employeemanager', methods=['GET','POST'])
 @login_required
@@ -295,7 +296,6 @@ def fueldetails():
     afterdeca_obs_density = request.form.get("afterdeca_obs_density")
     afterdeca_obs_temp = request.form.get("afterdeca_obs_temp")
     afterdeca_obs_density15 = request.form.get("afterdeca_obs_density15")
-
     check=[]
     # format_str = '%Y-%m-%d'
     # if date:

@@ -6,16 +6,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" href="static/images/favicon.png">
 
-		<link rel="stylesheet" href="static/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/css/fontawesome.min.css">
-		<link rel="stylesheet" href="static/css/style.css">
-		<link rel="stylesheet" href="static/css/alert.css">
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/css/fontawesome.min.css">
+	<link rel="stylesheet" href="static/css/style.css">
+	<link rel="stylesheet" href="static/css/alert.css">
 
-		<style>
-			.outer{
-				background-color: aliceblue;
-			}
-		</style>
+	<style>
+		.outer {
+			background-color: aliceblue;
+		}
+	</style>
 	<title>{% block title %}Home{% endblock %}</title>
 </head>
 
@@ -26,7 +26,8 @@
 		<div class="container">
 			<a href="/" class="navbar-brand"><img src="static/images/logo.png" alt=""></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: black; border-radius: 100px; height: 10px; width: 20px;">
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+				style="background-color: black; border-radius: 100px; height: 10px; width: 20px;">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbar">
@@ -40,44 +41,45 @@
 					<li class="nav-item"><a class="nav-link" href="/fueldetails">Density Register</a></li>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Reports</a>
 						<div class="dropdown-menu dropdown-menu-dark">
-						<a class="dropdown-item" style="color: black;" href="/fuelregister">Fuel Report</a>
-						<a class="dropdown-item" style="color: black;" href="/salesreport">Sales Report</a>
-						<a class="dropdown-item" style="color: black;" href="/employeereport">Employee Report</a>
+							<a class="dropdown-item" style="color: black;" href="/fuelregister">Fuel Report</a>
+							<a class="dropdown-item" style="color: black;" href="/salesreport">Sales Report</a>
+							<a class="dropdown-item" style="color: black;" href="/employeereport">Employee Report</a>
 						</div>
-						</li>
+					</li>
 					<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 					{% endif %}
-        			{% if user.user_id=="admin" %}
+					{% if user.user_id=="admin" %}
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Daily</a>
-					<div class="dropdown-menu dropdown-menu-dark">
-					<a class="dropdown-item" style="color: black;" href="/dailyprice">Daily Price</a>
-					<a class="dropdown-item" style="color: black;" href="/dailysales">Daily Sales</a>
-					<a class="dropdown-item" style="color: black;" href="/dutyposting">Duty Posting</a>
-					<a class="dropdown-item" style="color: black;" href="/fueldetails">Density Register</a>
-					</div>
+						<div class="dropdown-menu dropdown-menu-dark">
+							<a class="dropdown-item" style="color: black;" href="/dailyprice">Daily Price</a>
+							<a class="dropdown-item" style="color: black;" href="/dailysales">Daily Sales</a>
+							<a class="dropdown-item" style="color: black;" href="/dutyposting">Duty Posting</a>
+							<a class="dropdown-item" style="color: black;" href="/fueldetails">Density Register</a>
+						</div>
 					</li>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Reports</a>
 						<div class="dropdown-menu dropdown-menu-dark">
-						<a class="dropdown-item" style="color: black;" href="/fuelregister">Fuel Report</a>
-						<a class="dropdown-item" style="color: black;" href="/salesreport">Sales Report</a>
-						<a class="dropdown-item" style="color: black;" href="/employeereport">Employee Report</a>
+							<a class="dropdown-item" style="color: black;" href="/fuelregister">Fuel Report</a>
+							<a class="dropdown-item" style="color: black;" href="/salesreport">Sales Report</a>
+							<a class="dropdown-item" style="color: black;" href="/employeereport">Employee Report</a>
 						</div>
-						</li>
-						<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Managers</a>
-							<div class="dropdown-menu dropdown-menu-dark">
+					</li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+							data-toggle="dropdown">Managers</a>
+						<div class="dropdown-menu dropdown-menu-dark">
 							<a class="dropdown-item" style="color: black;" href="/baymanager">Bay Manager</a>
 							<a class="dropdown-item" style="color: black;" href="/employeemanager">Employee Manager</a>
 							<a class="dropdown-item" style="color: black;" href="/invmanager">Inventory Manager</a>
-							</div>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="/certificates">Certificates </a></li>
-							<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Other</a>
-								<div class="dropdown-menu dropdown-menu-dark">
-								<a class="dropdown-item" style="color: black;" href="/changepassword">Change Password</a>
-								<a class="dropdown-item" style="color: black;" href="/addpaymentmethod">Payment Methods</a>
-								<a class="dropdown-item" style="color: black;" href="/logout">Logout</a>
-								</div>
-								</li>
+						</div>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="/certificates">Certificates </a></li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown">Other</a>
+						<div class="dropdown-menu dropdown-menu-dark">
+							<a class="dropdown-item" style="color: black;" href="/changepassword">Change Password</a>
+							<a class="dropdown-item" style="color: black;" href="/addpaymentmethod">Payment Methods</a>
+							<a class="dropdown-item" style="color: black;" href="/logout">Logout</a>
+						</div>
+					</li>
 					{% endif %}
 					{% endif %}
 					<ul>
@@ -86,17 +88,17 @@
 	</nav>
 	<!-- end navbar -->
 	{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-  {% for category, message in messages %}
-  <div id="snackbar">{% for mes in message -%}
-	{% if mes == "*" %}
+	{% if messages %}
+	{% for category, message in messages %}
+	<div id="snackbar">{% for mes in message -%}
+		{% if mes == "*" %}
 		<br>
-	{% else -%}
+		{% else -%}
 		{{mes}}
-	{%- endif %}
-	{%- endfor %}
-  </div>
-  <!-- <div onload="myFunction()" class="alert alert-success alert-dismissable fade show" style="border-top: 200px;" role="alert">
+		{%- endif %}
+		{%- endfor %}
+	</div>
+	<!-- <div onload="myFunction()" class="alert alert-success alert-dismissable fade show" style="border-top: 200px;" role="alert">
     {{ message }}
     <button type="button" class="close" data-dismiss="alert">
       <span aria-hidden="true">&times;</span>
@@ -105,25 +107,24 @@
   <script>
 	window.onload="myfunction()";
   </script> -->
-  <script>
-	var x = document.getElementById("snackbar");
-  
-	x.className = "show";
-  
-	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-  </script>
+	<script>
+		var x = document.getElementById("snackbar");
 
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
+		x.className = "show";
 
+		setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+	</script>
 
-  <div class="home-intro" id="home" style="padding: 0%;">
-                <div>
-                    {% block content %}
-                    {% endblock %}
-                </div>
-  </div>
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
+
+	<div class="home-intro" id="home" style="padding: 0%;">
+		<div>
+			{% block content %}
+			{% endblock %}
+		</div>
+	</div>
 
 
 
@@ -139,12 +140,12 @@
 	<script src="static/js/main.js"></script>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script> -->
 </body>

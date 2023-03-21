@@ -18,9 +18,11 @@
 <div>
             {% for duty in dutyposting %}
             <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-inline"> -->
-                  Employee Name:&nbsp;{{duty.name}}&nbsp;&nbsp;
-                  Shift:&nbsp;{{duty.shift}}&nbsp;&nbsp;
-                  Bay:&nbsp;{{duty.bay}}&nbsp;&nbsp;
+                  <div style="display: flex;">
+                 <div style="flex: 0.60;">Employee Name:&nbsp;<b>{{duty.name}}</b>&nbsp;&nbsp;</div>
+                 <div style="flex: 0.20;">Shift:&nbsp;{{duty.shift}}&nbsp;&nbsp;</div>
+                  <div style="flex: 0.20;">Bay:&nbsp;{{duty.bay}}&nbsp;&nbsp;</div>
+                  </div>
             <hr>
             <!-- </div> -->
             {% endfor %}
@@ -31,9 +33,21 @@
                   <!-- <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;" class="form-group row"> -->
             <div>
                   Employee Name:&nbsp;{{employee.name}}<br>
-                  Shift:&nbsp;<input type="number" style="margin-top: 20px;" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}"><br>
-                  Bay:&nbsp;<input type="number"style="margin-top: 20px;"  class="form-control" id="bay{{employee.emp_id}}" name="bay{{employee.emp_id}}"><br>
-                  </div>
+                  Shift:&nbsp;
+                  1:&nbsp;&nbsp;<input type="radio" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}" value="1" style="margin-top: 27px; font-size: 1px;"/>&nbsp;&nbsp;
+                  2:&nbsp;&nbsp;<input type="radio" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}" value="2" style="margin-top: 27px; font-size: 1px"/>
+                  
+                  <!-- <input type="number" style="margin-top: 20px;" class="form-control" id="shift{{employee.emp_id}}" name="shift{{employee.emp_id}}"><br> -->
+                  <br>
+                  Bay:&nbsp;
+                  <select class="form-control" id="bay{{employee.emp_id}}" name="bay{{employee.emp_id}}" value="">
+                        <option value="" selected>None</option>
+                        {% for bay in bays %}
+                        <option value="{{bay.bay_no}}">{{bay.bay_no}}</option>
+                        {% endfor %}
+                  </select> 
+                  <!-- <input type="number"style="margin-top: 20px;"  class="form-control" id="bay{{employee.emp_id}}" name="bay{{employee.emp_id}}"><br> -->
+            </div>
                   <br><br>
                   {% endfor %}
             </div>
