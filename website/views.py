@@ -250,7 +250,7 @@ def dutyposting():
 @views.route('/employeemanager', methods=['GET','POST'])
 @login_required
 def employeemanager(id=0):
-    emp_id = request.form.get("emp_id")
+    id = request.form.get("id")
     name = request.form.get("name")
     dob = request.form.get("dob")
     address = request.form.get("address")
@@ -258,10 +258,9 @@ def employeemanager(id=0):
     advance = request.form.get("advance")
     excess_short = request.form.get("excess_short")
     check = db.session.query(employee).filter(employee.emp_id==id).first()
+    check = employee.query.get(id)
     print(check)
     if request.method == 'POST':
-        format_str = '%Y-%m-%d'
-        # dob_obj = datetime.datetime.strptime(dob, format_str)
         if check:
             check.name = name
             # check.dob = dob_obj
@@ -271,7 +270,9 @@ def employeemanager(id=0):
             check.excess_short = excess_short
             db.session.commit()
         else:
-            emp = employee(name=name, address=address, phone=phone, advance=advance, excess_short=0)
+            format_str = '%Y-%m-%d'
+            dob_obj = datetime.datetime.strptime(dob, format_str)
+            emp = employee(name=name,dob = dob_obj, address=address, phone=phone, advance=advance, excess_short=0)
             db.session.add(emp)
             db.session.commit()
         print("check")
@@ -625,6 +626,8 @@ def clear_employee(id):
     employees = employee.query.get(id)
     employees.excess_short = 0 
     db.session.commit()
+    msg = "Excess/Short for "+employees.name+" has been cleared "
+    flash(msg, 'success')
     return redirect(url_for('views.employeemanager'))
     
 
@@ -655,10 +658,10 @@ def delete_payment(id):
     flash('Payment method has been deleted!', 'success')
     return redirect(url_for('views.addpaymentmethod'))
 
-@views.route('/delete_certificate/<int:id>', methods=['GET', 'POST'])
+@views.route('/delete_certificate/<name>', methods=['GET', 'POST'])
 @login_required
-def delete_certificate(id):
-    cert = certificate.query.get(id)
+def delete_certificate(name):
+    cert = certificate.query.get(name)
     db.session.delete(cert)
     db.session.commit()
     flash('Certificate has been deleted!', 'success')

@@ -266,6 +266,7 @@ p {
     padding: 130px 0 150px !important;
     background-size: 58%;
     background-position: top right, bottom left;
+    background-attachment: fixed;
 }
 
 .home-intro .content-image {

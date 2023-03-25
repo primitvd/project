@@ -5,8 +5,8 @@
 <div class="outer" 
       style="margin: 5%; margin-top: 2%; border: black 2px; padding: 5%; border-radius: 5px; box-shadow: 10px 10px 50px grey">
       {% for item in items %}
-
-      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%">
+      {% if item.stock < 50 %}
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; background-color: rgb(249, 203, 203);">
             <div style="display: flex; align-items: center; justify-content: space-between;">
                   <div style="flex: 1;">
             Name:&nbsp;<b>{{item.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -26,6 +26,30 @@
             </form>
             </div>
       </div>
+
+      {% else %}
+      <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="flex: 1;">
+            Name:&nbsp;<b>{{item.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;
+            Stock:&nbsp;{{item.stock}}&nbsp;&nbsp;&nbsp;&nbsp;
+            Price:&nbsp;{{item.price}}&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <button class="btn btn-info" onclick="edit{{item.inv_id}}()" style="margin-right: 10px;">Edit</button>
+        <script>
+          function edit{{item.inv_id}}(){
+            document.getElementById("name").value = {{ item.name | tojson }};
+            document.getElementById("stock").value = {{ item.stock | tojson }};
+            document.getElementById("price").value = {{ item.price | tojson }};
+          }
+        </script>
+            <form action="{{ url_for('views.delete_inventory', id=item.inv_id) }}" method="post" style="float: right;">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            </div>
+      </div>
+
+      {% endif %}
       <br>
       {% endfor %}
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%;">

@@ -62,6 +62,7 @@
                 <table class="table table-bordered table-hover" >
                     <thead>
                         <tr>
+                            <th>S. No</th>
                             <th>Date</th>
                             <th>Bay</th>
                             <th>Shift</th>
@@ -75,8 +76,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% set i = [1] %}
                         {% for sale in salelist %}
                         <tr>
+                            <td>{{i|last}}</td>{% set temp = i.append(i|last + 1) %}
                             <td>{{sale.date}}</td>
                             <td>{{sale.bay}}</td>
                             <td>{{sale.shift}}</td>
@@ -90,7 +93,7 @@
                         </tr>
                         {% endfor %}
                         <tr>
-                            <th colspan="2">Total</th>
+                            <th colspan="3">Total</th>
                             <td>{{salelist | length}}</td>
                             <td>{{ salelist | sum(attribute='ms_sales') }}</td>
                             <td>{{ salelist | sum(attribute='ms_amount') }}</td>
