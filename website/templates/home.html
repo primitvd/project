@@ -12,9 +12,18 @@
                 </div>
             </div>
             <div class="col col-sm-12 col-md-6 col-12">
-                <br><br>
-                <div class="content-image">
-                    <img src="static/images/intro.jpg" alt="">
+                <br><br><br><br>
+                <div class="content-image" style="border: solid 2px black; border-radius: 30px; background-color: aliceblue; width: fit-content; padding-right: 10%;">
+                    <!-- <img src="static/images/intro.jpg" alt=""> -->
+                    <h3 style="font-size: 45px; padding-top: 5%; color: rgb(37, 29, 29);">
+                        <u>Daily Price</u>
+                    </h3>
+                    {% if a==0 %}
+                        <h4> Not Set</h4>
+                        {% else %}
+                        <h4>MS Price:&nbsp;{{ check[0].ms_price }}</h4>
+                        <h4>HSD Price:&nbsp;{{ check[0].hsd_price }}</h4>
+                    {% endif %}
                 </div>
             </div>
         </div>

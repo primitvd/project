@@ -8,7 +8,7 @@
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; margin-bottom: 10px;">
             <div style="display: flex; align-items: center; justify-content: space-between; font-size: 18px;">
                   <div>
-                        Bay {{bay.bay_no}} &nbsp;&nbsp; HSD: {{bay.hsd}} &nbsp;&nbsp; MS: {{bay.ms}}
+                        Bay: {{bay.name}} &nbsp;&nbsp; HSD: {{bay.hsd}} &nbsp;&nbsp; MS: {{bay.ms}}
                   </div>
                   <form action="{{ url_for('views.delete_bay', id=bay.bay_no) }}" method="post" style="float: right;">
                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -19,7 +19,9 @@
       {% endfor %}
       <div style="border: solid rgb(27, 26, 26) 1px; border-radius: 5px; padding: 2%; margin-top: 20px;">
             <form class="form-inline" method="POST">
-                  <label for="MS" style="margin-right: 20px;">MS:</label>
+                  <label for="bay_no" style="margin-right: 20px;">Bay No:</label>
+                  <input type="number" style="margin-top: 20px;" class="form-control" id="bay_no" name="bay_no" required>
+                  <label for="MS" style="margin-left: 20px; margin-right: 20px;">MS:</label>
                   <input type="number" style="margin-top: 20px;" class="form-control" id="MS" name="MS" required>
                   <label for="HSD" style="margin-left: 20px; margin-right: 20px;">HSD:</label>
                   <input type="number" style="margin-top: 20px;" class="form-control" id="HSD" name="HSD" required>

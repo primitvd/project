@@ -30,7 +30,7 @@ def home():
     a = 1
     if not check:
         a = 0
-    return render_template("home.html", user=current_user, a=a)
+    return render_template("home.html", user=current_user, a=a, check = check)
 
 @views.route('/dailysales', methods=['GET','POST'])
 @login_required
@@ -97,13 +97,14 @@ def dailysales():
         #     sale.hsd_sale = hsd_sales
         #     sale.hsd_amount = hsd_amount
         # else:
-
+        saleid = db.session.query(func.max(sales.sid)).first()[0]
         for item in items:
             units_sold = int(request.form.get("units_sold"+str(item.inv_id)))
             amount = request.form.get("units_sale"+str(item.inv_id))
             item1 = inventory.query.filter_by(inv_id = item.inv_id).first()
             item1.stock -= units_sold
-
+            itemsale = itemsales(sid = saleid+1,inv_id = item.inv_id,sale = amount)
+            db.session.add(itemsale)
 
 
 
@@ -150,14 +151,14 @@ def dailysales():
 @views.route('/baymanager', methods=['GET','POST'])
 @login_required
 def baymanager():
+    bay_no = request.form.get("bay_no")
     MS = request.form.get("MS")
     HSD = request.form.get("HSD")
     if request.method == 'POST':
-        bay = bay_manager(hsd=HSD,ms=MS)
+        bay = bay_manager(name=bay_no,hsd=HSD,ms=MS)
         db.session.add(bay)
         db.session.commit()
         flash("Data added!", category=True)
-        data1 = bay_manager.query.all()
         print(MS,HSD)
     bays = bay_manager.query.all()
     return render_template("baymanager.html", bays = bays, user=current_user)
@@ -445,6 +446,7 @@ def salesreport():
     if not edate:
         edate="3000-01-01"
     salelist = []
+    itemlist = []
     # pdf = FPDF()
     # pdf.add_page()
     if request.method == 'POST':
@@ -458,64 +460,21 @@ def salesreport():
             sdate_obj = sdate_obj - timedelta(days=1)
 
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
-            print(salelist)
+            for sale in salelist:
+                itemss = db.session.query(itemsales).filter(itemsales.sid == sale.sid).all()
+                if itemss != []:
+                    itemlist.append(itemss)
+
+            print(itemlist)
 
 
 
-            
-		
-            # page_width = pdf.w - 2 * pdf.l_margin
-		
-            # pdf.set_font('Times','B',14.0) 
-            # pdf.cell(page_width, 0.0, 'Employee Data', align='C')
-            # pdf.ln(10)
-            # pdf.set_font('Courier', '', 12)
-            # col_width = page_width/2
-		
-            # pdf.ln(1)
-		
-            # th = pdf.font_size
-		
+    
 
-            # for row in result:
-            #     pdf.cell(col_width, th, str(row.user_id), border=1)
-            #     pdf.cell(col_width, th, row.password, border=1)
-            #     pdf.ln(th)
-		    
-            # pdf.ln(10)
-		
-            # pdf.set_font('Times','',10.0) 
-            # pdf.cell(page_width, 0.0, '- end of report -', align='C')
-
-            # print(pdf)
         
-    #     result = login.query.all()
-    #     out = render_template("salesreportdownload.html", user=current_user, result = result)
-    
-    # # PDF options   
-    #     options = {
-    #         "orientation": "landscape",
-    #         "page-size": "A4",
-    #         "margin-top": "1.0cm",
-    #         "margin-right": "1.0cm",
-    #         "margin-bottom": "1.0cm",
-    #         "margin-left": "1.0cm",
-    #         "encoding": "UTF-8",
-    #     }
-    
-    # # Build PDF from HTML 
-    #     pdf = pdfkit.from_string(out, options=options)
-
-
-        # response = make_response(pdf)
-        # response.headers["Content-Type"] = "application/pdf"
-        # response.headers["Content-Disposition"] = "inline; filename=output.pdf"
-
-
-
-
         print("check")
-    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate)
+    items = inventory.query.all()
+    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, itemlist=itemlist, items=items)
 
 
 @views.route('/addpaymentmethod', methods=['GET', 'POST'])

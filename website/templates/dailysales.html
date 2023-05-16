@@ -187,9 +187,27 @@
                         <label for="coins">Coins:</label>
                         <input style="margin-top: 27px; margin-right:10%;" type="number" step="1" class="form-control" id="coins" name="coins" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
                   </div>
+
                   <!-- Point of Sale:&nbsp;<a href="/pos">PoS</a> -->
                   <h6><u>Other payment methods</u></h6>
                   <div>
+                        <div class="form-group form-inline">
+                              <label for="pos-serial">PoS No:&nbsp;</label>
+                              <p style="margin-top: 10px; margin-right:10%;" type="number" step="0.01" class="form-control" id="pos-serial" name="pos-serial" style="margin-right: 10%;" value="0">0</p>
+                              <label for="pos-amount">PoS Amount:&nbsp;</label>
+                              <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="pos-amount" name="pos-amount" style="margin-right: 10%;" value="0" required/>
+                              <button class="btn btn-primary" onclick="calc4()"> Add to total</button>
+                              <div onclick="calc4()">ADD</div>
+                              <script>
+                                    function calc4()
+                                    {
+                                          document.getElementById("pos").value() += document.getElementById("pos-amount").value();
+                                          document.getElementById("pos-serial").value() += 1;
+                                          document.getElementById("pos-serial").innerHTML = document.getElementById("pos-serial").value();
+                                    }
+                              </script>
+                              <!-- </div><div class="form-group form-inline"> -->
+                        </div>
                         <div class="form-group form-inline">
                         <label for="pos">PoS:&nbsp;</label>
                         <input style="margin-top: 27px; margin-right:10%;" type="number" step="0.01" class="form-control" id="pos" name="pos" style="margin-right: 10%;" value="0" required onchange="calc3()"/>
