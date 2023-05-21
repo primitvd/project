@@ -70,6 +70,9 @@
                             <th>MS Amount</th>
                             <th>HSD Sales</th>
                             <th>HSD Amount</th>
+                            {% for item in items %}
+                                    <th>{{ item.name }}</th>
+                                    {% endfor %}
                             <th>Sale Total</th>
                             <th>Collected Amount</th>
                             <th>Excess/Short</th>
@@ -87,6 +90,21 @@
                             <td>{{sale.ms_amount}}</td>
                             <td>{{sale.hsd_sales}}</td>
                             <td>{{sale.hsd_amount}}</td>
+                            {% for item in items %}
+                                    {% set temp1 = namespace(foo=0) %}
+                                          {% for itemss in itemlist %}
+                                          {% for itemsss in itemss %}
+                                                {% if sale.sid == itemsss.sid and item.inv_id == itemsss.inv_id %}      
+                                          <td>{{ itemsss.sale }}</td>
+                                          {% set temp1.foo = 1 %}
+                                                {% endif %}
+                                          {% endfor %}
+                                          {% endfor %}
+                                          {% if temp1.foo == 0 %}
+                                    <td>0</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
                             <td>{{sale.stotal}}</td>
                             <td>{{sale.dtotal}}</td>
                             <td>{{sale.diff}}</td>
@@ -99,6 +117,9 @@
                             <td>{{ salelist | sum(attribute='ms_amount') }}</td>
                             <td>{{ salelist | sum(attribute='hsd_sales') }}</td>
                             <td>{{ salelist | sum(attribute='hsd_amount') }}</td>
+                            {% for item in items %}
+                                    <td></td>
+                                    {% endfor %}
                             <td>{{ salelist | sum(attribute='stotal') }}</td>
                             <td>{{ salelist | sum(attribute='dtotal') }}</td>
                             <td>{{ salelist | sum(attribute='diff') }}</td>

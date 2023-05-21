@@ -30,7 +30,9 @@ def home():
     a = 1
     if not check:
         a = 0
-    return render_template("home.html", user=current_user, a=a, check = check)
+    resp = make_response(render_template("home.html", user=current_user, a=a, check = check))
+    # resp.set_cookie("username")
+    return resp
 
 @views.route('/dailysales', methods=['GET','POST'])
 @login_required
@@ -160,7 +162,7 @@ def baymanager():
         db.session.commit()
         flash("Data added!", category=True)
         print(MS,HSD)
-    bays = bay_manager.query.all()
+    bays = bay_manager.query.order_by(bay_manager.name)
     return render_template("baymanager.html", bays = bays, user=current_user)
 
 @views.route('/certificates', methods=['GET','POST'])
@@ -473,8 +475,9 @@ def salesreport():
 
         
         print("check")
+    employees = employee.query.all()
     items = inventory.query.all()
-    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, itemlist=itemlist, items=items)
+    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, itemlist=itemlist, items=items, employees=employees)
 
 
 @views.route('/addpaymentmethod', methods=['GET', 'POST'])
@@ -503,6 +506,7 @@ def employeereport():
         edate="3000-01-01"
     emp_id = request.form.get("emp_id")
     salelist=[]
+    itemlist = []
     response = make_response()
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
@@ -515,6 +519,10 @@ def employeereport():
 
         else:
             salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == emp_id).all()
+            for sale in salelist:
+                itemss = db.session.query(itemsales).filter(itemsales.sid == sale.sid).all()
+                if itemss != []:
+                    itemlist.append(itemss)
 
     #     html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
 
@@ -533,8 +541,8 @@ def employeereport():
         # response.headers['Content-Type'] = 'application/pdf'
         # response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
     print(salelist)
-    
-    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, sdate=sdate, edate=edate, emp_id=emp_id )
+    items = inventory.query.all()
+    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, sdate=sdate, edate=edate, emp_id=emp_id, itemlist=itemlist, items=items )
 
 @views.route('/dailyprice', methods=['GET','POST'])
 @login_required
@@ -542,7 +550,8 @@ def dailyprice():
     date1 = request.form.get("date")
     ms = request.form.get("ms_price")
     hsd = request.form.get("hsd_price")
-    
+    date=datetime.datetime.now().strftime('%Y-%m-%d')
+    daily = db.session.query(daily_price).filter(daily_price.date == date).first()
     if request.method == 'POST':
         if date1:
             format_str = '%Y-%m-%d'
@@ -565,8 +574,8 @@ def dailyprice():
             flash("Enter date", category=False)  
         
         print("check")
-        
-    return render_template("dailyprice.html", user=current_user, date=datetime.datetime.now().strftime('%Y-%m-%d'))
+    print(daily)
+    return render_template("dailyprice.html", user=current_user, date=datetime.datetime.now().strftime('%Y-%m-%d'),daily=daily)
 
 
 
@@ -629,6 +638,7 @@ def delete_certificate(name):
 
 @views.route('/employeepdf')
 def employeepdf():
+    itemlist = []
     sdate = request.args.get('sdate',None)
     edate = request.args.get('edate',None)
     id = request.args.get('id',None)
@@ -640,11 +650,15 @@ def employeepdf():
     sdate_obj = sdate_obj - timedelta(days=1)
 
     salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj),sales.emp_id == id).all()
+    for sale in salelist:
+        itemss = db.session.query(itemsales).filter(itemsales.sid == sale.sid).all()
+        if itemss != []:
+            itemlist.append(itemss)
     # salelist = request.args.get('salelist',None)
     print(salelist)
     
-
-    html = render_template("employeepdf.html", salelist=salelist)
+    items = inventory.query.all()
+    html = render_template("employeepdf.html", salelist=salelist, itemlist=itemlist, items=items)
 
     # Convert HTML to PDF
     options = {
@@ -666,6 +680,7 @@ def employeepdf():
 
 @views.route('/salespdf')
 def salespdf():
+    itemlist = []
     sdate = request.args.get('sdate',None)
     edate = request.args.get('edate',None)
 
@@ -677,11 +692,17 @@ def salespdf():
 
     
     salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+    salelist = db.session.query(sales).filter(sales.date.between(sdate_obj, edate_obj)).all()
+    for sale in salelist:
+        itemss = db.session.query(itemsales).filter(itemsales.sid == sale.sid).all()
+        if itemss != []:
+            itemlist.append(itemss)
     # salelist = request.args.get('salelist',None)
     print(salelist)
     
-
-    html = render_template("salespdf.html", salelist=salelist)
+    employees = employee.query.all()
+    items = inventory.query.all()
+    html = render_template("salespdf.html", salelist=salelist, itemlist=itemlist, items=items, employees=employees)
 
     # Convert HTML to PDF
     options = {

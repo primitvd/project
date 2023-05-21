@@ -17,8 +17,7 @@
         <thead>
             <tr>
                 <th>S. No</th>
-                <th>Sale ID</th>
-                <th>Employee ID</th>
+                <th>Employee Name</th>
                 <th>Bay</th>
                 <th>Date</th>
                 <th>Shift</th>
@@ -26,6 +25,9 @@
                 <th>MS Amount</th>
                 <th>HSD Sales</th>
                 <th>HSD Amount</th>
+                {% for item in items %}
+                                    <th>{{ item.name }}</th>
+                                    {% endfor %}
                 <th>Sale Total</th>
                 <th>Collected Total</th>
                 <th>Difference</th>
@@ -36,8 +38,11 @@
             {% for sale in salelist %}
             <tr>
                 <td>{{i|last}}</td>{% set temp = i.append(i|last + 1) %}
-                <td>{{sale.sid}}</td>
-                <td>{{sale.emp_id}}</td>
+                {% for employee in employees %}
+                                          {% if employee.emp_id == sale.emp_id%}
+                                                <td>{{employee.name}}</td>
+                                          {% endif %}
+                                    {% endfor %}
                 <td>{{sale.bay}}</td>
                 <td>{{sale.date}}</td>
                 <td>{{sale.shift}}</td>
@@ -45,6 +50,21 @@
                 <td>{{sale.ms_amount}}</td>
                 <td>{{sale.hsd_sales}}</td>
                 <td>{{sale.hsd_amount}}</td>
+                {% for item in items %}
+                                    {% set temp1 = namespace(foo=0) %}
+                                          {% for itemss in itemlist %}
+                                          {% for itemsss in itemss %}
+                                                {% if sale.sid == itemsss.sid and item.inv_id == itemsss.inv_id %}      
+                                          <td>{{ itemsss.sale }}</td>
+                                          {% set temp1.foo = 1 %}
+                                                {% endif %}
+                                          {% endfor %}
+                                          {% endfor %}
+                                          {% if temp1.foo == 0 %}
+                                    <td>0</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
                 <td>{{sale.stotal}}</td>
                 <td>{{sale.dtotal}}</td>
                 <td>{{sale.diff}}</td>
@@ -52,11 +72,14 @@
             {% endfor %}
 
             <tr>
-                <th colspan="6">Total</th>
+                <th colspan="5">Total</th>
                 <td>{{ salelist | sum(attribute='ms_sales') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='ms_amount') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='hsd_sales') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='hsd_amount') | round(2) }}</td>
+                                    {% for item in items %}
+                                    <td></td>
+                                    {% endfor %}
                                     <td>{{ salelist | sum(attribute='stotal') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='dtotal') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='diff') | round(2) }}</td>

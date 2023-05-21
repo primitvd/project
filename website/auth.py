@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, flash, url_for
+from flask import Blueprint, make_response, redirect, render_template, request, flash, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from .models import *
 from . import db
@@ -50,20 +50,23 @@ def login():
     if request.method == 'POST':
         userid = request.form.get('user_id')
         password = request.form.get('password')
-
         user = logins.query.filter_by(user_id=userid).first()
         
         if user:
             if(check_password_hash(user.password, password)):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                respo = make_response(url_for('views.home'))
+                # respo.set_cookie('username')
+                return respo
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('User does not exist.', category='error')
 
-    return render_template("login.html", user=current_user)
+    resp = make_response(render_template("login.html", user=current_user))
+    # resp.set_cookie("username")
+    return resp
 
 
 @auth.route('/logout')
@@ -92,5 +95,5 @@ def changepassword():
         else:
             flash('User does not exist.', category='error')
 
-
+    
     return render_template("changepassword.html", user=current_user)
