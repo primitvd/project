@@ -18,12 +18,16 @@ def manlogin():
             if(check_password_hash(user.password, password)):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                respo = redirect(url_for('views.home'))
+                respo.set_cookie("loggedin")
+                return respo
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('User does not exist.', category='error')
-    return render_template("managerlogin.html", user=current_user)
+    resp = make_response(render_template("managerlogin.html", user=current_user))
+    # resp.set_cookie("manager")        
+    return resp
 
 @auth.route('/adminlogin', methods=['GET','POST'])
 def adlogin():
@@ -37,12 +41,16 @@ def adlogin():
             if(check_password_hash(user.password, password)):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                respo = redirect(url_for('views.home'))
+                respo.set_cookie("loggedin")
+                return respo
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('User does not exist.', category='error')
-    return render_template("adminlogin.html",  user=current_user)
+    resp = make_response(render_template("adminlogin.html", user=current_user))
+    # resp.set_cookie("admin")        
+    return resp
 
 
 @auth.route('/login', methods=['GET', 'POST'])

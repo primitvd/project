@@ -25,10 +25,14 @@
 		// if (history.length < 3)
 		// 	location.href = "{{ url_for('auth.logout')}}";
 		// console.log(history);
-		// if (document.cookie != "username" && location.href != "http://127.0.0.1:5000/login?next=%2Flogout")
+		let loggedin = 0;
+		// if (document.cookie != "loggedin=" && loggedin == 0)
 		// {
 		// 	location.href = "{{ url_for('auth.logout')}}";
+		// 	loggedin = 1;
 		// }
+		console.log(document.cookie);
+		
 	</script>
 	<!-- navbar -->
 	<nav class="navbar navbar-expand-xl fixed-top navbar-fixed">
@@ -144,6 +148,19 @@
 	<!-- end footer bottom -->
 
 	<!-- script -->
+	<script>
+		// if(location.href != "http://127.0.0.1:5000/login?next=%2Flogout")
+		// if (history.length < 3)
+		// 	location.href = "{{ url_for('auth.logout')}}";
+		// console.log(history);
+		if (document.cookie != "loggedin=" && loggedin == 0)
+		{
+			location.href = "{{ url_for('auth.logout')}}";
+			loggedin = 1;
+		}
+		console.log(document.cookie);
+		
+	</script>
 	<script src="static/js/jquery.min.js"></script>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/main.js"></script>
