@@ -100,6 +100,8 @@ def dailysales():
         #     sale.hsd_amount = hsd_amount
         # else:
         saleid = db.session.query(func.max(sales.sid)).first()[0]
+        if not saleid:
+            saleid = 0
         for item in items:
             units_sold = int(request.form.get("units_sold"+str(item.inv_id)))
             amount = request.form.get("units_sale"+str(item.inv_id))
@@ -570,6 +572,7 @@ def dailyprice():
                 print("2")
             db.session.commit() 
             flash("Data added!", category=True)
+            return redirect(url_for('views.home'))
         else:
             flash("Enter date", category=False)  
         

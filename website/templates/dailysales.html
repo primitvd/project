@@ -199,32 +199,71 @@
                   <h6><u>Other payment methods</u></h6>
                   <div>
                         <div style="display: flex;">
-                              <div class="form-group form-inline" id="pos-single" style="flex: 1">
+                              <div class="form-group form-inline" id="pos-single" style="flex: 2">
                               <label for="pos-serial">PoS No:&nbsp;</label>
                               <input disabled style="margin-top: 2px; margin-right:10%; margin-bottom: 5px; width: 70px; background-color: white;" type="number" class="form-control" id="pos-serial" name="pos-serial" style="margin-right: 10%;" value="1">
                               <label for="pos-amount">PoS Amount:&nbsp;</label>
                               <input style="margin-top: 2px; margin-right:10%; margin-bottom: 5px" type="number" step="0.01" class="form-control" id="pos-amount" name="pos-amount" style="margin-right: 10%;" value="0" required/>
+                              <button hidden type="button" id="pos_delete" class="btn btn-danger" onclick="calc5(this.id)">Delete</button>
+                              <input hidden disabled style="margin-top: 2px; margin-right:10%; margin-bottom: 5px; width: 70px; background-color: white;" type="number" class="form-control" id="pos-serial-hidden" name="pos-serial-hidden" style="margin-right: 10%;" value="1">
                               </div>
-                              <button type="button" class="btn btn-primary" onclick="calc4()" style="margin-right: 25%; height: fit-content; width: fit-content; margin-top: 2px;"> Add to total</button>
+                              <div class="form-group form-inline" style="margin-right: 5%; height: fit-content; width: fit-content; margin-top: 2px;flex: 1">
+                              <label for="pos-total">PoS Total:&nbsp;</label>
+                              <input disabled style="margin-top: 2px; margin-right:10%; margin-bottom: 5px; width: 70px; background-color: white;" type="number" class="form-control" id="pos-total" name="pos-total" style="margin-right: 10%;" value="0">
+                              </div>
+                              <button type="button" class="btn btn-primary" onclick="calc4()" style="margin-right: 5%; height: fit-content; width: fit-content; margin-top: 2px;"> Add to total</button>
                               <script>
                                     function calc4()
                                     {
                                           document.getElementById("pos").value = parseFloat(document.getElementById("pos").value) + parseFloat(document.getElementById("pos-amount").value);
-                                          
+                                          document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) + parseFloat(document.getElementById("pos-amount").value);
                                           const node = document.getElementById("pos-single");
                                           const clone = node.cloneNode(true);
                                           clone.children[3].disabled = true;
                                           clone.children[3].style.backgroundColor = "white";
+                                          clone.children[4].hidden = false;
+                                          clone.id = "clone"+parseInt(clone.children[5].value);
+                                          clone.children[4].id = parseInt(clone.children[5].value);
+                                          
                                           const list = document.getElementById("pos-all");
                                           list.insertBefore(clone, list.children[1]);
+                                          console.log(list.children.length);
                                           document.getElementById("pos-amount").value = 0;
                                           // document.getElementById("pos-all").appendChild(clone);
                                           document.getElementById("pos-serial").value = parseInt(parseInt(document.getElementById("pos-serial").value) + parseInt(1));
+                                          document.getElementById("pos-serial-hidden").value = parseInt(parseInt(document.getElementById("pos-serial-hidden").value) + parseInt(1));
                                           document.getElementById("pos-serial").innerHTML = document.getElementById("pos-serial").value;
                                           calc3();
-                                          let length = history;
-                                          console.log(length);
                                           // document.write(document.getElementById("pos-serial").value);
+                                    }
+
+                                    function calc5(id)
+                                    {
+                                          const list = document.getElementById("pos-all");
+                                          for(let i = 1;i<list.children.length;i++)
+                                          {
+                                                if(list.children[i].id == "clone"+id)
+                                                {
+                                                      document.getElementById("pos").value = parseFloat(document.getElementById("pos").value) - parseFloat(list.children[i].children[3].value);
+                                                      document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) - parseFloat(list.children[i].children[3].value);
+                                                      console.log(list.children[i].children[3].value);
+                                                      list.children[i].hidden = true;
+                                                      document.getElementById("pos-serial").value = parseInt(parseInt(document.getElementById("pos-serial").value) - parseInt(1));
+                                                      document.getElementById("pos-serial").innerHTML = document.getElementById("pos-serial").value;
+                                                      calc3();
+                                                      break;
+                                                }
+                                                else
+                                                {
+                                                      list.children[i].children[1].value = parseInt(parseInt(list.children[i].children[1].value) - parseInt(1));
+                                                      list.children[i].children[1].innerHTML = list.children[i].children[1].value;
+                                                }
+                                          }
+                                          // list.chidren.forEach(node => {
+                                          //       if(node.id == "clone"+id)
+                                          //             console.log(node.children[3]);
+                                          // });
+                                          console.log(id);
                                     }
                               </script>
                               
@@ -309,6 +348,7 @@
       document.getElementById("units_sale"+id).value=(price*document.getElementById("units_sold"+id).value).toFixed(2);
       document.getElementById("stotal").value = (parseFloat(document.getElementById("stotal").value) - parseFloat(document.getElementById("units_sale_hidden"+id).value) + parseFloat(document.getElementById("units_sale"+id).value)).toFixed(2);
       document.getElementById("diff").value = (parseFloat(document.getElementById("dtotal").value) - parseFloat(document.getElementById("stotal").value)).toFixed(2);
+      document.getElementById("units_sale_hidden"+id).value = document.getElementById("units_sale"+id).value
       }
 
      function calc3()
