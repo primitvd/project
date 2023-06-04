@@ -16,7 +16,7 @@
     <table class="table table-bordered table-hover" >
         <thead>
             <tr>
-                <th>ID</th>
+                <th>S. No</th>
                 <th>Fuel Type</th>
                 <th>Date</th>
                 <th>Morning Density</th>
@@ -35,9 +35,10 @@
             </tr>
         </thead>
         <tbody>
+            {% set i = [1] %}
             {% for sale in salelist %}
             <tr>
-                <td>{{sale.id}}</td>
+                <td>{{i|last}}</td>{% set temp = i.append(i|last + 1) %}
                 <td>{{sale.type}}</td>
                 <td>{{sale.date}}</td>
                 <td>{{sale.morning_density}}</td>

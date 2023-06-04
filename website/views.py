@@ -451,6 +451,7 @@ def salesreport():
         edate="3000-01-01"
     salelist = []
     itemlist = []
+    items1 = inventory.query.all()
     # pdf = FPDF()
     # pdf.add_page()
     if request.method == 'POST':
@@ -469,9 +470,13 @@ def salesreport():
                 if itemss != []:
                     itemlist.append(itemss)
 
-            print(itemlist)
+            print(items1)
 
-
+        for items in items1:
+            for item1 in itemlist:
+                for item in item1:
+                    if items.inv_id == item.inv_id:
+                        items.price = items.price + item.sale
 
     
 
@@ -479,7 +484,7 @@ def salesreport():
         print("check")
     employees = employee.query.all()
     items = inventory.query.all()
-    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, itemlist=itemlist, items=items, employees=employees)
+    return render_template("salesreport.html", user=current_user, salelist=salelist, sdate=sdate, edate=edate, itemlist=itemlist, items=items, employees=employees, items1=items1)
 
 
 @views.route('/addpaymentmethod', methods=['GET', 'POST'])
@@ -581,6 +586,134 @@ def dailyprice():
     return render_template("dailyprice.html", user=current_user, date=datetime.datetime.now().strftime('%Y-%m-%d'),daily=daily)
 
 
+
+@views.route('/dailypricereport', methods=['GET','POST'])
+@login_required
+def dailypricereport():
+    # daily = daily_price.query.all()
+    sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
+    edate = request.form.get("edate")
+    if not edate:
+        edate="3000-01-01"
+    dailylist=[]
+    if request.method == 'POST':
+        format_str = '%Y-%m-%d'
+        sdate_obj = datetime.datetime.strptime(sdate, format_str)
+        edate_obj = datetime.datetime.strptime(edate, format_str)
+        sdate_obj = sdate_obj - timedelta(days=1)
+
+        if(sdate > edate):
+          flash("Start date should be before end date",category="False")
+
+        else:
+            dailylist = db.session.query(daily_price).filter(daily_price.date.between(sdate_obj, edate_obj)).all()
+
+    # print(salelist)
+    return render_template("dailypricereport.html", user=current_user, dailylist=dailylist, sdate=sdate, edate=edate)
+
+
+@views.route('/dailypricepdf')
+def dailypricepdf():
+    sdate = request.args.get('sdate',None)
+    edate = request.args.get('edate',None)
+    dailylist=[]
+    
+    format_str = '%Y-%m-%d'
+    sdate_obj = datetime.datetime.strptime(sdate, format_str)
+    edate_obj = datetime.datetime.strptime(edate, format_str)
+    sdate_obj = sdate_obj - timedelta(days=1)
+
+    if(sdate > edate):
+      flash("Start date should be before end date",category="False")
+
+    else:
+        dailylist = db.session.query(daily_price).filter(daily_price.date.between(sdate_obj, edate_obj)).all()
+
+    print(list)
+    html =  render_template("dailypricepdf.html", dailylist=dailylist, sdate=sdate, edate=edate)
+
+    # Convert HTML to PDF
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
+    print(id)
+    print(sdate)
+    # Return the PDF as a response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=dailyprice.pdf'
+    return response
+
+@views.route('/dutypostingreport', methods=['GET','POST'])
+@login_required
+def dutypostingreport():
+    # daily = daily_price.query.all()
+    sdate = request.form.get("sdate")
+    if not sdate:
+        sdate="2000-01-01"
+    edate = request.form.get("edate")
+    if not edate:
+        edate="3000-01-01"
+    dailylist=[]
+    if request.method == 'POST':
+        format_str = '%Y-%m-%d'
+        sdate_obj = datetime.datetime.strptime(sdate, format_str)
+        edate_obj = datetime.datetime.strptime(edate, format_str)
+        sdate_obj = sdate_obj - timedelta(days=1)
+
+        if(sdate > edate):
+          flash("Start date should be before end date",category="False")
+
+        else:
+            dailylist = db.session.query(duty_posting).filter(duty_posting.date.between(sdate_obj, edate_obj)).all()
+
+    # print(salelist)
+    return render_template("dutypostingreport.html", user=current_user, dailylist=dailylist, sdate=sdate, edate=edate)
+
+
+@views.route('/dutypostingpdf')
+def dutypostingpdf():
+    sdate = request.args.get('sdate',None)
+    edate = request.args.get('edate',None)
+    dailylist=[]
+    
+    format_str = '%Y-%m-%d'
+    sdate_obj = datetime.datetime.strptime(sdate, format_str)
+    edate_obj = datetime.datetime.strptime(edate, format_str)
+    sdate_obj = sdate_obj - timedelta(days=1)
+
+    if(sdate > edate):
+      flash("Start date should be before end date",category="False")
+
+    else:
+        dailylist = db.session.query(duty_posting).filter(duty_posting.date.between(sdate_obj, edate_obj)).all()
+
+    print(list)
+    html =  render_template("dutypostingpdf.html", dailylist=dailylist, sdate=sdate, edate=edate)
+
+    # Convert HTML to PDF
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
+    print(id)
+    print(sdate)
+    # Return the PDF as a response
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=dutyposting.pdf'
+    return response
 
 @views.route('/delete_employee/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -705,7 +838,8 @@ def salespdf():
     
     employees = employee.query.all()
     items = inventory.query.all()
-    html = render_template("salespdf.html", salelist=salelist, itemlist=itemlist, items=items, employees=employees)
+
+    html = render_template("salespdf.html", salelist=salelist, itemlist=itemlist, items=items, employees=employees, items1=items1)
 
     # Convert HTML to PDF
     options = {
