@@ -77,8 +77,8 @@
                                     <td>{{ salelist | sum(attribute='ms_amount') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='hsd_sales') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='hsd_amount') | round(2) }}</td>
-                                    {% for item in items %}
-                                    <td></td>
+                                    {% for item in items1 %}
+                                    <td>{{ item.price }}</td>
                                     {% endfor %}
                                     <td>{{ salelist | sum(attribute='stotal') | round(2) }}</td>
                                     <td>{{ salelist | sum(attribute='dtotal') | round(2) }}</td>

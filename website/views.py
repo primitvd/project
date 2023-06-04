@@ -817,6 +817,7 @@ def employeepdf():
 @views.route('/salespdf')
 def salespdf():
     itemlist = []
+    items1 = inventory.query.all()
     sdate = request.args.get('sdate',None)
     edate = request.args.get('edate',None)
 
@@ -835,6 +836,12 @@ def salespdf():
             itemlist.append(itemss)
     # salelist = request.args.get('salelist',None)
     print(salelist)
+
+    for items in items1:
+            for item1 in itemlist:
+                for item in item1:
+                    if items.inv_id == item.inv_id:
+                        items.price = items.price + item.sale
     
     employees = employee.query.all()
     items = inventory.query.all()
