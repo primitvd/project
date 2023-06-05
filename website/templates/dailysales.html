@@ -207,16 +207,16 @@
                               <button hidden type="button" id="pos_delete" class="btn btn-danger" onclick="calc5(this.id)">Delete</button>
                               <input hidden disabled style="margin-top: 2px; margin-right:10%; margin-bottom: 5px; width: 70px; background-color: white;" type="number" class="form-control" id="pos-serial-hidden" name="pos-serial-hidden" style="margin-right: 10%;" value="1">
                               </div>
-                              <div class="form-group form-inline" style="margin-right: 5%; height: fit-content; width: fit-content; margin-top: 2px;flex: 1">
+                              <!-- <div class="form-group form-inline" style="margin-right: 5%; height: fit-content; width: fit-content; margin-top: 2px;flex: 1">
                               <label for="pos-total">PoS Total:&nbsp;</label>
                               <input disabled style="margin-top: 2px; margin-right:10%; margin-bottom: 5px; width: 70px; background-color: white;" type="number" class="form-control" id="pos-total" name="pos-total" style="margin-right: 10%;" value="0">
-                              </div>
+                              </div> -->
                               <button type="button" class="btn btn-primary" onclick="calc4()" style="margin-right: 5%; height: fit-content; width: fit-content; margin-top: 2px;"> Add to total</button>
                               <script>
                                     function calc4()
                                     {
-                                          document.getElementById("pos").value = parseFloat(document.getElementById("pos").value) + parseFloat(document.getElementById("pos-amount").value);
-                                          document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) + parseFloat(document.getElementById("pos-amount").value);
+                                          document.getElementById("pos").value = (parseFloat(document.getElementById("pos").value) + parseFloat(document.getElementById("pos-amount").value)).toFixed(2);
+                                          // document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) + parseFloat(document.getElementById("pos-amount").value);
                                           const node = document.getElementById("pos-single");
                                           const clone = node.cloneNode(true);
                                           clone.children[3].disabled = true;
@@ -244,8 +244,8 @@
                                           {
                                                 if(list.children[i].id == "clone"+id)
                                                 {
-                                                      document.getElementById("pos").value = parseFloat(document.getElementById("pos").value) - parseFloat(list.children[i].children[3].value);
-                                                      document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) - parseFloat(list.children[i].children[3].value);
+                                                      document.getElementById("pos").value = (parseFloat(document.getElementById("pos").value) - parseFloat(list.children[i].children[3].value)).toFixed(2);
+                                                      // document.getElementById("pos-total").value = parseFloat(document.getElementById("pos-total").value) - parseFloat(list.children[i].children[3].value);
                                                       console.log(list.children[i].children[3].value);
                                                       list.children[i].hidden = true;
                                                       document.getElementById("pos-serial").value = parseInt(parseInt(document.getElementById("pos-serial").value) - parseInt(1));

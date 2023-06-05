@@ -471,6 +471,9 @@ def salesreport():
                     itemlist.append(itemss)
 
             print(items1)
+        for items in items1:
+            items.price = 0 
+
 
         for items in items1:
             for item1 in itemlist:
@@ -514,7 +517,7 @@ def employeereport():
     emp_id = request.form.get("emp_id")
     salelist=[]
     itemlist = []
-    response = make_response()
+    items1 = inventory.query.all()
     if request.method == 'POST':
         format_str = '%Y-%m-%d'
         sdate_obj = datetime.datetime.strptime(sdate, format_str)
@@ -530,6 +533,16 @@ def employeereport():
                 itemss = db.session.query(itemsales).filter(itemsales.sid == sale.sid).all()
                 if itemss != []:
                     itemlist.append(itemss)
+
+        for items in items1:
+            items.price = 0 
+
+
+        for items in items1:
+            for item1 in itemlist:
+                for item in item1:
+                    if items.inv_id == item.inv_id:
+                        items.price = items.price + item.sale
 
     #     html = render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist)
 
@@ -549,7 +562,7 @@ def employeereport():
         # response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
     print(salelist)
     items = inventory.query.all()
-    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, sdate=sdate, edate=edate, emp_id=emp_id, itemlist=itemlist, items=items )
+    return render_template("employeereport.html", user=current_user, employees=employees, salelist=salelist, sdate=sdate, edate=edate, emp_id=emp_id, itemlist=itemlist, items=items, items1=items1)
 
 @views.route('/dailyprice', methods=['GET','POST'])
 @login_required
@@ -778,7 +791,7 @@ def employeepdf():
     sdate = request.args.get('sdate',None)
     edate = request.args.get('edate',None)
     id = request.args.get('id',None)
-
+    items1 = inventory.query.all()
 
     format_str = '%Y-%m-%d'
     sdate_obj = datetime.datetime.strptime(sdate, format_str)
@@ -792,9 +805,18 @@ def employeepdf():
             itemlist.append(itemss)
     # salelist = request.args.get('salelist',None)
     print(salelist)
+    for items in items1:
+            items.price = 0 
+
+
+    for items in items1:
+        for item1 in itemlist:
+            for item in item1:
+                if items.inv_id == item.inv_id:
+                    items.price = items.price + item.sale
     
     items = inventory.query.all()
-    html = render_template("employeepdf.html", salelist=salelist, itemlist=itemlist, items=items)
+    html = render_template("employeepdf.html", salelist=salelist, itemlist=itemlist, items=items, items1=items1)
 
     # Convert HTML to PDF
     options = {
@@ -836,6 +858,9 @@ def salespdf():
             itemlist.append(itemss)
     # salelist = request.args.get('salelist',None)
     print(salelist)
+
+    for items in items1:
+        items.price = 0 
 
     for items in items1:
             for item1 in itemlist:
